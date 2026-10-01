@@ -4,3 +4,7 @@ supabase/.branches/
 supabase/migrations/*_pack_*.sql
 node_modules/
 tools/__pycache__/
+tools/protected-refs.txt
+tools/demo-instances.json
+tools/demo-matrix.log
+app/tsconfig.tsbuildinfo
