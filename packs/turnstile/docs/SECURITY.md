@@ -1,0 +1,4 @@
+- The failure log is readable by admins only (with MFA gate) and writable only by the service role.
+- All three functions are SECURITY DEFINER with no EXECUTE for anon/authenticated.
+- Retention default 30 days; the table stores hashed IPs and a short reason string only.
+- Turnstile verification itself must happen on the server; a client-side pass proves nothing.

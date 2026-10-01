@@ -1,0 +1,25 @@
+[pack]
+name = "loops-email"
+prefix = "lp"
+version = "0.1.0"
+description = "Transactional/lifecycle email through Loops: a durable outbox with at-most-once claiming, plus per-user email preferences. The Loops API key stays in the app environment."
+license = "GPL-3.0-or-later"
+requires_core = ">=0.1"
+requires = []
+conflicts = []
+
+[db]
+tables = ["lp_outbox", "lp_preferences"]
+functions = ["lp_enqueue", "lp_claim_outbox"]
+
+[limits]
+lp_max_pending = { default = 500, note = "unsent outbox rows per profile before enqueue is refused" }
+
+[nav]
+entries = [{ label = "Email preferences", href = "/settings/email", icon = "Mail", group = "settings" }]
+
+[cron]
+jobs = [{ name = "lp_send_outbox", schedule = "* * * * *", path = "/api/loops-email/cron/send" }]
+
+[health]
+checks = ["lp_stuck_outbox"]

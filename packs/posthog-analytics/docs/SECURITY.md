@@ -1,0 +1,3 @@
+- Consent rows are private to their owner (RLS + column grants limited to the two flags).
+- `ph_may_track` is SECURITY DEFINER, service role only, so users cannot probe other profiles.
+- Replay never runs without analytics consent. Mask inputs in the client SDK; never record password or payment fields.

@@ -1,0 +1,4 @@
+- Users can only read their own outbox rows; they cannot insert, update or delete them (no spamming Loops under your account).
+- `lp_enqueue`, `lp_claim_outbox`: SECURITY DEFINER, no EXECUTE for anon/authenticated (service role only); `lp_claim_outbox` uses `FOR UPDATE SKIP LOCKED`.
+- Preferences: column grants limit users to `marketing` and `product`; `unsubscribed_at` is server-written.
+- Event names are validated by regex; properties must be a JSON object. Do not put secrets in properties.

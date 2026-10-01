@@ -56,8 +56,10 @@ class _Res:
 
 def run_remote(sql):
     f = Path(tempfile.mkdtemp(prefix="rs-q-")) / "q.sql"; f.write_text(sql)
-    r = subprocess.run(["supabase", "db", "query", "--linked", "--workdir", str(_remote_workdir(REMOTE)), "-f", str(f)],
-                       capture_output=True, text=True)
+    cmd = ["supabase", "db", "query", "--linked", "--workdir", str(_remote_workdir(REMOTE)), "-f", str(f)]
+    r = subprocess.run(cmd, capture_output=True, text=True)
+    if "{" not in r.stdout:  # CLI transport flake (login-role init / telemetry timeout): no result came back, retry once
+        time.sleep(3); r = subprocess.run(cmd, capture_output=True, text=True)
     body = r.stdout[r.stdout.find("{"):] if "{" in r.stdout else ""
     try: j = json.loads(body)
     except Exception: return _Res(r.returncode or 1, "", r.stdout + r.stderr)

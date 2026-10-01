@@ -1,0 +1,31 @@
+begin;
+do $$
+declare a uuid; b uuid; o uuid; n int; st text;
+begin
+  a := t.make_user('mailme@example.test'); b := t.make_user('other@example.test');
+  perform t.as_service();
+  o := public.lp_enqueue(a, 'welcome', '{"plan":"free"}');
+  perform public.lp_enqueue(b, 'welcome');
+  perform t.as_user(a);
+  perform t.assert(t.rows('select 1 from public.lp_outbox') = 1, 'user sees only their own outbox rows');
+  perform t.assert(t.denied('insert into public.lp_outbox (profile_id, event) values (''' || a || ''', ''x.y'')'), 'users cannot enqueue directly');
+  perform t.assert(t.denied('update public.lp_outbox set status = ''sent'''), 'users cannot mark rows sent');
+  perform t.assert(t.denied('select public.lp_enqueue(''' || a || ''', ''hack'')'), 'users cannot call enqueue');
+  perform t.assert(t.denied('select * from public.lp_claim_outbox()'), 'users cannot claim');
+  insert into public.lp_preferences (profile_id, marketing) values (a, false);
+  perform t.assert(t.denied('update public.lp_preferences set unsubscribed_at = now()'), 'unsubscribed_at is not user-writable');
+  perform t.as_user(b);
+  perform t.assert(t.denied('insert into public.lp_preferences (profile_id) values (''' || a || ''')'), 'cannot write another user''s preferences');
+  perform t.assert(t.rows('select 1 from public.lp_preferences') = 0, 'preferences are private');
+  perform t.as_anon();
+  perform t.assert(t.denied('select 1 from public.lp_outbox'), 'anon denied');
+  perform t.as_service();
+  o := public.lp_enqueue(a, 'marketing.newsletter');
+  select status into st from public.lp_outbox where id = o;
+  perform t.assert(st = 'suppressed', 'marketing.* is suppressed when the user opted out');
+  select count(*) into n from public.lp_claim_outbox();
+  perform t.assert(n = 2, 'claims pending rows (welcome x2), not suppressed ones');
+  select count(*) into n from public.lp_claim_outbox();
+  perform t.assert(n = 0, 'claimed rows are not claimed twice');
+end $$;
+rollback;

@@ -1,0 +1,16 @@
+[pack]
+name = "turnstile"
+prefix = "ts"
+version = "0.1.0"
+description = "Cloudflare Turnstile bot protection: server-side verification audit log (failures, hashed IPs) and retention purge. The secret key stays in the app environment."
+license = "GPL-3.0-or-later"
+requires_core = ">=0.1"
+requires = []
+conflicts = []
+
+[db]
+tables = ["ts_failures"]
+functions = ["ts_record_failure", "ts_recent_failures", "ts_purge_old"]
+
+[cron]
+jobs = [{ name = "ts_purge", schedule = "17 3 * * *", path = "/api/turnstile/cron/purge" }]

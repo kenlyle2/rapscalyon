@@ -1,0 +1,24 @@
+== instance b (rzjjgsumvvrtkwhdswit)
+  [b] add subject-business: ok 
+  [b] add team: ok 
+  [b] add real-estate-listings: ok 
+  [b] add social-posts: ok 
+  [b] tests rc=0: 6/6 suites passed
+  [b] installed: real-estate-listings 0.1.0, social-posts 0.1.0, subject-business 0.1.0, team 0.1.0
+== instance c (foopzpzimzijamtcmlzh)
+  [c] tests rc=0: 2/2 suites passed
+  [c] installed: (core only)
+== instance d (qtapiouapuvnsaxzxvxr)
+  [d] add subject-individual: ok 
+  [d] add team: ok 
+  [d] add jobs-tracker: ok 
+  [d] tests rc=0: 5/5 suites passed
+  [d] installed: jobs-tracker 0.1.0, subject-individual 0.1.0, team 0.1.0
+== instance e (qnvqnsjrwuaukzgebmvr)
+  [e] add subject-business: ok 
+  [e] add team: ok 
+  [e] add real-estate-listings: ok 
+  [e] add jobs-tracker: ok 
+  [e] add social-posts: ok 
+  [e] tests rc=0: 7/7 suites passed
+  [e] installed: jobs-tracker 0.1.0, real-estate-listings 0.1.0, social-posts 0.1.0, subject-business 0.1.0, team 0.1.0
