@@ -38,7 +38,7 @@ def declare_logic():
 
     # A refund is only possible against a paid invoice                       [Constraint, reads the parent]
     def refund_needs_paid_invoice(row: models.Refund, old_row: models.Refund, logic_row: LogicRow):
-        if row.status in ("requested", "approved"):
+        if (row.status or "requested") in ("requested", "approved"):   # column defaults are not applied until insert
             return row.invoice.status == "paid"
         return True
     Rule.constraint(validate=models.Refund, calling=refund_needs_paid_invoice,
@@ -46,7 +46,10 @@ def declare_logic():
 
     # A refund can never exceed what remains on the invoice                  [Constraint, uses the Sum and Formula above]
     def refund_within_remaining(row: models.Refund, old_row: models.Refund, logic_row: LogicRow):
-        if row.status in ("requested", "approved"):
+        # the engine re-runs constraints when the parent invoice changes; only judge a refund that is new or changed
+        if logic_row.ins_upd_dlt == "upd" and not logic_row.are_attributes_changed([models.Refund.status, models.Refund.amount]):
+            return True
+        if (row.status or "requested") in ("requested", "approved"):
             other_approved = row.invoice.refunded_total - (row.amount if row.status == "approved" else Decimal(0))
             return row.amount <= row.invoice.total - other_approved
         return True
