@@ -1,23 +1,39 @@
 # RapScalYon
 
-A security-first Supabase foundation ("core") plus installable feature **packs**, for skeleton-ing an app fast.
+A security-first Supabase foundation ("core") plus installable **packs** and a Next.js shell, for standing up a real, multi-tenant, billing-ready app fast. Packs are Lego bricks: each one is optional, prefixed, tested, removable, and cannot change core.
 
-- **core** (`supabase/migrations/20260101000000_core_foundation.sql`): profiles, credits/limits ledger (idempotent `charge_credits`), billing events, rate limiting, subjects (workspaces), MFA gate, `ensure_rls` event trigger, default-deny privileges. Secrets live in a service-only table, never in `profiles`.
-- **subject packs** (pick one): `subject-individual`, `subject-business`.
-- **feature packs**: `team` (invites and roles), `real-estate-listings`, `jobs-tracker`, `social-posts`.
+## What is in the box
+- **core** (`supabase/migrations/`): profiles, credits and plan limits (idempotent `charge_credits`), billing-event ledger, rate limiting, subjects (workspaces) and members, MFA gate, `ensure_rls` event trigger, default-deny privileges, and a private `media` storage bucket scoped by workspace. Secrets live in a service-only table, never in `profiles`.
+- **packs** (`packs/`, see [docs/CATALOG.md](docs/CATALOG.md)): `subject-individual`, `subject-business`, `team`, `real-estate-listings`, `jobs-tracker`, `social-posts`, `loops-email`, `turnstile`, `posthog-analytics`, `billing-webhook`.
+- **app** (`app/`): Next.js shell with Supabase auth, a workspace switcher, a nav built from installed packs, pack pages and API routes, public `/packs` marketing pages, and the interview API for the Pickaxe layer ([docs/PICKAXE.md](docs/PICKAXE.md)).
+- **tools**: `tools/rapscalyon.py` (installer, validator, test runner, catalog), `deploy.sh`, `Dockerfile`, `app.json`.
+
+## Quick start
+```
+supabase start && supabase db reset                 # local core
+python3 tools/rapscalyon.py pack add packs/jobs-tracker --app app
+python3 tools/rapscalyon.py test
+cd app && npm install && npm run dev
+```
+Hosted: `./deploy.sh --name myapp --org <org-id> --packs "subject-business team jobs-tracker"`, or `--project <ref>` for an existing project.
+Add `--project <ref>` to any `rapscalyon.py` command to target a hosted Supabase project (needs a logged-in `supabase` CLI).
 
 ```
-python3 tools/rapscalyon.py pack add <name>      # validate, apply in one transaction, roll back on any violation
-python3 tools/rapscalyon.py pack remove <name>
-python3 tools/rapscalyon.py pack list
-python3 tools/rapscalyon.py test [--pack name]   # role-switched SQL suites (anon / owner / other user / service)
+rapscalyon.py pack add <dir|name> [--app app]    # validate, apply in one transaction, roll back on any violation
+rapscalyon.py pack remove <name> [--app app]
+rapscalyon.py pack list | validate <dir> | core | catalog
+rapscalyon.py test [--pack name]                 # role-switched SQL suites (anon / owner / other user / service)
 ```
-
-Local dev: `supabase start`, apply core (`supabase db reset`), then `pack add`. Requires `psql` and Python 3.11+.
+Browser end-to-end test: `app/e2e/README.md`.
 
 ## Install validator
-A pack is rejected, and its transaction rolled back, if it: leaves RLS off, grants anything to anon, grants table-level UPDATE/INSERT to authenticated, uses `USING (true)`, has rows with no ownership chain, lacks the MFA restrictive policy, has unindexed foreign keys, ships SECURITY DEFINER functions without `search_path = ''` or without checking the caller, exposes functions not listed in `[db].api_functions`, creates views without `security_invoker`, uses unprefixed names, contains secrets, creates extensions outside `extensions`, or changes any core object.
+A pack is rejected, and its transaction rolled back, if it: leaves RLS off, grants anything to anon, grants table-level UPDATE/INSERT to authenticated, uses `USING (true)`, has rows with no ownership chain, lacks the MFA restrictive policy, has foreign keys without a covering index, ships SECURITY DEFINER functions without `search_path = ''` or without checking the caller, exposes functions not listed in `[db].api_functions`, creates views without `security_invoker`, uses unprefixed names, or changes any core object. Details in [CONTRIBUTING.md](CONTRIBUTING.md); each pack's `docs/SECURITY.md` says what it grants and why.
 
-See each pack's `docs/SECURITY.md` for what it grants and why. Pack format: `pack.toml`, `migrations/`, `rollback/`, `server/`, `ui/`, `tests/`, `docs/`.
+## Production notes
+- Enable leaked-password protection in Supabase Auth (Pro plan setting).
+- The RLS helper functions (`has_subject_access`, `is_admin`, `is_subject_owner`, `session_satisfies_mfa`, `get_my_limits`) are intentionally executable by signed-in users, because policies call them as that user; they reveal only the caller's own access.
+- `rate_limits` and `user_credentials` have RLS and no policies on purpose: service role only.
+- Never expose `SUPABASE_SERVICE_ROLE_KEY` to the browser; the shell only reads it in server code.
 
-License: AGPL-3.0-or-later.
+## Licence
+AGPL-3.0-or-later for core and official packs (see [CONTRIBUTING.md](CONTRIBUTING.md) for tiers and the contributor agreement).

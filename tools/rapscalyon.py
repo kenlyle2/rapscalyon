@@ -235,8 +235,8 @@ begin
     end if;
     -- 8 every FK has a supporting index
     for kr in select k.conname, k.conkey from pg_constraint k where k.conrelid = r.oid and k.contype = 'f'
-              and not exists (select 1 from pg_index i where i.indrelid = k.conrelid and i.indkey[0] = k.conkey[1]) loop
-      v := v || format('%s: foreign key %s has no index starting with its first column', r.rel, kr.conname);
+              and not exists (select 1 from pg_index i where i.indrelid = k.conrelid and (i.indkey::int2[])[0:array_length(k.conkey,1)-1] <@ k.conkey and k.conkey <@ (i.indkey::int2[])[0:array_length(k.conkey,1)-1]) loop
+      v := v || format('%s: foreign key %s has no index starting with all of its columns', r.rel, kr.conname);
     end loop;
   end loop;
 
