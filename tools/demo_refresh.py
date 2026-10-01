@@ -4,8 +4,8 @@ import json, subprocess, sys
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 INST = json.loads((ROOT / "tools" / "demo-instances.json").read_text())
-EXTRA = {"a": ["loops-email", "posthog-analytics"], "b": ["turnstile", "billing-webhook"], "d": ["loops-email", "billing-webhook"],
-         "f": ["turnstile", "posthog-analytics"], "g": ["loops-email", "turnstile", "posthog-analytics", "billing-webhook"], "h": ["billing-webhook"]}
+EXTRA = {"a": ["loops-email", "posthog-analytics"], "b": ["turnstile"], "d": ["loops-email"],
+         "f": ["turnstile", "posthog-analytics"], "g": ["loops-email", "turnstile", "posthog-analytics"], "h": ["turnstile"]}
 def rs(ref, *a):
     for _ in range(2):
         r = subprocess.run(["python3", str(ROOT / "tools" / "rapscalyon.py"), "--project", ref, *a], capture_output=True, text=True)

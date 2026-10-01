@@ -16,7 +16,7 @@ Consumer and prosumer apps where each customer is a person: job seekers, creator
 
 ## Works well with
 
-item-tracker, social-posts, posthog-analytics, billing-webhook.
+item-tracker, social-posts, posthog-analytics.
 
 ## Under the hood
 

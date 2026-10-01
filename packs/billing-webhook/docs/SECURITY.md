@@ -1,5 +1,0 @@
-- Tier changes happen only through `bw_apply_event` (SECURITY DEFINER, service role only). Users cannot write `profiles.tier`.
-- The signature check is the adapter's job and must happen before the call; this function trusts its caller.
-- Idempotent on `(source, external_id)`; events older than the profile's last billing update are ignored (replay/out-of-order protection).
-- An unmapped plan never changes the tier; unmatched customers are recorded, never auto-created.
-- Plan map is admin-only (MFA gate), and every row records the acting admin.

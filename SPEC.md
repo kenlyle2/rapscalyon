@@ -25,7 +25,7 @@ functionality on top of the base.
 - **app** (`app/`): Next.js shell with a nav built from installed packs.
 - Official (AGPL) packs today: `subject-individual`, `subject-business`, `team`,
   `real-estate-listings`, `item-tracker`, `item-search`, `social-posts`, `loops-email`, `turnstile`,
-  `posthog-analytics`, `billing-webhook`.
+  `posthog-analytics`.
 
 ### The "subjects" table
 

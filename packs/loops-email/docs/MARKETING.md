@@ -10,7 +10,7 @@ Anyone using Loops who wants emails sent exactly once and users in control of wh
 - Suppression of marketing events for opted-out users, enforced in the database.
 
 ## Works well with
-every pack that emits events: item-tracker, social-posts, billing-webhook.
+every pack that emits events: item-tracker, social-posts.
 
 ## Under the hood
 Rows are claimed with `FOR UPDATE SKIP LOCKED`, sent with an idempotency key, and visible to their recipient only. The Loops key never touches the database.
