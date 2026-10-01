@@ -38,7 +38,14 @@ def die(msg, code=1):
     print(msg, file=sys.stderr); sys.exit(code)
 
 # Production projects this tool must never touch (PostGlider, TatPlat, JobsGlider).
-PROTECTED_REFS = {"qzyvfuoyfrfosdtbczkc", "cugkpcwsevbeumjzqyr", "cugkpcpwsevbeumjzqyr", "dzvkqonjtwsdsksnxitl"}
+# Projects this tool must never touch (your production refs). Kept out of the repo: set RS_PROTECTED_REFS="ref1,ref2"
+# or list one ref per line in tools/protected-refs.txt (git-ignored).
+def _protected_refs():
+    refs = set(filter(None, os.environ.get("RS_PROTECTED_REFS", "").replace(" ", "").split(",")))
+    f = Path(__file__).resolve().parent / "protected-refs.txt"
+    if f.exists(): refs |= {l.strip() for l in f.read_text().splitlines() if l.strip() and not l.startswith("#")}
+    return refs
+PROTECTED_REFS = _protected_refs()
 REMOTE = None   # Supabase project ref when running against a hosted project (--project / RS_PROJECT)
 
 def _remote_workdir(ref):

@@ -1,13 +1,13 @@
 begin;
 do $$
-declare a uuid; adm uuid; r text; tr text; st text;
+declare a uuid; adm uuid; r text; tr text; st text; base bigint;
 begin
   a := t.make_user('buyer@example.test'); adm := t.make_user('ops@example.test');
   perform t.as_admin();
   update public.profiles set is_admin = true where id = adm;
   perform t.as_user(adm);
   insert into public.bw_plan_map (source, plan_key, tier, updated_by) values ('fluentcart', 'pro-monthly', 'pro', adm);
-  insert into public.bw_plan_map (source, plan_key, tier, match_mode, updated_by) values ('woocommerce', 'pro', 'pro', 'contains', adm), ('woocommerce', 'pro plus', 'pro_plus', 'contains', adm);
+  insert into public.bw_plan_map (source, plan_key, tier, match_mode, updated_by) values ('wootest', 'pro', 'pro', 'contains', adm), ('wootest', 'pro plus', 'pro_plus', 'contains', adm);
   perform t.assert(t.denied('insert into public.bw_plan_map (source, plan_key, tier, updated_by) values (''x'', ''y'', ''z'', ''' || a || ''')'), 'plan map rows must be attributed to the acting admin');
   perform t.as_user(a);
   perform t.assert(t.rows('select 1 from public.bw_plan_map') = 0, 'non-admins cannot read the plan map');
@@ -17,6 +17,7 @@ begin
   perform t.as_anon();
   perform t.assert(t.denied('select public.bw_apply_event(''fluentcart'', ''e0'', ''activated'', ''{}'')'), 'anon cannot apply billing events');
   perform t.as_service();
+  base := public.bw_unmatched_events();
   r := public.bw_apply_event('fluentcart', 'e1', 'activated', '{"o":1}', 'cust1', 'sub1', 'pro-monthly', 'Buyer@Example.test', now() - interval '1 hour');
   perform t.assert(r = 'applied', 'activation by email applies: ' || r);
   select tier || '/' || billing_status into tr from public.profiles where id = a;
@@ -27,12 +28,12 @@ begin
   perform t.assert(tr = 'free/past_due', 'default policy (like PostGlider) drops to free on payment failure: ' || tr);
   perform t.assert(public.bw_apply_event('fluentcart', 'e2b', 'renewed', '{}', null, 'sub1', 'pro-monthly', null, now() - interval '20 minutes') = 'applied', 'renewal restores the tier');
   perform t.as_admin();
-  insert into public.admin_settings (setting_key, setting_value) values ('bw_downgrade_on', '["expired"]');
+  insert into public.admin_settings (setting_key, setting_value) values ('bw_downgrade_on', '["expired"]') on conflict (setting_key) do update set setting_value = excluded.setting_value;
   perform t.as_service();
   perform public.bw_apply_event('fluentcart', 'e2c', 'payment_failed', '{}', null, 'sub1', null, null, now() - interval '10 minutes');
   select tier || '/' || billing_status into tr from public.profiles where id = a;
   perform t.assert(tr = 'pro/past_due', 'admin setting can keep access during payment failure: ' || tr);
-  perform t.assert(public.bw_apply_event('woocommerce', 'w1', 'activated', '{}', 'wc9', 'sub1', 'Acme Pro Plus Yearly', 'buyer@example.test', now() - interval '5 minutes') = 'applied', 'woo product name matches');
+  perform t.assert(public.bw_apply_event('wootest', 'w1', 'activated', '{}', 'wc9', 'sub1', 'Acme Pro Plus Yearly', 'buyer@example.test', now() - interval '5 minutes') = 'applied', 'woo product name matches');
   select tier into tr from public.profiles where id = a;
   perform t.assert(tr = 'pro_plus', 'longest contains-match wins (pro_plus over pro): ' || tr);
   perform t.assert(public.bw_apply_event('fluentcart', 'e3', 'renewed', '{}', null, 'sub1', 'pro-monthly', null, now() - interval '2 hours') = 'stale', 'older event is ignored');
@@ -40,7 +41,7 @@ begin
   select tier into tr from public.profiles where id = a;
   perform t.assert(tr = 'pro_plus', 'unmapped plan does not change tier');
   perform t.assert(public.bw_apply_event('fluentcart', 'e5', 'activated', '{}', 'nobody', null, 'pro-monthly', 'ghost@example.test') = 'unmatched', 'unknown customer is recorded as unmatched');
-  perform t.assert(public.bw_unmatched_events() = 2, 'health check counts partial events');
+  perform t.assert(public.bw_unmatched_events() - base = 2, 'health check counts partial events');
   perform t.assert(public.bw_apply_event('fluentcart', 'e6', 'expired', '{}', null, 'sub1') = 'applied', 'expiry applies');
   select tier || '/' || billing_status into tr from public.profiles where id = a;
   perform t.assert(tr = 'free/expired', 'expired returns to free: ' || tr);
