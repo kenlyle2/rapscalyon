@@ -1,7 +1,7 @@
 {
   "name": "RapScalYon",
   "description": "Supabase + Next.js application skeleton: generic core plus installable packs.",
-  "repository": "https://github.com/OWNER/rapscalyon",
+  "repository": "https://github.com/kenlyle2/rapscalyon",
   "options": { "allow-unauthenticated": true, "memory": "512Mi" },
   "env": {
     "NEXT_PUBLIC_SUPABASE_URL": { "description": "Supabase project URL (https://<ref>.supabase.co)" },
