@@ -9,6 +9,7 @@ Versioning: core + shell share the repo version (semver, pre-1.0: minor bumps ma
 - Installer: `tier = "commercial"` packs (`license = "LicenseRef-..."`) and `RAPSCALYON_PACKS_PATH` for packs distributed outside this repo.
 - `jobs-tracker` moved out to the private commercial `rapscalyon-plus` repo (0.2.0 is a child of `item-tracker`).
 - New AGPL pack `invoice-refunds` 0.1.0: customers, invoices, lines, refunds with money rules enforced by triggers (refund only against a paid invoice, never beyond what remains, owner-only approval, outbox event); `rules/declare_logic.py` holds the same rules in GenAI-Logic form (run and proven in LogicBank on SQLite: 12 scenarios mirror the SQL tests).
+- Interviewer needs mapping: crm, contacts, sales-pipeline, booking, scheduling, automations, follow-ups, client-portal, customer-portal, quotes and e-signature map to NinjaPipe as `external` (buy, don't build, never a pack); needs that match nothing come back as `unmatched` instead of being dropped silently.
 - Pickaxe Interviewer: GenAI-Logic docs attached, role Step 3B captures business rules as requirements for the hand-off ticket (GenAI-Logic is the planned rules target, not yet generated).
 
 ## 0.5.0 — 2026-10-01 — first complete, tested release (pre-1.0)
