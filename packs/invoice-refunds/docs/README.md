@@ -20,7 +20,15 @@ Derived columns are never writable by clients (column grants), only by the trigg
 
 ## Two implementations of the same rules
 - **Today:** SQL triggers in `migrations/001_init.sql`, tested against role-switched sessions. This is what runs.
-- **GenAI-Logic form:** `rules/declare_logic.py`, written from the GenAI-Logic documentation. It has **not been run**; GenAI-Logic is not part of RapScalYon yet. It exists to show the rules in declarative form and to be the starting point of a proof of concept.
+- **GenAI-Logic form:** `rules/declare_logic.py`, written from the GenAI-Logic documentation. **Run and proven** with LogicBank 1.34.3 on SQLite (`rules/poc/run_scenarios.py`, 12 scenarios mirroring the SQL tests, all pass: sums, formulas, copy, the refund constraints and the decided-is-final transition). Not run against Postgres or under RLS; GenAI-Logic is not part of RapScalYon's runtime yet.
+
+Findings from running it:
+- Models must come from the classic `declarative_base()`; 2.0-style `DeclarativeBase` is rejected as "not mapped".
+- Use `Session(..., expire_on_commit=False)`. Qualified sums adjust from the row's old values, and expired attributes lose them.
+- Column defaults apply only at insert, so rules treat `status` None as `'requested'`.
+- `where=` lambdas are parsed as text; write `row.status == "sent"` with spaces.
+- After a rejected change, roll back and reload objects before continuing.
+- The engine re-runs a child's constraints when its parent changes, so a constraint must judge only a row that is new or changed (`are_attributes_changed`), or it double-counts.
 
 ## Open questions for a GenAI-Logic integration
 - GenAI-Logic generates its API and enforces rules in its own process, with its own authorization. RapScalYon's guarantees (row-level security per workspace, MFA gate) live in Postgres. The documentation we hold does not say how the two fit; asked of the maintainers.
