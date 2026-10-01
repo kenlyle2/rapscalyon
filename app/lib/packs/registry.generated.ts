@@ -9,11 +9,18 @@ export const packRegistry = {
       "pack": "billing-webhook"
     },
     {
-      "label": "Applications",
-      "href": "/applications",
-      "icon": "Briefcase",
+      "label": "Inbox",
+      "href": "/inbox",
+      "icon": "Inbox",
       "group": "main",
-      "pack": "jobs-tracker"
+      "pack": "item-search"
+    },
+    {
+      "label": "Items",
+      "href": "/items",
+      "icon": "List",
+      "group": "main",
+      "pack": "item-tracker"
     },
     {
       "label": "Email preferences",
@@ -44,6 +51,13 @@ export const packRegistry = {
       "pack": "social-posts"
     },
     {
+      "label": "Locations",
+      "href": "/locations",
+      "icon": "Store",
+      "group": "main",
+      "pack": "subject-business"
+    },
+    {
       "label": "People",
       "href": "/people",
       "icon": "Users",
@@ -59,10 +73,12 @@ export const packRegistry = {
     }
   ],
   "limits": {
-    "jb_max_applications": 100,
+    "is_max_profiles": 3,
+    "it_max_items": 100,
     "lp_max_pending": 500,
     "rel_max_active_listings": 10,
     "sp_max_scheduled": 30,
+    "biz_max_subjects": 1,
     "ind_max_subjects": 1,
     "team_max_members": 3
   },
@@ -70,10 +86,6 @@ export const packRegistry = {
     {
       "id": "bw_unmatched_events",
       "pack": "billing-webhook"
-    },
-    {
-      "id": "jb_stale_applications",
-      "pack": "jobs-tracker"
     },
     {
       "id": "lp_stuck_outbox",
@@ -86,11 +98,6 @@ export const packRegistry = {
   ],
   "events": [],
   "operations": [
-    {
-      "name": "jb.tailor_resume",
-      "label": "Tailor resume to a posting",
-      "pack": "jobs-tracker"
-    },
     {
       "name": "rel.generate_description",
       "label": "Generate listing description",

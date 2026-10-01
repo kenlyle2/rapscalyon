@@ -2,6 +2,11 @@
 
 Versioning: core + shell share the repo version (semver, pre-1.0: minor bumps may break). Each pack versions itself in `pack.toml`.
 
+## Unreleased
+- New AGPL base packs: `item-tracker`, `item-search` (generic item/search model; child packs add typed kinds).
+- Installer: `tier = "commercial"` packs (`license = "LicenseRef-..."`) and `RAPSCALYON_PACKS_PATH` for packs distributed outside this repo.
+- `jobs-tracker` moved out to the private commercial `rapscalyon-plus` repo (0.2.0 is a child of `item-tracker`).
+
 ## 0.5.0 — 2026-10-01 — first complete, tested release (pre-1.0)
 
 - Core: RLS-everywhere, default-deny grants, MFA gate, subjects/limits/pricing, private `media` bucket.

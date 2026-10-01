@@ -25,27 +25,50 @@ loops-email (welcome and win-back emails), posthog-analytics.
 
 Tier changes only happen through one server function. Defaults match the PostGlider and JobsGlider policy: cancelled, expired, failed and refunded subscriptions return to free, configurable by an admin.
 
-## Job application tracker (`jobs-tracker` 0.1.0, official)
+## Item search (`item-search` 0.1.0, official)
 
-> Keep every application, status and note in one pipeline, with an automatic history of each move.
+> Saved searches, a review inbox and a safe worker queue, with your matcher plugged in from outside.
 
 **Who it's for**
 
-Job seekers and career-services products that need a clean tracker rather than an auto-apply bot.
+Products that find things for people (jobs, listings, leads) and want the user to approve before anything is acted on in their name.
 
 **What you get**
 
-- Saved, applied, interviewing, offer, rejected and withdrawn stages with company, role, link, location and pay range.
-- A per-application event log written by the database, not the client.
-- Plan-based cap on tracked applications; a health check for stale applications.
+- Saved search profiles per workspace with flexible criteria and exclusions, capped by plan.
+- A candidate inbox: accept to create a tracked item, or dismiss, with duplicate-safe delivery from any matcher.
+- A review-then-dispatch queue: edit overrides, approve with an optional delay, or cancel; workers claim each job exactly once.
+- A poll-based event outbox so matchers and workers know when to run. No webhooks or stored secrets inside the database.
 
 **Works well with**
 
-subject-individual, loops-email, posthog-analytics.
+item-tracker, loops-email (commercial child: jobs-search).
 
 **Under the hood**
 
-Status history is recorded by a trigger, so it cannot be edited from the browser. Credits for AI resume tailoring are pre-wired through core pricing.
+Every user action is a function that checks the caller, the workspace and the MFA gate. The queue contract is three service-role functions, and the pack contains no matching or submission logic.
+
+## Item tracker (`item-tracker` 0.1.0, official)
+
+> One tracked-thing model for any vertical, with an event log the browser cannot rewrite.
+
+**Who it's for**
+
+Builders who need to track jobs, listings, leads or anything similar and want one proven foundation instead of a new table design each time.
+
+**What you get**
+
+- Typed items with title, link, source and notes, owned by a workspace subject.
+- An append-only event log; status history is written by the database, not the client.
+- A plan cap on items per subject, archive instead of delete, and row-level security with the MFA gate on every table.
+
+**Works well with**
+
+subject-individual, subject-business, item-search, social-posts.
+
+**Under the hood**
+
+Class-table inheritance: child packs add a 1:1 table keyed on the item, so each kind keeps real columns and constraints while access rules live in one place.
 
 ## Email with Loops (`loops-email` 0.1.0, official)
 
@@ -63,7 +86,7 @@ Anyone using Loops who wants emails sent exactly once and users in control of wh
 
 **Works well with**
 
-every pack that emits events: jobs-tracker, social-posts, billing-webhook.
+every pack that emits events: item-tracker, social-posts, billing-webhook.
 
 **Under the hood**
 
@@ -85,7 +108,7 @@ Teams that want PostHog insight without a privacy surprise.
 
 **Works well with**
 
-everything. Particularly useful with jobs-tracker and subject-individual.
+everything. Particularly useful with item-tracker and subject-individual.
 
 **Under the hood**
 
@@ -173,7 +196,7 @@ Consumer and prosumer apps where each customer is a person: job seekers, creator
 
 **Works well with**
 
-jobs-tracker, social-posts, posthog-analytics, billing-webhook.
+item-tracker, social-posts, posthog-analytics, billing-webhook.
 
 **Under the hood**
 
@@ -195,7 +218,7 @@ Any app where one account needs to share work with staff, partners or clients.
 
 **Works well with**
 
-subject-business, real-estate-listings, jobs-tracker, social-posts.
+subject-business, real-estate-listings, item-tracker, social-posts.
 
 **Under the hood**
 

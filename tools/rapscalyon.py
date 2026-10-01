@@ -16,6 +16,13 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PACKS = ROOT / "packs"
+# Extra pack roots (os.pathsep-separated), e.g. a licensed rapscalyon-plus checkout. Searched after packs/.
+EXTRA_PACKS = [Path(x).expanduser() for x in os.environ.get("RAPSCALYON_PACKS_PATH", "").split(os.pathsep) if x]
+
+def pack_dir(name):
+    for root in [PACKS, *EXTRA_PACKS]:
+        if (root / name / "pack.toml").exists(): return root / name
+    return PACKS / name
 MIGRATIONS = ROOT / "supabase" / "migrations"
 DB_URL = os.environ.get("DATABASE_URL", "postgresql://postgres:postgres@127.0.0.1:54322/postgres")
 CORE_VERSION = "0.1.0"
@@ -100,7 +107,7 @@ def installed_packs():
     return {l.split()[0]: l.split()[1] for l in out.splitlines() if l}
 
 def load_pack(arg):
-    d = Path(arg) if Path(arg).is_dir() else PACKS / arg
+    d = Path(arg) if Path(arg).is_dir() else pack_dir(arg)
     if not (d / "pack.toml").exists(): die(f"no pack.toml in {d}")
     with open(d / "pack.toml", "rb") as f: m = tomllib.load(f)
     p = m.get("pack", {})
@@ -108,9 +115,15 @@ def load_pack(arg):
         if k not in p: die(f"pack.toml: [pack].{k} is required")
     if not re.fullmatch(r"[a-z][a-z0-9-]{1,40}", p["name"]): die("pack name must be kebab-case")
     if not re.fullmatch(r"[a-z]{2,6}", p["prefix"]): die("pack prefix must be 2-6 lowercase letters")
-    if not p["license"].upper().startswith(("GPL", "AGPL", "LGPL", "MIT", "APACHE", "BSD")): die("unrecognised license")
-    if p.get("tier", "community") not in ("official", "verified", "community"): die("pack tier must be official, verified or community")
-    if p.get("tier") in ("official", "verified") and not p["license"].upper().startswith("AGPL"): die("official/verified packs must be AGPL-licensed")
+    tier = p.get("tier", "community")
+    if tier not in ("official", "verified", "community", "commercial"): die("pack tier must be official, verified, community or commercial")
+    if tier == "commercial":
+        # Proprietary packs (the "plus" tier) are distributed outside this repo under their own licence; the installer
+        # still applies every security rule. They must say so explicitly, never by accident.
+        if not p["license"].startswith("LicenseRef-"): die("commercial packs must declare license = \"LicenseRef-<name>\"")
+    else:
+        if not p["license"].upper().startswith(("GPL", "AGPL", "LGPL", "MIT", "APACHE", "BSD")): die("unrecognised license")
+        if tier in ("official", "verified") and not p["license"].upper().startswith("AGPL"): die("official/verified packs must be AGPL-licensed")
     if not (d / "docs" / "README.md").exists() or not (d / "docs" / "SECURITY.md").exists():
         die("docs/README.md and docs/SECURITY.md are required")
     mig = sorted((d / "migrations").glob("*.sql"))
@@ -462,7 +475,7 @@ def cmd_test(args):
     if args.pack: suites = []
     names = [args.pack] if args.pack else sorted(installed_packs())
     for n in names:
-        suites += sorted((PACKS / n / "tests").glob("*.sql"))
+        suites += sorted((pack_dir(n) / "tests").glob("*.sql"))
     failed = 0
     for s in suites:
         if REMOTE:
@@ -471,7 +484,7 @@ def cmd_test(args):
         else:
             r = psql(["-f", str(files[0]), "-f", str(s)])
         ok = r.returncode == 0
-        print(("PASS " if ok else "FAIL ") + str(s.relative_to(ROOT)))
+        print(("PASS " if ok else "FAIL ") + (str(s.relative_to(ROOT)) if s.is_relative_to(ROOT) else str(s)))
         if not ok: failed += 1; print("   " + r.stderr.strip().replace("\n", "\n   "))
     print(f"{len(suites) - failed}/{len(suites)} suites passed"); sys.exit(1 if failed else 0)
 

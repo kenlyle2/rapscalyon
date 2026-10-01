@@ -1,2 +1,0 @@
-- Policies use `has_subject_access`. Clients cannot insert `status_change` events (the definer trigger writes them) and cannot update or delete events.
-- `jb_log_status_change` is SECURITY DEFINER only to write the audit row past the insert policy; it has no EXECUTE grant.

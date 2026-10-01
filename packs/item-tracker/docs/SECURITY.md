@@ -1,0 +1,5 @@
+- Every policy uses `has_subject_access`; deleting an item needs `is_subject_owner`. All tables carry the MFA restrictive policy.
+- Clients can set `kind` and `subject_id` only on insert; both are immutable afterwards (column grants).
+- Clients cannot insert `status_change` or `system` events and cannot edit or delete events.
+- `it_log_event` and `it_enforce_item_limit` are SECURITY DEFINER with no EXECUTE grant to API roles. `it_log_event` exists for child packs' triggers.
+- The item cap applies only when `auth.uid()` is set. A server using the service role can exceed it, so code that creates items on behalf of users must meter itself.

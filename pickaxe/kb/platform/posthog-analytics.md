@@ -16,7 +16,7 @@ Teams that want PostHog insight without a privacy surprise.
 
 ## Works well with
 
-everything. Particularly useful with jobs-tracker and subject-individual.
+everything. Particularly useful with item-tracker and subject-individual.
 
 ## Under the hood
 

@@ -16,7 +16,7 @@ Anyone using Loops who wants emails sent exactly once and users in control of wh
 
 ## Works well with
 
-every pack that emits events: jobs-tracker, social-posts, billing-webhook.
+every pack that emits events: item-tracker, social-posts, billing-webhook.
 
 ## Under the hood
 

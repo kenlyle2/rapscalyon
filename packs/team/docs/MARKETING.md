@@ -10,7 +10,7 @@ Any app where one account needs to share work with staff, partners or clients.
 - Owner-only management, with every change going through audited server functions.
 
 ## Works well with
-subject-business, real-estate-listings, jobs-tracker, social-posts.
+subject-business, real-estate-listings, item-tracker, social-posts.
 
 ## Under the hood
 Invite tokens are bearer credentials only the owner can read. Members never gain table-level write access to membership data.
