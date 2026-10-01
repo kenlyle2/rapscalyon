@@ -3,3 +3,4 @@ supabase/.branches/
 # pack migrations are generated into a target app's supabase/migrations by `pack add`; never committed in the framework repo
 supabase/migrations/*_pack_*.sql
 node_modules/
+tools/__pycache__/
