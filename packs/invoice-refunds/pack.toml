@@ -1,0 +1,17 @@
+[pack]
+name = "invoice-refunds"
+prefix = "ir"
+version = "0.1.0"
+description = "Customers, invoices, line items and refunds with the money rules enforced by the database: totals, balances, and refunds only against paid invoices, never beyond what was paid. Ships the same rules in GenAI-Logic form."
+license = "AGPL-3.0-or-later"
+tier = "official"
+requires_core = ">=0.1"
+requires = []
+conflicts = []
+
+[db]
+tables = ["ir_customers", "ir_invoices", "ir_invoice_lines", "ir_refunds", "ir_refund_events"]
+functions = ["ir_line_before", "ir_line_after", "ir_invoice_before", "ir_invoice_after", "ir_refund_before", "ir_refund_after", "ir_recalc_invoice", "ir_recalc_customer"]
+
+[nav]
+entries = []

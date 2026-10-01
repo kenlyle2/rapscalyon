@@ -1,0 +1,6 @@
+- Every policy uses `has_subject_access`; deleting customers, invoices needs `is_subject_owner`. All tables carry the MFA restrictive policy.
+- Clients can write only the listed columns. Derived columns (`amount`, `total`, `refunded_total`, `net`, `balance`) and a refund's `currency` are written by triggers only.
+- Refund approval needs `is_subject_owner` when called with a user session; service-role code is not subject to that check and must apply its own.
+- Refunds and refund events cannot be deleted; clients cannot insert events. Events are written by the refund trigger.
+- All functions are SECURITY DEFINER with `search_path = ''` and no EXECUTE grant to API roles.
+- The pack records refund decisions only. It does not move money.

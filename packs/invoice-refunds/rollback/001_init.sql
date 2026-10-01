@@ -1,0 +1,13 @@
+drop table if exists public.ir_refund_events;
+drop table if exists public.ir_refunds;
+drop table if exists public.ir_invoice_lines;
+drop table if exists public.ir_invoices;
+drop table if exists public.ir_customers;
+drop function if exists public.ir_refund_after();
+drop function if exists public.ir_refund_before();
+drop function if exists public.ir_invoice_after();
+drop function if exists public.ir_invoice_before();
+drop function if exists public.ir_line_after();
+drop function if exists public.ir_line_before();
+drop function if exists public.ir_recalc_invoice(uuid);
+drop function if exists public.ir_recalc_customer(uuid);
