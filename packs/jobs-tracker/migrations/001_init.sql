@@ -29,7 +29,7 @@ create table public.jb_application_events (
   occurred_at    timestamptz not null default now(),
   foreign key (application_id, subject_id) references public.jb_applications (id, subject_id) on delete cascade
 );
-create index jb_application_events_app_idx on public.jb_application_events (application_id, occurred_at desc);
+create index jb_application_events_app_idx on public.jb_application_events (application_id, subject_id, occurred_at desc);
 create index jb_application_events_subject_idx on public.jb_application_events (subject_id);
 
 -- every status change leaves an audit event

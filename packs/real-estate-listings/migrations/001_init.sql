@@ -34,6 +34,7 @@ create table public.rel_listing_photos (
   unique (listing_id, position)
 );
 create index rel_listing_photos_subject_idx on public.rel_listing_photos (subject_id);
+create index rel_listing_photos_listing_idx on public.rel_listing_photos (listing_id, subject_id, position);
 
 create function public.rel_set_listed_at() returns trigger
 language plpgsql set search_path = '' as $$

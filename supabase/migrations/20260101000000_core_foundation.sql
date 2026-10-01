@@ -373,7 +373,9 @@ create policy profiles_update on public.profiles for update to authenticated usi
 create policy admin_settings_admin on public.admin_settings for all to authenticated using ((select public.is_admin())) with check ((select public.is_admin()));
 create policy billing_events_admin_read on public.billing_events for select to authenticated using ((select public.is_admin()));
 create policy operation_pricing_read on public.operation_pricing for select to authenticated using (true);
-create policy operation_pricing_admin_write on public.operation_pricing for all to authenticated using ((select public.is_admin())) with check ((select public.is_admin()));
+create policy operation_pricing_admin_insert on public.operation_pricing for insert to authenticated with check ((select public.is_admin()));
+create policy operation_pricing_admin_update on public.operation_pricing for update to authenticated using ((select public.is_admin())) with check ((select public.is_admin()));
+create policy operation_pricing_admin_delete on public.operation_pricing for delete to authenticated using ((select public.is_admin()));
 create policy credit_usage_log_owner_read on public.credit_usage_log for select to authenticated using (user_id = (select auth.uid()));
 create policy app_events_admin_read on public.app_events for select to authenticated using ((select public.is_admin()));
 create policy findings_read on public.account_health_findings for select to authenticated using (user_id = (select auth.uid()) or (select public.is_admin()));
