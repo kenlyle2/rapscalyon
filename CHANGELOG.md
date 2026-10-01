@@ -8,6 +8,7 @@ Versioning: core + shell share the repo version (semver, pre-1.0: minor bumps ma
 - New AGPL base packs: `item-tracker`, `item-search` (generic item/search model; child packs add typed kinds).
 - Installer: `tier = "commercial"` packs (`license = "LicenseRef-..."`) and `RAPSCALYON_PACKS_PATH` for packs distributed outside this repo.
 - `jobs-tracker` moved out to the private commercial `rapscalyon-plus` repo (0.2.0 is a child of `item-tracker`).
+- New AGPL pack `invoice-refunds` 0.1.0: customers, invoices, lines, refunds with money rules enforced by triggers (refund only against a paid invoice, never beyond what remains, owner-only approval, outbox event); `rules/declare_logic.py` holds the same rules in GenAI-Logic form (written from its docs, not yet run).
 - Pickaxe Interviewer: GenAI-Logic docs attached, role Step 3B captures business rules as requirements for the hand-off ticket (GenAI-Logic is the planned rules target, not yet generated).
 
 ## 0.5.0 — 2026-10-01 — first complete, tested release (pre-1.0)
