@@ -1,0 +1,19 @@
+[pack]
+name = "subject-business"
+prefix = "biz"
+version = "0.1.0"
+description = "Subjects that are businesses or locations. Adds business details and a plan limit."
+license = "GPL-3.0-or-later"
+requires_core = ">=0.1"
+requires = []
+conflicts = []
+
+[db]
+tables = ["biz_details"]
+functions = ["biz_enforce_limit"]
+
+[limits]
+biz_max_subjects = { default = 1, note = "businesses/locations one account may create" }
+
+[nav]
+entries = [{ label = "Locations", href = "/locations", icon = "Store", group = "main" }]

@@ -1,0 +1,2 @@
+- Users cannot set `publishing`, `published` or `failed`, and cannot touch rows in those states except to retry a failed post (UPDATE to draft/scheduled) or delete it.
+- `sp_claim_due_posts` is SECURITY DEFINER and has no EXECUTE grant to anon/authenticated: service role only. It uses `FOR UPDATE SKIP LOCKED` so two workers never claim the same post.

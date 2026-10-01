@@ -1,0 +1,19 @@
+[pack]
+name = "subject-individual"
+prefix = "ind"
+version = "0.1.0"
+description = "Subjects that are people (a persona, a profile, a job-seeker). Adds per-person details and a plan limit."
+license = "GPL-3.0-or-later"
+requires_core = ">=0.1"
+requires = []
+conflicts = []   # an app normally installs one subject pack, but both can coexist
+
+[db]
+tables = ["ind_details"]
+functions = ["ind_enforce_limit"]
+
+[limits]
+ind_max_subjects = { default = 1, note = "individuals one account may create" }
+
+[nav]
+entries = [{ label = "People", href = "/people", icon = "Users", group = "main" }]

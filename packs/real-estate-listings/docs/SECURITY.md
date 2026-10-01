@@ -1,0 +1,3 @@
+- Every policy goes through `has_subject_access(subject_id)`; delete is owner-only. `created_by` must equal the caller on insert.
+- Photo rows carry `subject_id` under a composite FK to the listing, so a photo cannot point at another subject's listing.
+- Column grants exclude `listed_at` (set by trigger) and `id`/timestamps. Only `rel_enforce_listing_limit` is SECURITY DEFINER (trigger, no EXECUTE grant).

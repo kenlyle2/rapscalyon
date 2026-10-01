@@ -1,0 +1,4 @@
+- `team_invites.token` is a bearer credential: the browser can SELECT every invite column except `token` and `invited_by`; only the owner can read rows.
+- Writes happen only in three SECURITY DEFINER functions that check `auth.uid()` internally; each pins `search_path = ''`.
+- `team_accept` requires the signed-in profile email to equal the invited email, so a leaked token alone is not enough.
+- Members never get write access to `subject_members` directly; role `viewer` is stored but enforcing read-only per pack is that pack's responsibility.

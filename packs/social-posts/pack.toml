@@ -1,0 +1,28 @@
+[pack]
+name = "social-posts"
+prefix = "sp"
+version = "0.1.0"
+description = "Draft, schedule and track social posts per subject. Publishing connectors live in the app layer and keep tokens in user_credentials."
+license = "GPL-3.0-or-later"
+requires_core = ">=0.1"
+requires = []
+conflicts = []
+
+[db]
+tables = ["sp_posts"]
+functions = ["sp_claim_due_posts"]
+
+[credits]
+operations = [
+  { name = "sp.generate_post",  label = "Generate a post draft" },
+  { name = "sp.generate_image", label = "Generate a post image" },
+]
+
+[limits]
+sp_max_scheduled = { default = 30, note = "posts in status scheduled per subject" }
+
+[nav]
+entries = [{ label = "Posts", href = "/posts", icon = "Send", group = "main" }]
+
+[cron]
+jobs = [{ name = "sp_publish_due", schedule = "*/5 * * * *", path = "/api/sp/cron/publish" }]

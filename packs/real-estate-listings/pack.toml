@@ -1,0 +1,31 @@
+[pack]
+name = "real-estate-listings"
+prefix = "rel"
+version = "0.1.0"
+description = "Property listings with photos and a publish workflow; AI description generation is a metered operation."
+license = "GPL-3.0-or-later"
+requires_core = ">=0.1"
+requires = []          # works with either subject pack (agency = business, independent agent = individual)
+conflicts = []
+
+[db]
+tables = ["rel_listings", "rel_listing_photos"]
+functions = ["rel_enforce_listing_limit", "rel_set_listed_at"]
+
+[credits]
+operations = [
+  { name = "rel.generate_description", label = "Generate listing description" },
+  { name = "rel.enhance_photo",        label = "Enhance listing photo" },
+]
+
+[limits]
+rel_max_active_listings = { default = 10, note = "listings in status active/pending per subject" }
+
+[nav]
+entries = [{ label = "Listings", href = "/listings", icon = "Home", group = "main" }]
+
+[health]
+checks = ["rel_stale_listings"]
+
+[env]
+required = []

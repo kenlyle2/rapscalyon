@@ -1,0 +1,4 @@
+- `biz_details`: RLS on; authenticated may SELECT/DELETE and INSERT/UPDATE on listed columns only; anon nothing.
+- Access = `has_subject_access(subject_id)` (owner or accepted member). Delete requires ownership.
+- `biz_enforce_limit` is SECURITY DEFINER because it counts all of an owner's subjects regardless of RLS; it is a trigger, not callable via the API (no EXECUTE grant).
+- Adds a trigger named `biz_subjects_limit` to core `subjects`; it changes no columns, policies or functions of core.

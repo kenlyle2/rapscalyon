@@ -1,0 +1,20 @@
+[pack]
+name = "team"
+prefix = "team"
+version = "0.1.0"
+description = "Share a subject with other users: invite by email, accept by token, remove members. Writes core subject_members through audited functions."
+license = "GPL-3.0-or-later"
+requires_core = ">=0.1"
+requires = []
+conflicts = []
+
+[db]
+tables = ["team_invites"]
+functions = ["team_invite", "team_accept", "team_remove_member"]
+api_functions = ["team_invite", "team_accept", "team_remove_member"]
+
+[limits]
+team_max_members = { default = 3, note = "members (excluding owner) per subject" }
+
+[nav]
+entries = [{ label = "Team", href = "/team", icon = "UserPlus", group = "account" }]
