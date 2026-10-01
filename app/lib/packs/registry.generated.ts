@@ -6,7 +6,7 @@ export const packRegistry = {
       "href": "/admin/billing-plans",
       "icon": "CreditCard",
       "group": "admin",
-      "pack": "billing-webhook"
+      "pack": "core"
     },
     {
       "label": "Inbox",
@@ -85,7 +85,7 @@ export const packRegistry = {
   "health": [
     {
       "id": "bw_unmatched_events",
-      "pack": "billing-webhook"
+      "pack": "core"
     },
     {
       "id": "lp_stuck_outbox",

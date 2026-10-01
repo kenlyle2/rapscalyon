@@ -1,5 +1,8 @@
+-- core billing: provider-agnostic subscription sync (moved from the billing-webhook pack, 2026-10-01).
+-- Opinionated stack: FluentCart on WordPress calls POST /api/billing-webhook; anything else that can POST works too.
+-- Idempotent: safe to re-apply (databases that had the old pack keep their data).
 -- Maps a provider's plan/product key to an app tier. Admin-managed.
-create table public.bw_plan_map (
+create table if not exists public.bw_plan_map (
   source      text not null check (source ~ '^[a-z][a-z0-9_-]{1,31}$'),
   plan_key    text not null check (length(plan_key) between 1 and 100),
   tier        text not null check (tier ~ '^[a-z][a-z0-9_-]{1,31}$'),
@@ -10,13 +13,18 @@ create table public.bw_plan_map (
   updated_at  timestamptz not null default now(),
   primary key (source, plan_key)
 );
-create index bw_plan_map_updated_by_idx on public.bw_plan_map (updated_by) where updated_by is not null;
+create index if not exists bw_plan_map_updated_by_idx on public.bw_plan_map (updated_by) where updated_by is not null;
+drop trigger if exists bw_plan_map_updated_at on public.bw_plan_map;
 create trigger bw_plan_map_updated_at before update on public.bw_plan_map for each row execute function public.set_updated_at();
 
 alter table public.bw_plan_map enable row level security;
+drop policy if exists bw_plan_map_select on public.bw_plan_map;
 create policy bw_plan_map_select on public.bw_plan_map for select to authenticated using ((select public.is_admin()));
+drop policy if exists bw_plan_map_insert on public.bw_plan_map;
 create policy bw_plan_map_insert on public.bw_plan_map for insert to authenticated with check ((select public.is_admin()) and updated_by = (select auth.uid()));
+drop policy if exists bw_plan_map_update on public.bw_plan_map;
 create policy bw_plan_map_update on public.bw_plan_map for update to authenticated using ((select public.is_admin())) with check ((select public.is_admin()) and updated_by = (select auth.uid()));
+drop policy if exists bw_plan_map_delete on public.bw_plan_map;
 create policy bw_plan_map_delete on public.bw_plan_map for delete to authenticated using ((select public.is_admin()));
 select public.apply_mfa_gate('public.bw_plan_map');
 grant select, delete on public.bw_plan_map to authenticated;
@@ -29,7 +37,7 @@ grant update (tier, match_mode, updated_by) on public.bw_plan_map to authenticat
 -- cancelled, expired, failed, on-hold all lose paid access). Admins can change admin_settings.bw_downgrade_on
 -- (a JSON array of kinds) to keep access until expiry, e.g. ["expired","refunded"].
 -- Idempotent on (source, external_id). Returns: applied | duplicate | stale | unmatched | unmapped_plan
-create function public.bw_apply_event(
+create or replace function public.bw_apply_event(
   p_source text, p_external_id text, p_kind text, p_payload jsonb,
   p_customer_ref text default null, p_subscription_ref text default null,
   p_plan_key text default null, p_email text default null, p_occurred_at timestamptz default now()
@@ -91,7 +99,7 @@ begin
   return result;
 end $$;
 
-create function public.bw_unmatched_events() returns bigint
+create or replace function public.bw_unmatched_events() returns bigint
 language sql stable security definer set search_path = '' as $$
   select count(*) from public.billing_events where processing_status in ('partial','failed') and not alerted
 $$;

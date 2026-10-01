@@ -404,7 +404,8 @@ def app_uninstall(name, app):
     owners_f.write_text(json.dumps(owners, indent=1, sort_keys=True) + "\n"); write_registry(app)
 
 def write_registry(app):
-    reg = {"nav": [], "limits": {}, "health": [], "events": [], "operations": []}
+    reg = {"nav": [dict(label="Billing plans", href="/admin/billing-plans", icon="CreditCard", group="admin", pack="core")], "limits": {},
+           "health": [dict(id="bw_unmatched_events", pack="core")], "events": [], "operations": []}
     for name in sorted(installed_packs()):
         try: _, m, _ = load_pack(name)
         except SystemExit: continue
@@ -423,6 +424,7 @@ def cmd_core(_):
     foundation_present = query("select to_regclass('public.pack_migrations') is not null").lower() in ("t", "true")
     core = sorted(MIGRATIONS.glob("*_core_foundation.sql"))[0]
     storage = sorted(MIGRATIONS.glob("*_core_storage.sql"))
+    billing = sorted(MIGRATIONS.glob("*_core_billing.sql"))
     if foundation_present: print("core already present")
     else:
         r = execute("begin;\n" + core.read_text() + "\ncommit;")
@@ -432,6 +434,10 @@ def cmd_core(_):
         r = execute("begin;\n" + storage[0].read_text() + "\ncommit;")
         if r.returncode: die(r.stderr)
         print("CORE STORAGE APPLIED", storage[0].name)
+    if billing:  # idempotent, so databases that had the old billing-webhook pack are upgraded in place
+        r = execute("begin;\n" + billing[0].read_text() + "\ncommit;")
+        if r.returncode: die(r.stderr)
+        print("CORE BILLING APPLIED", billing[0].name)
 
 def cmd_catalog(args):
     """Build the pack catalog (docs/CATALOG.md and app/lib/packs/catalog.generated.ts) from every pack in packs/."""
