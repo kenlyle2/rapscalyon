@@ -3,7 +3,8 @@ name = "real-estate-listings"
 prefix = "rel"
 version = "0.1.0"
 description = "Property listings with photos and a publish workflow; AI description generation is a metered operation."
-license = "GPL-3.0-or-later"
+license = "AGPL-3.0-or-later"
+tier = "official"
 requires_core = ">=0.1"
 requires = []          # works with either subject pack (agency = business, independent agent = individual)
 conflicts = []

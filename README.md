@@ -20,4 +20,4 @@ A pack is rejected, and its transaction rolled back, if it: leaves RLS off, gran
 
 See each pack's `docs/SECURITY.md` for what it grants and why. Pack format: `pack.toml`, `migrations/`, `rollback/`, `server/`, `ui/`, `tests/`, `docs/`.
 
-License: GPL-3.0-or-later.
+License: AGPL-3.0-or-later.

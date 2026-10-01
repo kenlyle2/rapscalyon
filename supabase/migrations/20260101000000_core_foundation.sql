@@ -1,4 +1,4 @@
--- RapScalYon core foundation 0.1.0  (GPL-3.0-or-later)
+-- RapScalYon core foundation 0.1.0  (AGPL-3.0-or-later)
 -- Generic app skeleton: accounts, credits/limits, billing events, subjects (workspaces), audit/health.
 -- Security stance: default-deny. Nothing in `public` is reachable by anon; authenticated gets explicit,
 -- minimal grants only. Every definer function pins search_path = ''.

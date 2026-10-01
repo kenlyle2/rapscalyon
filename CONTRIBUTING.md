@@ -27,5 +27,9 @@ Installation runs in one transaction; any violation rolls everything back.
 Each pack ships SQL suites under `tests/` using the helpers in `tests/_helpers.sql`: show that a user sees
 only their rows, cannot touch another subject's rows, and that column grants block privileged columns.
 
-## Licence
-GPL-3.0-or-later. Do not include secrets, customer data or proprietary logic.
+## Licence, tiers and contributor agreement
+- Core and official packs: AGPL-3.0-or-later. Community packs may use any OSI-approved licence the installer recognises.
+- `[pack].tier` is `official` (maintainer-written; must be AGPL), `verified` (reviewed and hash-pinned; must be AGPL) or
+  `community` (the default: passes the validator, installed only on explicit opt-in).
+- Contributions to core and official/verified packs require signing the project CLA, which lets the maintainer also offer a
+  commercial licence. Do not include secrets, customer data or proprietary logic.

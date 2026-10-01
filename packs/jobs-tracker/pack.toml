@@ -3,7 +3,8 @@ name = "jobs-tracker"
 prefix = "jb"
 version = "0.1.0"
 description = "Track job applications through a pipeline, with a per-application event log. A generic tracker, not an auto-apply engine."
-license = "GPL-3.0-or-later"
+license = "AGPL-3.0-or-later"
+tier = "official"
 requires_core = ">=0.1"
 requires = []
 conflicts = []

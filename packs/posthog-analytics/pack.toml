@@ -3,7 +3,8 @@ name = "posthog-analytics"
 prefix = "ph"
 version = "0.1.0"
 description = "PostHog product analytics with privacy controls: per-user analytics/session-replay consent that the app must check before sending any event. Keys stay in the app environment."
-license = "GPL-3.0-or-later"
+license = "AGPL-3.0-or-later"
+tier = "official"
 requires_core = ">=0.1"
 requires = []
 conflicts = []

@@ -3,7 +3,8 @@ name = "turnstile"
 prefix = "ts"
 version = "0.1.0"
 description = "Cloudflare Turnstile bot protection: server-side verification audit log (failures, hashed IPs) and retention purge. The secret key stays in the app environment."
-license = "GPL-3.0-or-later"
+license = "AGPL-3.0-or-later"
+tier = "official"
 requires_core = ">=0.1"
 requires = []
 conflicts = []
