@@ -18,11 +18,11 @@ def sql(k, q):
     return m.query(q)
 
 PLANS = {
-  "a": ["subject-individual", "jobs-tracker", "social-posts"],
+  "a": ["subject-individual", "item-tracker", "social-posts"],
   "b": ["subject-business", "team", "real-estate-listings", "social-posts"],
   "c": [],
-  "d": ["subject-individual", "team", "jobs-tracker"],
-  "e": ["subject-business", "team", "real-estate-listings", "jobs-tracker", "social-posts"],
+  "d": ["subject-individual", "team", "item-tracker"],
+  "e": ["subject-business", "team", "real-estate-listings", "item-tracker", "social-posts"],
 }
 log = []
 def say(*a):

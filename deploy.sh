@@ -2,7 +2,7 @@
 # RapScalYon one-shot deploy: creates (or reuses) a Supabase project, installs core
 # and the requested packs. Secrets are read silently and never echoed or written to disk.
 #
-#   ./deploy.sh --name myapp --org <org-id> --region us-east-1 --packs "subject-business team jobs-tracker"
+#   ./deploy.sh --name myapp --org <org-id> --region us-east-1 --packs "subject-business team item-tracker"
 #   ./deploy.sh --project <existing-ref> --packs "team"        # reuse an existing project
 #
 # Needs: supabase CLI (logged in, or SUPABASE_ACCESS_TOKEN set), python3.

@@ -1,7 +1,7 @@
 # Contributing a pack
 
 A pack is a directory: `pack.toml`, `migrations/NNN_*.sql`, `rollback/NNN_*.sql`, `tests/*.sql`,
-`docs/README.md`, `docs/SECURITY.md`. Look at `packs/jobs-tracker` for a small example.
+`docs/README.md`, `docs/SECURITY.md`. Look at `packs/item-tracker` for a small example.
 
 ## Workflow
 1. Copy an existing pack, rename, pick a unique 2–3 letter `prefix`.

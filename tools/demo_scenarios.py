@@ -51,8 +51,8 @@ def scenario_g():
     print("== g: ordering / idempotency / lego independence")
     k = "g"
     rc, out = add(k, "real-estate-listings"); check("g real-estate works with NO subject pack (packs key on core subjects)", rc == 0, out)
-    rc, out = add(k, "jobs-tracker"); check("g jobs-tracker works with NO subject pack (core subjects only)", rc == 0, out)
-    rc, out = add(k, "jobs-tracker"); check("g re-adding is a no-op", rc == 0 and "already installed" in out, out)
+    rc, out = add(k, "item-tracker"); check("g item-tracker works with NO subject pack (core subjects only)", rc == 0, out)
+    rc, out = add(k, "item-tracker"); check("g re-adding is a no-op", rc == 0 and "already installed" in out, out)
     rc, out = add(k, "social-posts"); check("g social-posts alongside", rc == 0, out)
     rc, out = add(k, "subject-individual"); check("g subject pack added AFTER feature packs", rc == 0, out)
     rc, out = add(k, "team"); check("g team added last", rc == 0, out)
@@ -63,16 +63,16 @@ def scenario_h():
     k = "h"
     for p in ["subject-individual", "subject-business"]:
         rc, out = add(k, p); check(f"h add {p} (both subject flavours)", rc == 0, out)
-    rc, out = add(k, "jobs-tracker"); check("h jobs-tracker over both", rc == 0, out)
+    rc, out = add(k, "item-tracker"); check("h item-tracker over both", rc == 0, out)
     r = dm.rs(k, "test"); check("h tests with both subject packs", r[0] == 0, r[1])
-    # upgrade: v0.2.0 of jobs-tracker with a 002 migration
-    tmp = Path(tempfile.mkdtemp(prefix="rs-up-")) / "jobs-tracker"
-    shutil.copytree(ROOT / "packs" / "jobs-tracker", tmp)
-    (tmp / "migrations" / "002_add_source.sql").write_text("alter table public.jb_applications add column referrer text;\n")
-    (tmp / "rollback" / "002_add_source.sql").write_text("alter table public.jb_applications drop column if exists referrer;\n")
+    # upgrade: v0.2.0 of item-tracker with a 002 migration
+    tmp = Path(tempfile.mkdtemp(prefix="rs-up-")) / "item-tracker"
+    shutil.copytree(ROOT / "packs" / "item-tracker", tmp)
+    (tmp / "migrations" / "002_add_source.sql").write_text("alter table public.it_items add column referrer text;\n")
+    (tmp / "rollback" / "002_add_source.sql").write_text("alter table public.it_items drop column if exists referrer;\n")
     t = (tmp / "pack.toml").read_text().replace('version = "0.1.0"', 'version = "0.2.0"'); (tmp / "pack.toml").write_text(t)
     rc, out = dm.rs(k, "pack", "add", str(tmp)); check("h upgrade applies only the new migration", rc == 0 and "1 migration" in out, out)
-    check("h upgrade column exists, registry has 2 files", q(k, "select (select count(*) from information_schema.columns where table_name='jb_applications' and column_name='referrer')||','||(select count(*) from public.pack_migrations where pack='jobs-tracker')") == "1,2")
+    check("h upgrade column exists, registry has 2 files", q(k, "select (select count(*) from information_schema.columns where table_name='it_items' and column_name='referrer')||','||(select count(*) from public.pack_migrations where pack='item-tracker')") == "1,2")
     # bad packs leave no residue
     def bad(name, sql):
         d = Path(tempfile.mkdtemp(prefix="rs-bad-")) / name

@@ -10,7 +10,7 @@ Consumer and prosumer apps where each customer is a person: job seekers, creator
 - A per-plan cap on how many personal workspaces one account may have.
 
 ## Works well with
-jobs-tracker, social-posts, posthog-analytics, billing-webhook.
+item-tracker, social-posts, posthog-analytics, billing-webhook.
 
 ## Under the hood
 Row-level security on every table, column-level grants, no anonymous access, MFA-aware policies. Removing the pack leaves your data model untouched.

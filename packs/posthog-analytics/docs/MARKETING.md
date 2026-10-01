@@ -10,7 +10,7 @@ Teams that want PostHog insight without a privacy surprise.
 - Safe defaults: analytics on, session replay off, replay never without analytics consent.
 
 ## Works well with
-everything. Particularly useful with jobs-tracker and subject-individual.
+everything. Particularly useful with item-tracker and subject-individual.
 
 ## Under the hood
 Consent is private to its owner; the gate function is service-role only so users cannot probe each other.

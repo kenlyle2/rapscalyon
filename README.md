@@ -4,18 +4,18 @@ A security-first Supabase foundation ("core") plus installable **packs** and a N
 
 ## What is in the box
 - **core** (`supabase/migrations/`): profiles, credits and plan limits (idempotent `charge_credits`), billing-event ledger, rate limiting, subjects (workspaces) and members, MFA gate, `ensure_rls` event trigger, default-deny privileges, and a private `media` storage bucket scoped by workspace. Secrets live in a service-only table, never in `profiles`.
-- **packs** (`packs/`, see [docs/CATALOG.md](docs/CATALOG.md)): `subject-individual`, `subject-business`, `team`, `real-estate-listings`, `jobs-tracker`, `social-posts`, `loops-email`, `turnstile`, `posthog-analytics`, `billing-webhook`.
+- **packs** (`packs/`, see [docs/CATALOG.md](docs/CATALOG.md)): `subject-individual`, `subject-business`, `team`, `real-estate-listings`, `item-tracker`, `item-search`, `social-posts`, `loops-email`, `turnstile`, `posthog-analytics`, `billing-webhook`.
 - **app** (`app/`): Next.js shell with Supabase auth, a workspace switcher, a nav built from installed packs, pack pages and API routes, public `/packs` marketing pages, and the interview API for the Pickaxe layer ([docs/PICKAXE.md](docs/PICKAXE.md)).
 - **tools**: `tools/rapscalyon.py` (installer, validator, test runner, catalog), `deploy.sh`, `Dockerfile`, `app.json`.
 
 ## Quick start
 ```
 supabase start && supabase db reset                 # local core
-python3 tools/rapscalyon.py pack add packs/jobs-tracker --app app
+python3 tools/rapscalyon.py pack add packs/item-tracker --app app
 python3 tools/rapscalyon.py test
 cd app && npm install && npm run dev
 ```
-Hosted: `./deploy.sh --name myapp --org <org-id> --packs "subject-business team jobs-tracker"`, or `--project <ref>` for an existing project.
+Hosted: `./deploy.sh --name myapp --org <org-id> --packs "subject-business team item-tracker"`, or `--project <ref>` for an existing project.
 Add `--project <ref>` to any `rapscalyon.py` command to target a hosted Supabase project (needs a logged-in `supabase` CLI).
 
 ```

@@ -28,27 +28,53 @@ export const catalog: CatalogEntry[] = [
   }
  },
  {
-  "name": "jobs-tracker",
+  "name": "item-search",
   "version": "0.1.0",
   "tier": "official",
   "license": "AGPL-3.0-or-later",
-  "description": "Track job applications through a pipeline, with a per-application event log. A generic tracker, not an auto-apply engine.",
-  "title": "Job application tracker",
-  "tagline": "Keep every application, status and note in one pipeline, with an automatic history of each move.",
+  "description": "Saved search profiles, candidate items proposed by an external matcher, and a review-then-dispatch queue for a worker. Ships the plumbing and the security model, not the matching intelligence.",
+  "title": "Item search",
+  "tagline": "Saved searches, a review inbox and a safe worker queue, with your matcher plugged in from outside.",
   "sections": {
    "Who it's for": [
-    "Job seekers and career-services products that need a clean tracker rather than an auto-apply bot."
+    "Products that find things for people (jobs, listings, leads) and want the user to approve before anything is acted on in their name."
    ],
    "What you get": [
-    "Saved, applied, interviewing, offer, rejected and withdrawn stages with company, role, link, location and pay range.",
-    "A per-application event log written by the database, not the client.",
-    "Plan-based cap on tracked applications; a health check for stale applications."
+    "Saved search profiles per workspace with flexible criteria and exclusions, capped by plan.",
+    "A candidate inbox: accept to create a tracked item, or dismiss, with duplicate-safe delivery from any matcher.",
+    "A review-then-dispatch queue: edit overrides, approve with an optional delay, or cancel; workers claim each job exactly once.",
+    "A poll-based event outbox so matchers and workers know when to run. No webhooks or stored secrets inside the database."
    ],
    "Works well with": [
-    "subject-individual, loops-email, posthog-analytics."
+    "item-tracker, loops-email (commercial child: jobs-search)."
    ],
    "Under the hood": [
-    "Status history is recorded by a trigger, so it cannot be edited from the browser. Credits for AI resume tailoring are pre-wired through core pricing."
+    "Every user action is a function that checks the caller, the workspace and the MFA gate. The queue contract is three service-role functions, and the pack contains no matching or submission logic."
+   ]
+  }
+ },
+ {
+  "name": "item-tracker",
+  "version": "0.1.0",
+  "tier": "official",
+  "license": "AGPL-3.0-or-later",
+  "description": "The base class for anything a subject tracks: a typed item (job, listing, lead, ...) with notes, a link and an append-only event log. Child packs add typed columns for one kind of item.",
+  "title": "Item tracker",
+  "tagline": "One tracked-thing model for any vertical, with an event log the browser cannot rewrite.",
+  "sections": {
+   "Who it's for": [
+    "Builders who need to track jobs, listings, leads or anything similar and want one proven foundation instead of a new table design each time."
+   ],
+   "What you get": [
+    "Typed items with title, link, source and notes, owned by a workspace subject.",
+    "An append-only event log; status history is written by the database, not the client.",
+    "A plan cap on items per subject, archive instead of delete, and row-level security with the MFA gate on every table."
+   ],
+   "Works well with": [
+    "subject-individual, subject-business, item-search, social-posts."
+   ],
+   "Under the hood": [
+    "Class-table inheritance: child packs add a 1:1 table keyed on the item, so each kind keeps real columns and constraints while access rules live in one place."
    ]
   }
  },
@@ -70,7 +96,7 @@ export const catalog: CatalogEntry[] = [
     "Suppression of marketing events for opted-out users, enforced in the database."
    ],
    "Works well with": [
-    "every pack that emits events: jobs-tracker, social-posts, billing-webhook."
+    "every pack that emits events: item-tracker, social-posts, billing-webhook."
    ],
    "Under the hood": [
     "Rows are claimed with `FOR UPDATE SKIP LOCKED`, sent with an idempotency key, and visible to their recipient only. The Loops key never touches the database."
@@ -95,7 +121,7 @@ export const catalog: CatalogEntry[] = [
     "Safe defaults: analytics on, session replay off, replay never without analytics consent."
    ],
    "Works well with": [
-    "everything. Particularly useful with jobs-tracker and subject-individual."
+    "everything. Particularly useful with item-tracker and subject-individual."
    ],
    "Under the hood": [
     "Consent is private to its owner; the gate function is service-role only so users cannot probe each other."
@@ -195,7 +221,7 @@ export const catalog: CatalogEntry[] = [
     "A per-plan cap on how many personal workspaces one account may have."
    ],
    "Works well with": [
-    "jobs-tracker, social-posts, posthog-analytics, billing-webhook."
+    "item-tracker, social-posts, posthog-analytics, billing-webhook."
    ],
    "Under the hood": [
     "Row-level security on every table, column-level grants, no anonymous access, MFA-aware policies. Removing the pack leaves your data model untouched."
@@ -220,7 +246,7 @@ export const catalog: CatalogEntry[] = [
     "Owner-only management, with every change going through audited server functions."
    ],
    "Works well with": [
-    "subject-business, real-estate-listings, jobs-tracker, social-posts."
+    "subject-business, real-estate-listings, item-tracker, social-posts."
    ],
    "Under the hood": [
     "Invite tokens are bearer credentials only the owner can read. Members never gain table-level write access to membership data."
