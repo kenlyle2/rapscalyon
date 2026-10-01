@@ -3,6 +3,9 @@ create table public.bw_plan_map (
   source      text not null check (source ~ '^[a-z][a-z0-9_-]{1,31}$'),
   plan_key    text not null check (length(plan_key) between 1 and 100),
   tier        text not null check (tier ~ '^[a-z][a-z0-9_-]{1,31}$'),
+  -- 'exact': plan_key equals the provider's key. 'contains': case-insensitive substring of the product name/SKU
+  -- (longest wins, so "PRO PLUS" beats "PRO"), which is how PostGlider resolves tiers from WooCommerce product names.
+  match_mode  text not null default 'exact' check (match_mode in ('exact','contains')),
   updated_by  uuid references public.profiles(id) on delete set null,
   updated_at  timestamptz not null default now(),
   primary key (source, plan_key)
@@ -17,11 +20,14 @@ create policy bw_plan_map_update on public.bw_plan_map for update to authenticat
 create policy bw_plan_map_delete on public.bw_plan_map for delete to authenticated using ((select public.is_admin()));
 select public.apply_mfa_gate('public.bw_plan_map');
 grant select, delete on public.bw_plan_map to authenticated;
-grant insert (source, plan_key, tier, updated_by) on public.bw_plan_map to authenticated;
-grant update (tier, updated_by) on public.bw_plan_map to authenticated;
+grant insert (source, plan_key, tier, match_mode, updated_by) on public.bw_plan_map to authenticated;
+grant update (tier, match_mode, updated_by) on public.bw_plan_map to authenticated;
 
 -- Apply one normalized provider event. The app-layer adapter verifies the webhook signature and normalizes:
 --   p_kind: activated | renewed | payment_failed | canceled | expired | refunded
+-- Which kinds drop the profile to 'free' immediately. Default matches PostGlider/JobsGlider (WooCommerce semantics:
+-- cancelled, expired, failed, on-hold all lose paid access). Admins can change admin_settings.bw_downgrade_on
+-- (a JSON array of kinds) to keep access until expiry, e.g. ["expired","refunded"].
 -- Idempotent on (source, external_id). Returns: applied | duplicate | stale | unmatched | unmapped_plan
 create function public.bw_apply_event(
   p_source text, p_external_id text, p_kind text, p_payload jsonb,
@@ -29,7 +35,7 @@ create function public.bw_apply_event(
   p_plan_key text default null, p_email text default null, p_occurred_at timestamptz default now()
 ) returns text
 language plpgsql security definer set search_path = '' as $$
-declare ev uuid; prof public.profiles; new_tier text; new_status text; result text := 'applied'; notes jsonb := '{}'::jsonb;
+declare ev uuid; prof public.profiles; new_tier text; new_status text; result text := 'applied'; notes jsonb := '{}'::jsonb; downgrade jsonb;
 begin
   if p_kind not in ('activated','renewed','payment_failed','canceled','expired','refunded') then
     raise exception 'unknown billing event kind %', p_kind;
@@ -59,14 +65,18 @@ begin
   new_status := case p_kind when 'activated' then 'active' when 'renewed' then 'active' when 'payment_failed' then 'past_due'
                             when 'canceled' then 'canceled' else 'expired' end;
   if p_kind in ('activated','renewed') then
-    select tier into new_tier from public.bw_plan_map where source = p_source and plan_key = p_plan_key;
+    select tier into new_tier from public.bw_plan_map m
+     where m.source = p_source and p_plan_key is not null
+       and ((m.match_mode = 'exact' and m.plan_key = p_plan_key)
+         or (m.match_mode = 'contains' and upper(p_plan_key) like '%' || upper(m.plan_key) || '%'))
+     order by (m.match_mode = 'exact') desc, length(m.plan_key) desc limit 1;
     if new_tier is null then
       result := 'unmapped_plan'; new_tier := prof.tier; notes := jsonb_build_object('reason','plan not mapped','plan_key',p_plan_key);
     end if;
-  elsif p_kind in ('expired','refunded') then
-    new_tier := 'free';
   else
-    new_tier := prof.tier;  -- payment_failed / canceled keep access until the provider says expired
+    select setting_value into downgrade from public.admin_settings where setting_key = 'bw_downgrade_on';
+    downgrade := coalesce(downgrade, '["payment_failed","canceled","expired","refunded"]'::jsonb);
+    new_tier := case when downgrade ? p_kind then 'free' else prof.tier end;
   end if;
 
   update public.profiles set
