@@ -4,3 +4,6 @@ node_modules
 .env
 next-env.d.ts
 app/api/*/
+app/(app)/*/
+!app/(app)/subjects/
+lib/packs/owners.json

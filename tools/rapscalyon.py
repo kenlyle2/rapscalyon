@@ -345,21 +345,43 @@ def cmd_remove(args):
     body = "\n".join(f"-- {f.name}\n{f.read_text()}" for f in rb) + f"\ndelete from public.pack_migrations where pack = '{name}';\n"
     r = execute("begin;\n" + body + "\ncommit;")
     if r.returncode: die(r.stderr)
+    if getattr(args, "app", None): app_uninstall(name, args.app)
     if REMOTE: print("REMOVED", name, f"(remote {REMOTE})"); return
     stamp = time.strftime("%Y%m%d%H%M%S", time.gmtime())
     dest = MIGRATIONS / f"{stamp}_pack_{name.replace('-', '_')}_remove.sql"
     dest.write_text(body); print("REMOVED", name, "->", dest.relative_to(ROOT))
 
+def _app_dir(app):
+    return (ROOT / app) if not Path(app).is_absolute() else Path(app)
+
 def app_install(d, m, app):
-    """Copy server/ and ui/ into the app and regenerate the registry from every installed pack."""
+    """Copy server/ (-> app/api/<pack>) and ui/ (mirrors the (app) route tree) into the app; regenerate the registry.
+    Ownership of every copied file is recorded so two packs can never silently overwrite each other and `pack remove` cleans up."""
     if not app: return
-    app = (ROOT / app) if not Path(app).is_absolute() else Path(app)
-    p = m["pack"]
-    for sub, dest in (("server", app / "app" / "api" / p["name"]), ("ui", app / "app" / "(app)" / p["name"])):
+    app = _app_dir(app); name = m["pack"]["name"]
+    owners_f = app / "lib" / "packs" / "owners.json"
+    owners = json.loads(owners_f.read_text()) if owners_f.exists() else {}
+    for sub, dest in (("server", app / "app" / "api" / name), ("ui", app / "app" / "(app)")):
         src = d / sub
-        if src.is_dir():
-            dest.mkdir(parents=True, exist_ok=True); shutil.copytree(src, dest, dirs_exist_ok=True); print("  copied", sub, "->", dest.relative_to(ROOT))
+        if not src.is_dir(): continue
+        for f in sorted(x for x in src.rglob("*") if x.is_file()):
+            target = dest / f.relative_to(src); rel = str(target.relative_to(app))
+            if owners.get(rel, name) != name: die(f"{rel} is already owned by pack '{owners[rel]}'")
+            target.parent.mkdir(parents=True, exist_ok=True); shutil.copyfile(f, target); owners[rel] = name
+        print("  copied", sub, "->", dest.relative_to(ROOT))
+    owners_f.parent.mkdir(parents=True, exist_ok=True); owners_f.write_text(json.dumps(owners, indent=1, sort_keys=True) + "\n")
     write_registry(app)
+
+def app_uninstall(name, app):
+    app = _app_dir(app); owners_f = app / "lib" / "packs" / "owners.json"
+    if not owners_f.exists(): return
+    owners = json.loads(owners_f.read_text())
+    for rel in [r for r, o in owners.items() if o == name]:
+        (app / rel).unlink(missing_ok=True); del owners[rel]
+        for parent in (app / rel).parents:  # prune emptied directories inside the app tree
+            if parent == app or any(parent.iterdir()): break
+            parent.rmdir()
+    owners_f.write_text(json.dumps(owners, indent=1, sort_keys=True) + "\n"); write_registry(app)
 
 def write_registry(app):
     reg = {"nav": [], "limits": {}, "health": [], "events": [], "operations": []}
@@ -414,7 +436,7 @@ def main():
     pk = sub.add_parser("pack").add_subparsers(dest="sub", required=True)
     a = pk.add_parser("add"); a.add_argument("pack"); a.add_argument("--dry-run", action="store_true"); a.add_argument("--app")
     v = pk.add_parser("validate"); v.add_argument("pack"); v.add_argument("--app"); v.add_argument("--dry-run", action="store_true", default=True)
-    rm = pk.add_parser("remove"); rm.add_argument("name")
+    rm = pk.add_parser("remove"); rm.add_argument("name"); rm.add_argument("--app")
     pk.add_parser("list")
     sub.add_parser("core")
     t = sub.add_parser("test"); t.add_argument("--pack")
