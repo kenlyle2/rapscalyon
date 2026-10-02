@@ -12,3 +12,4 @@ app/(app)/*/
 app/(app)/admin/*/
 !app/(app)/admin/billing-plans/
 lib/packs/owners.json
+.vercel
