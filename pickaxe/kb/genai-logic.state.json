@@ -1,0 +1,36 @@
+{
+  "built": "2026-10-02",
+  "versions": {
+    "logicbank": "1.34.3",
+    "ApiLogicServer": "17.4.10"
+  },
+  "pages": {
+    "API": "d9d338fd6275f69136bf083728dab1f27dac5f1ae3bcb08b6f1d2755a6f7dcca",
+    "API-Customize": "40742d69b67d164c648b78da62887d764972fd5caeef0cecb7c3ffbabd094ab5",
+    "Architecture-Declarative-Automation": "4c1bde6f804b689c9f587d75935277431918f9774c10fe24f6f58c5846db4774",
+    "Architecture-Security-Auth": "631f6957a269efad64058c4b208472c019edcb3f131411a8b48df8e592c54ec7",
+    "Architecture-What-Is": "ba12c4bfcaae0cda89ebd51b526d6761587b19807d94b3084fc1eeb29d5a2932",
+    "Architecture-What-Is-GenAI": "7685d9d405cdd1084aaf5043a12f7badabe4d78ddc6fc5e5355bb968d9b525ca",
+    "Behave": "c4d0b65e28377104c5eac279cb3480bd430fb3118ef711ef68a6d7e157b8d36a",
+    "Behave-Creation": "136083608d3120e843c5cc7133e5554c2c6041e023b49e910861cb4f400ca657",
+    "Behave-Logic-Report": "58934dc3825047a66ef9a8700dba301a9d9c5165ee4eace65308030988177722",
+    "Data-Model-Design": "79f610c018a199ef38e4e6380d18312ee6d8dadb1670c4e43de14cc8322d6bd3",
+    "Integration-EAI": "ee7778bd431a342c5985b38820a17d3f602d2c44df1760ba37ab93ac1e662ea5",
+    "Integration-MCP": "52cbbc82b2605f66f7e30adae55c4409a750d929c9778307a863a9948a017dd4",
+    "Logic": "9e9e9648112c66d5f08e0ca66a893d5ff51622d0b11cda592367b99ebcfdc0f8",
+    "Logic-Operation": "f152b0ee7e3141b5f4a607b630e2ce2dd0a1b0d61ebb3715fc249f5dc5ca3dab",
+    "Logic-Type-Constraint": "ebf48e0b7e62075531b0239bdefe9eec6a188186cb5d6299f9a9b81be0fd8cb3",
+    "Logic-Type-Copy": "a5fc36a39fa3aae755265792e96dac67bc82aacfacacfe95bd69e304785dddec",
+    "Logic-Type-Events": "64d0cdd14b048fd5d76b70ef8193f975092632a38285914bc1d03c6b2c330ba2",
+    "Logic-Type-Formula": "031dde4e1f77cecf3af5c11af4bb93fd348703970ebb6fd05349efdae54c7acb",
+    "Logic-Type-Sum": "d223839faa0163e8ada72ba79e492a6632ab86ef7b132df27eb16f7c1991fc65",
+    "Logic-Use": "3836bc295bf08f13ceaa2efb108ef9604b27afcb33de4ef462ec691c179a5884",
+    "Logic-Why": "c0f0a505352696d921c1e6a09a1a104b1f2f36eb120227dfeeae6006acc9f6c0",
+    "Logic-Why-Declarative-GenAI": "8ef587c5b35b196d320be37baac6df7ecb5ecf0e4beadda65afffefa0bca2352",
+    "Sample-Basic-Demo": "607d91137a6cd0b97435091294c31190cdb8628f1bae6ebc4bb5cee634d9edb8",
+    "Security-Authorization": "66fc68dbd139171444f3641afc85cf1724cea5b8eef08e6ad39602b26ebb2000",
+    "Security-Overview": "f788e1325e4e95ef196acbe7b4770e303529ba760dac07b33854ec545fb09d5c"
+  },
+  "merged_sha256": "be888f57b57395bef6f64b2facacad351553fb557d2ed11dc76be9f936de19af",
+  "chars": 243705
+}
