@@ -24,6 +24,8 @@ rapscalyon.py pack remove <name> [--app app]
 rapscalyon.py pack list | validate <dir> | core | catalog
 rapscalyon.py test [--pack name]                 # role-switched SQL suites (anon / owner / other user / service)
 ```
+Opinionated destination: [ClawMagic.ai](docs/CLAWMAGIC.md) runs the execution tickets that Pickaxe produces.
+
 Browser end-to-end test: `app/e2e/README.md`.
 
 ## Install validator
