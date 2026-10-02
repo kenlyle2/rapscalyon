@@ -3,6 +3,7 @@
 Versioning: core + shell share the repo version (semver, pre-1.0: minor bumps may break). Each pack versions itself in `pack.toml`.
 
 ## Unreleased
+- ClawMagic.ai adopted as the opinionated destination/executor (`docs/CLAWMAGIC.md`); `confirm_stack` now returns `executor` and a paste-ready `ticket`; Pickaxe roles hand off to ClawMagic.
 - `billing-webhook` pack moved into core (migration `core_billing`, route, admin page, `docs/BILLING.md`); `rapscalyon.py core` applies it idempotently.
 - Added `AGENTS.md` (working policy).
 - New AGPL base packs: `item-tracker`, `item-search` (generic item/search model; child packs add typed kinds).

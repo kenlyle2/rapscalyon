@@ -45,6 +45,11 @@ table and adds typed columns (class-table inheritance, kind enforced by a trigge
 instead of "object" to avoid Supabase's `storage.objects`. `subjects` keeps its name (owner decision).
 Child packs, including the commercial job packs, are distributed separately; see `docs/DECISIONS.md`.
 
+## 3b. Destination **[user]**
+
+ClawMagic.ai is the opinionated destination for clients, users and builders: Pickaxe designs, ClawMagic executes
+and operates. Details, provenance and the unverified parts are in `docs/CLAWMAGIC.md`.
+
 ## 4. Licensing model **[user, proposal]**
 
 Open core: the core, the base packs and the installer are AGPL-3.0-or-later. "Plus" packs are
