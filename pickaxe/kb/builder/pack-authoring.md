@@ -22,7 +22,7 @@ A pack is a directory: `pack.toml`, `migrations/NNN_*.sql`, `rollback/NNN_*.sql`
 ## Proven patterns
 - **Scoping:** every table carries `subject_id`. Make children consistent with parents using a composite key: parent `unique (id, subject_id)`, child `foreign key (parent_id, subject_id) references parent (id, subject_id)`. A child can then never point into another workspace.
 - **Policies:** select/insert/update by `has_subject_access`, delete by `is_subject_owner`. Wrap helper calls as `(select public.has_subject_access(subject_id))`.
-- **Column grants:** grant insert and update on named columns only. Anything the client must not set (derived totals, statuses set by the system, currency copied from a parent) is simply left out of the grant.
+- **Column grants (a security control, not a business rule; list it under Security in a design, never in the rules table):** grant insert and update on named columns only. Anything the client must not set (derived totals, statuses set by the system, currency copied from a parent) is simply left out of the grant.
 - **Derived values:** compute in triggers. A SECURITY DEFINER recompute function writes the derived columns; clients cannot. Prefer recompute-from-scratch for correctness; a `generated always as (...) stored` column is fine for same-row arithmetic.
 - **State machines:** a before-update trigger lists allowed transitions and raises on others. Check `auth.uid() is not null` before role checks, because service-role code has no user.
 - **Owner-only decisions:** inside the trigger, `if (select auth.uid()) is not null and not public.is_subject_owner(subject_id) then raise ...`.
