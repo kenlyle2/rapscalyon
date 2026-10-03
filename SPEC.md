@@ -37,7 +37,7 @@ Worked example of a child pack from a brief, with prompts: `car-deal-finder-buil
 
 ## 0c. Related documents
 
-In this repo: `README.md`, `AGENTS.md` (working policy), `CONTRIBUTING.md`, `CHANGELOG.md`, `docs/DECISIONS.md` (dated decisions and lessons, including the Sanity choice, the claim path, the trial downgrade, hosting options and multi-tenancy), `docs/CLIENT-SITES.md` (recipe, pricing, Sanity announcements and how they fit, verified and unverified points), `docs/BILLING.md`, `docs/PICKAXE.md`, `docs/CLAWMAGIC.md`, `docs/CATALOG.md`, `docs/VAL-CALL.md`, `docs/BACK-OFFICE.md` (plan for running the company's own back office on RapScalYon).
+In this repo: `README.md`, `AGENTS.md` (working policy), `CONTRIBUTING.md`, `CHANGELOG.md`, `docs/DECISIONS.md` (dated decisions and lessons, including the Sanity choice, the claim path, the trial downgrade, hosting options and multi-tenancy), `docs/CLIENT-SITES.md` (recipe, pricing, Sanity announcements and how they fit, verified and unverified points), `docs/BILLING.md`, `docs/PICKAXE.md`, `docs/CLAWMAGIC.md`, `docs/CATALOG.md`, `docs/VAL-CALL.md`, `docs/BACK-OFFICE.md` (what runs the company back office, and why it is not an app).
 
 Outside this repo, in the owner's working folder `~/projects/infra-eval/` (not under version control; named here so they can be found): `rapscalyon-packs-architecture.md` (how the packs were derived from PostGlider, TatPlat and JobsGlider), `rapscalyon-manifest.toml` (which objects are core or pack), the three `*-schema-extract.md` and policy files, and `car-deal-finder-build-plan.md`. They contain schema detail of private products, so they stay private; move only what is genericized.
 
