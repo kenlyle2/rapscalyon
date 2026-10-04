@@ -90,6 +90,14 @@ def run_shop(shop, state, env, llm, make_source, poster, downloader, dry=False):
     return lines, needs
 
 
+def make_llm(env):
+    """RSY_LLM=deepseek uses DeepSeek (DEEPSEEK_MODEL, DEEPSEEK_VISION_MODEL optional); anything else uses Anthropic."""
+    if env.get("RSY_LLM") == "deepseek":
+        kw = {k: env[v] for k, v in (("model", "DEEPSEEK_MODEL"), ("vision_model", "DEEPSEEK_VISION_MODEL")) if env.get(v)}
+        return extractor.deepseek_llm(env["DEEPSEEK_API_KEY"], **kw)
+    return extractor.anthropic_llm(env["ANTHROPIC_API_KEY"])
+
+
 def make_source(shop, env):
     if shop["source"] == "graph":
         return sources.GraphApiSource(shop["page_id"], env[env_name(shop, "FB_TOKEN")])
@@ -128,14 +136,15 @@ def main(argv=None, env=None):
                 print(f"{shop['name']}: missing secret {e}")
                 bad = True
         return 1 if bad else 0
-    if not env.get("ANTHROPIC_API_KEY"):
-        print("missing ANTHROPIC_API_KEY", file=sys.stderr)
+    need = "DEEPSEEK_API_KEY" if env.get("RSY_LLM") == "deepseek" else "ANTHROPIC_API_KEY"
+    if not env.get(need):
+        print(f"missing {need}", file=sys.stderr)
         return 2
     try:
         state = json.load(open(a.state))
     except (OSError, ValueError):
         state = {}
-    llm = extractor.anthropic_llm(env["ANTHROPIC_API_KEY"])
+    llm = make_llm(env)
     bad = False
     for shop in shops:
         lines, needs = run_shop(shop, state, env, llm, make_source, post_offer, sources.download_image, a.dry_run)

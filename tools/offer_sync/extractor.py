@@ -132,3 +132,34 @@ def anthropic_llm(api_key, model="claude-haiku-4-5-20251001", fetch=None):
             raise RuntimeError(f"model call failed: {type(e).__name__}")
         return "".join(b.get("text", "") for b in data.get("content", []) if b.get("type") == "text")
     return call
+
+
+def deepseek_llm(api_key, model="deepseek-flash", vision_model="deepseek-flash", post=None):
+    """DeepSeek chat completions (OpenAI-style, no tools). Images go in the user message as a data URL. Verified 2026-10-04 with a real
+    call: deepseek-flash accepts images and is the only listed model that answered one correctly. Model names are
+    settings (DEEPSEEK_MODEL, DEEPSEEK_VISION_MODEL) because DeepSeek renames them."""
+    def default_post(url, headers, body):
+        req = urllib.request.Request(url, body, headers)
+        try:
+            with urllib.request.urlopen(req, timeout=60) as r:
+                return json.loads(r.read())
+        except (urllib.error.URLError, TimeoutError, ValueError) as e:
+            raise RuntimeError(f"model call failed: {type(e).__name__}")
+
+    def call(system, user, image=None):
+        content = user
+        if image:
+            mt = {"jpg": "image/jpeg", "png": "image/png", "webp": "image/webp"}[image[1]]
+            content = [{"type": "image_url", "image_url": {"url": f"data:{mt};base64,{base64.b64encode(image[0]).decode()}"}},
+                       {"type": "text", "text": user}]
+        body = json.dumps({"model": vision_model if image else model, "max_tokens": 700, "temperature": 0,
+                           "response_format": {"type": "json_object"},
+                           "messages": [{"role": "system", "content": system}, {"role": "user", "content": content}]}).encode()
+        for _ in range(2):  # json_object mode sometimes returns an empty reply: ask once more
+            data = (post or default_post)("https://api.deepseek.com/chat/completions",
+                                          {"authorization": "Bearer " + api_key, "content-type": "application/json"}, body)
+            text = ((data.get("choices") or [{}])[0].get("message") or {}).get("content") or ""
+            if text.strip():
+                break
+        return text
+    return call

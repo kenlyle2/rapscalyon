@@ -92,6 +92,15 @@ class Runner(unittest.TestCase):
             os.remove(p)
             os.remove(sp)
 
+    def test_provider_switch_and_missing_key(self):
+        sp = os.path.join(HERE, "t_shops2.json")
+        json.dump([], open(sp, "w"))
+        try:
+            self.assertEqual(sync.main([sp, "--dry-run"], env={"RSY_LLM": "deepseek", "ANTHROPIC_API_KEY": "x"}), 2)
+            self.assertEqual(sync.main([sp, "--dry-run"], env={"RSY_LLM": "deepseek", "DEEPSEEK_API_KEY": "x"}), 0)
+        finally:
+            os.remove(sp)
+
     def test_env_name(self):
         self.assertEqual(sync.env_name({"name": "Way Forward"}, "FB_TOKEN"), "RSY_WAY_FORWARD_FB_TOKEN")
 

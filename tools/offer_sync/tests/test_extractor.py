@@ -69,6 +69,26 @@ class Extract(unittest.TestCase):
         self.assertIsNone(offer)
         self.assertEqual(calls, [])
 
+    def test_deepseek_text_and_image_requests(self):
+        sent = []
+
+        def post(url, headers, body):
+            sent.append((url, headers, json.loads(body)))
+            return {"choices": [{"message": {"content": model(variants=V(("", 12000)), weekdays=[0])}}]}
+        llm = extractor.deepseek_llm("KEY", post=post)
+        offer, why = extractor.extract({"post_id": "1", "text": "Lunes de promo: 2 pizzas por ₡12.000", "url": PAGE + "/posts/1"}, PAGE, "CRC", llm)
+        self.assertIsNotNone(offer, why)
+        offer, why = extractor.extract({"post_id": "2", "text": "", "url": PAGE + "/posts/2"}, PAGE, "CRC", llm, (b"\xff\xd8\xff\xe0x", "jpg"))
+        self.assertIsNotNone(offer, why)
+        self.assertEqual(sent[0][0], "https://api.deepseek.com/chat/completions")
+        self.assertEqual(sent[0][1]["authorization"], "Bearer KEY")
+        self.assertEqual(sent[0][2]["model"], "deepseek-flash")
+        self.assertEqual(sent[1][2]["model"], "deepseek-flash")
+        img = sent[1][2]["messages"][1]["content"][0]["image_url"]["url"]
+        self.assertTrue(img.startswith("data:image/jpeg;base64,"))
+        self.assertEqual(sent[1][2]["messages"][0]["role"], "system")
+        self.assertNotIn("KEY", json.dumps(sent[1][2]))
+
     def test_numbers(self):
         n = extractor.numbers_in("₡12.000, 12,000, 12 mil, 7500 y 20%")
         self.assertTrue({12000.0, 7500.0, 20.0} <= n)
