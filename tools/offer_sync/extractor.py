@@ -152,10 +152,10 @@ def deepseek_llm(api_key, model="deepseek-flash", vision_model="deepseek-flash",
             mt = {"jpg": "image/jpeg", "png": "image/png", "webp": "image/webp"}[image[1]]
             content = [{"type": "image_url", "image_url": {"url": f"data:{mt};base64,{base64.b64encode(image[0]).decode()}"}},
                        {"type": "text", "text": user}]
-        body = json.dumps({"model": vision_model if image else model, "max_tokens": 700, "temperature": 0,
+        body = json.dumps({"model": vision_model if image else model, "max_tokens": 4000, "temperature": 0,
                            "response_format": {"type": "json_object"},
                            "messages": [{"role": "system", "content": system}, {"role": "user", "content": content}]}).encode()
-        for _ in range(2):  # json_object mode sometimes returns an empty reply: ask once more
+        for _ in range(2):  # an empty reply (hidden reasoning can eat the token budget) gets one more try
             data = (post or default_post)("https://api.deepseek.com/chat/completions",
                                           {"authorization": "Bearer " + api_key, "content-type": "application/json"}, body)
             text = ((data.get("choices") or [{}])[0].get("message") or {}).get("content") or ""
