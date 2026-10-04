@@ -1,0 +1,16 @@
+const assert = require('assert');
+const w = require('./rsy-offers.js');
+const crc = (n) => w.money(n, 'CRC', false).replace(/\s/g, '');
+assert.ok(/12[ ., ]?000/.test(w.money(1200000, 'CRC', false)), w.money(1200000, 'CRC', false));
+assert.ok(/12[ ., ]?000/.test(w.money(12000, 'CRC', true)));
+assert.strictEqual(w.money(null, 'CRC', false), '');
+assert.strictEqual(w.priceText({ price_min: 500000, price_max: 900000 }, { currency: 'CRC', zero_decimal: false }).includes('–'), true);
+assert.strictEqual(w.priceText({ price_min: null }, { currency: 'CRC' }), '');
+assert.strictEqual(w.discountText({ discount: { type: 'percent', amount: 20 } }), '20% de descuento');
+const src = 'https://billing.example.com';
+assert.strictEqual(w.safeLink('https://billing.example.com/p/1', src), 'https://billing.example.com/p/1');
+assert.strictEqual(w.safeLink('/p/1', src), 'https://billing.example.com/p/1');
+for (const bad of ['javascript:alert(1)', 'http://billing.example.com/p', 'https://evil.example/p', 'data:text/html,x']) assert.strictEqual(w.safeLink(bad, src), null, bad);
+assert.strictEqual(w.safeImage('javascript:x'), null);
+assert.strictEqual(w.safeImage('https://cdn.example/a.jpg'), 'https://cdn.example/a.jpg');
+console.log('widget tests pass');
