@@ -103,6 +103,7 @@ def main(argv=None, env=None):
     ap.add_argument("--state", default="offer-sync-state.json")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--shop")
+    ap.add_argument("--posts-only", action="store_true", help="only list the posts the source returns (no model call, nothing sent, no state)")
     ap.add_argument("--env-file", help="KEY=VALUE lines to add to the environment (secrets file, never committed)")
     a = ap.parse_args(argv)
     if a.env_file:
@@ -114,6 +115,19 @@ def main(argv=None, env=None):
                 if v.strip():
                     env[k.strip()] = v.strip().strip("'\"")
     shops = [s for s in load_shops(a.shops) if not a.shop or s["name"] == a.shop]
+    if a.posts_only:
+        bad = False
+        for shop in shops:
+            try:
+                for p in make_source(shop, env).recent():
+                    print(f"{shop['name']} {p['post_id']} {p['posted_at'][:10]} images={len(p['image_urls'])} {p['text'][:80]!r}")
+            except sources.SourceError as e:
+                print(f"{shop['name']}: {e.kind}: {e}")
+                bad |= e.kind == "reconnect"
+            except KeyError as e:
+                print(f"{shop['name']}: missing secret {e}")
+                bad = True
+        return 1 if bad else 0
     if not env.get("ANTHROPIC_API_KEY"):
         print("missing ANTHROPIC_API_KEY", file=sys.stderr)
         return 2
