@@ -15,6 +15,7 @@ Principles:
 4. **No bullshit.** No plugin stores, no server toolchains the site does not need, no scanner noise; delete redundancies, no technical debt.
 5. **Client owns their data.** Each client owns their Sanity account and their Supabase project; our hosting is a convenience they can leave, and leaving is a sold upgrade.
 6. **Agents move work, humans approve.** Interview answers become drafts, never published text; credentials never go into an agent prompt.
+7. **Independence and capability.** No single platform may trap a client or us. Every dependency (Supabase, Pickaxe, ClawMagic, FluentCart, Sanity) has its coupling point named and a way out; we keep the capability to run the same work elsewhere, and we say so in the docs.
 
 ## 0b. The stack at a glance **[repo and docs named in each row]**
 
@@ -95,6 +96,12 @@ Child packs, including the commercial job packs, are distributed separately; see
 
 ClawMagic.ai is the opinionated destination for clients, users and builders: Pickaxe designs, ClawMagic executes
 and operates. Details, provenance and the unverified parts are in `docs/CLAWMAGIC.md`.
+
+## 3c. Features (possibility) **[user, proposal]**
+
+Packs are database and app building blocks. Clients should see something simpler: **features** they switch on, such as email, billing, or offer sync. A feature may bundle a pack (database), an executor job in ClawMagic or OpenClaw (a watcher or publisher), and a connector to a commodity tool such as FluentCart. "Pack" stays the technical term for the installable database unit; "feature" is the word for clients and the interviewer. Nothing is renamed in the installer, the registry or the live Pickaxe agents yet. First candidate: `offer-sync` (`docs/briefs/offer-sync.md`).
+
+ClawMagic as the day-to-day business-management interface for clients is a possibility the owner believes in; it rests on the unverified claims in `docs/CLAWMAGIC.md` and on one real run. ClawMagic is described by the owner as a superset of OpenClaw (not verified by us), and each client may run an OpenClaw instance; that is why principle 7 matters.
 
 ## 4. Licensing model **[user, proposal]**
 
