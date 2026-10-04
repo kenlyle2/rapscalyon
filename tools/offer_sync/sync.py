@@ -66,15 +66,14 @@ def run_shop(shop, state, env, llm, make_source, poster, downloader, dry=False):
         return [f"{name}: missing secret {e}"], True
     password = env.get(env_name(shop, "WP_PASSWORD"), "")
     for p in reversed(posts):  # oldest first
-        offer, why = extractor.extract(p, shop["page_url"], shop["currency"], llm)
+        img = downloader(p["image_urls"][0]) if p["image_urls"] else None
+        offer, why = extractor.extract(p, shop["page_url"], shop["currency"], llm, img)
         if offer is None:
             lines.append(f"{name} {p['post_id']}: skipped ({why})")
             state.setdefault(name, []).append(p["post_id"])
             continue
-        for url in p["image_urls"][:1]:
-            img = downloader(url)
-            if img:
-                offer["image"] = {"b64": base64.b64encode(img[0]).decode(), "mime": {"jpg": "image/jpeg", "png": "image/png", "webp": "image/webp"}[img[1]]}
+        if img:
+            offer["image"] = {"b64": base64.b64encode(img[0]).decode(), "mime": {"jpg": "image/jpeg", "png": "image/png", "webp": "image/webp"}[img[1]]}
         if dry:
             lines.append(f"{name} {p['post_id']}: WOULD SEND {offer['title']!r} flags={offer['flags']}")
             continue

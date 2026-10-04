@@ -28,7 +28,7 @@ def run(posts=POSTS, poster=None, state=None, dry=False, src_error=None):
         sent.append((site, user, pw, offer))
         return 201, {"status": "created_draft"}
     state = {} if state is None else state
-    lines, needs = sync.run_shop(SHOP, state, {"RSY_EXAMPLE_WP_PASSWORD": "pw"}, lambda s, u: REPLY,
+    lines, needs = sync.run_shop(SHOP, state, {"RSY_EXAMPLE_WP_PASSWORD": "pw"}, lambda s, u, image=None: REPLY,
                                  lambda shop, env: Src(posts), poster or default_poster,
                                  lambda url: (b"\xff\xd8\xff\xe0data", "jpg"), dry)
     return lines, needs, state, sent
