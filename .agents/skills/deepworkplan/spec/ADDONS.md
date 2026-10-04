@@ -1,0 +1,337 @@
+# ADDONS.md — Opt-In Addon Mechanism
+
+## Abstract
+
+This document defines the **opt-in addon mechanism** for the DeepWorkPlan
+methodology: a way to layer optional, self-contained capabilities onto a repository
+during onboarding **without** making them part of the AI-first baseline. An addon is
+**never required** for conformance; it is offered, accepted or declined, and — when
+accepted — **reconciles** with the repo's existing setup rather than clobbering it.
+One component is the declared exception: the **AI Diff Reviewer local review**
+(§6.5) is part of the **required baseline** since standard 2.3.0 — the `onboard`
+flow installs it by default and the Final Review's security pass runs it. Only
+its CI surface (Flow B) remains optional.
+
+This is a **concept + pointer** document. It defines the addon contract, discovery,
+and the reconcile-don't-clobber rule, and names the **shipping addons**
+(devcontainer support, Dailybot integration, dependency upgrade, design system
+and the AI Diff Reviewer), pointing to their full
+implementations. It does **not** contain any addon's implementation.
+
+---
+
+## Status of This Document
+
+| Field | Value |
+|-------|-------|
+| **Version** | 2.1.0 |
+| **Status** | Stable |
+| **Supersedes** | (net-new in v2; no v1 equivalent) |
+| **Companions** | `DOCUMENTATION_STANDARD.md`, `DWP_SPECIFICATION.md`, `AGENT_PROTOCOL.md`, `ARCHETYPES.md` |
+| **License** | MIT |
+
+> **Divergence from v1.** v1 had **no addon concept** anywhere in the framework.
+> The addon mechanism is **net-new in v2** (`RECONCILIATION.md` divergence #7,
+> idea #7), introduced to keep the core baseline lean while allowing optional
+> capabilities (devcontainer support, then Dailybot integration) to be layered in.
+
+---
+
+## 1. Conventions
+
+The RFC 2119 keywords (**MUST**, **MUST NOT**, **SHOULD**, **MAY**, **OPTIONAL**,
+etc.) are interpreted as in [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119).
+
+---
+
+## 2. What an Addon Is
+
+- An **addon** is a self-contained capability that the onboarding flow
+  **MAY** layer onto a repository. Most addons are **optional**; the declared
+  exception is the **AI Diff Reviewer local review** (§6.5), which is part of
+  the required baseline since standard 2.3.0.
+- An **optional** addon **MUST NOT** be required by the AI-first baseline
+  (`DOCUMENTATION_STANDARD.md` §§2–7). A repository **MUST** be fully conformant
+  with **zero optional addons** installed (the local-review baseline component
+  is not an optional addon).
+- Addons are **archetype-agnostic** (`ARCHETYPES.md`): one **MAY** be layered onto
+  either an individual repo or an orchestrator hub.
+- Addons live under the DWP skill at `skills/deepworkplan/addons/{addon-name}/`.
+
+---
+
+## 3. The Addon Contract
+
+Each addon **MUST** ship all four of the following components:
+
+| Component | Requirement | Purpose |
+|-----------|-------------|---------|
+| **Spec** | **MUST** | A normative description (RFC-2119) of what the addon provides and what "conformant to this addon" means. |
+| **Reasoning templates** | **MUST** | Templates the agent fills by **reasoning** about the target repo's stack (not copy-paste), consistent with the reason-per-repo rule (`DOCUMENTATION_STANDARD.md` §7). |
+| **Onboarding hook** | **MUST** | The integration point that lets the `onboard` flow offer the addon as an **optional** step. |
+| **Validation step** | **MUST** | A check that confirms the addon was applied correctly (files exist, settings present, smoke check passes). |
+
+An addon **MAY** additionally ship examples, per-stack presets, or migration notes.
+
+---
+
+## 4. Discovery by the `onboard` Flow
+
+- The onboarding flow **MUST** discover available addons by enumerating
+  `skills/deepworkplan/addons/`.
+- For each discovered addon, the flow **MUST** present it to the user as an
+  **opt-in** step and **MUST NOT** apply it without explicit acceptance — with
+  two declared exceptions: the **AI Diff Reviewer local review** (§6.5, a
+  required baseline component installed under the Phase 0 onboarding consent)
+  and the **dependency-upgrade addon's near-default tier** (§6.3), whose
+  **inert** `/lib-upgrade` delegator installs under that same onboarding
+  consent **unless explicitly declined** while every upgrade stays explicit,
+  gated work.
+- If the user declines an addon, the flow **MUST** skip it and **MUST** still
+  produce a baseline-conformant repository.
+- When an addon is accepted, the flow **MUST** run the addon's onboarding hook and,
+  on completion, the addon's validation step.
+
+---
+
+## 5. Reconcile, Don't Clobber
+
+- When an accepted addon detects an **existing** setup it would touch (e.g. an
+  existing `.devcontainer/` or `docker/`), it **MUST reconcile** with that setup —
+  preserving working configuration and additively bringing it toward the addon
+  standard.
+- An addon **MUST NOT** blindly overwrite or delete existing files. Per
+  `AGENT_PROTOCOL.md`, any destructive change to an existing file **MUST** be
+  approved by the user first.
+- The reconcile result **SHOULD** preserve repo-specific values that already work
+  (ports, network names, environment flags, project identity) and **MUST** record
+  what it changed.
+
+---
+
+## 6. Shipping Addons
+
+Five addons ship today. Four are **optional** and **never required** — a repository
+is fully conformant with **zero optional addons** installed. Of those four, the
+**dependency-upgrade** addon (§6.3) is **near-default**: offered for every repo
+with declared dependencies, with its **inert** `/lib-upgrade` delegator
+installed under the onboarding consent **unless explicitly declined** (an
+install runs no upgrade). The fifth, the
+**AI Diff Reviewer** (§6.5), is a **required baseline component in its local
+form**; only its CI surface is optional.
+
+### 6.1 Devcontainer Support (first addon)
+
+- **Devcontainer support** is the **first** addon. Its full normative content
+  (spec, reasoning templates, onboarding hook, validation step, per-stack presets,
+  and the public-OSS variant) **MUST** live at:
+
+  ```
+  skills/deepworkplan/addons/devcontainer/
+  ```
+
+- Scope (per `ORCHESTRATOR_MANIFEST.md`): a compose-based `.devcontainer/` + `docker/`
+  setup that preserves **AI-CLI persistence**, the **`dailybot-project-network`**,
+  the **`DOCKER_DEV_ENV=vscode`** flag, and **project-identity precedence** —
+  reconciled, not clobbered, against any existing devcontainer setup.
+- The full implementation lives at
+  `skills/deepworkplan/addons/devcontainer/` — see its
+  [`SKILL.md`](../addons/devcontainer/SKILL.md)
+  (onboarding hook), [`SPEC.md`](../addons/devcontainer/SPEC.md)
+  (RFC-2119 common skeleton, reasoning checklist, project-identity precedence,
+  public-OSS variant, validation), and `templates/` (reasoning templates + the 7
+  presets).
+- Each child-DWP **MAY** include one optional task to reconcile its repo's
+  devcontainer to this addon, and **MUST** skip it if declined
+  (`ORCHESTRATOR_MANIFEST.md` key decision).
+
+### 6.2 Dailybot Integration (second addon)
+
+- **Dailybot integration** is the **second** addon. Its full normative content
+  (spec, reasoning template, onboarding hook, validation step) **MUST** live at:
+
+  ```
+  skills/deepworkplan/addons/dailybot/
+  ```
+
+- Scope: an **opt-in** connection to the developer's **Dailybot team**. When
+  accepted, it offers (never forces) install of the **Dailybot agent skill**
+  (`npx --yes skills add DailybotHQ/agent-skill@v3.10.3 --skill dailybot -y`,
+  currently **3.10.3**; or OpenClaw `openclaw skills install dailybot`) and/or
+  the **Dailybot CLI** (`dailybot-cli >= 3.7.0`,
+  via pip, Homebrew, or the Dailybot skill's SHA-256-verified installer flow —
+  never a one-line remote-installer pipe); **defers all authentication** to the
+  Dailybot skill's own
+  consent flow (`shared/auth.md` — `dailybot login` or `DAILYBOT_API_KEY`); wires
+  **four lifecycle events** (kickoff, significant task, blocked, completion) as
+  **optional, best-effort, never-blocking** progress reports via the dailybot
+  `report` sub-skill; and **MAY** commit deterministic hook enforcement
+  (`dailybot hook` lifecycle hooks, CLI >= 3.7.0). The paired Dailybot skill
+  exposes 14 capabilities (chat, check-ins, forms authoring, ask AI, per-repo API keys, and more);
+  this addon wires only **report** into DWP execution.
+- **Vendor-neutral guardrail:** the core DeepWorkPlan methodology has **zero**
+  Dailybot dependency. This addon **MUST NOT** be auto-installed for everyone —
+  the `onboard` flow recommends it only when the developer/team already uses
+  Dailybot, and a repo with zero optional addons is fully conformant.
+- The full implementation lives at
+  `skills/deepworkplan/addons/dailybot/` — see its
+  [`SKILL.md`](../addons/dailybot/SKILL.md)
+  (onboarding hook), [`SPEC.md`](../addons/dailybot/SPEC.md)
+  (RFC-2119 contract: opt-in install, deferred auth, optional reporting,
+  never-block rule, vendor-neutral guardrail, validation), and
+  `templates/INTEGRATION.md` (reasoning aid).
+
+### 6.3 Dependency Upgrade (third addon)
+
+- **Dependency upgrade** is the **third** addon. Its full normative content (spec,
+  reasoning templates, onboarding hook, validation step, the `/lib-upgrade`
+  delegator template) **MUST** live at:
+
+  ```
+  skills/deepworkplan/addons/dependency-upgrade/
+  ```
+
+- Scope: **package-manager agnostic**, **near-default** dependency upgrades.
+  `onboard` **MUST** offer the addon for every repo with **declared
+  dependencies** (any manifest or lockfile), and the `/lib-upgrade` delegator
+  installs into the repo's `.agents/commands/` under the onboarding consent
+  **unless explicitly declined** — the delegator is **inert**: installing it
+  runs no upgrade, and an upgrade always runs as explicit, gated work. When
+  invoked, the addon detects the repo's **real** package manager (npm/pnpm/yarn
+  + ncu, pip/poetry/uv, cargo, go mod, bundler, composer, …), classifies
+  upgrades by semver, upgrades in **safe batches**, runs the repo's **real**
+  validation gate after each batch, **reverts** a failing batch, and
+  summarizes. A declined offer installs **no** command and leaves a
+  baseline-conformant repo.
+- The full implementation lives at
+  `skills/deepworkplan/addons/dependency-upgrade/` — see its
+  [`SKILL.md`](../addons/dependency-upgrade/SKILL.md) (onboarding hook),
+  [`SPEC.md`](../addons/dependency-upgrade/SPEC.md) (RFC-2119 contract: detection,
+  semver classification, batched upgrade, validate-after-each-batch gate,
+  revert-on-failure, reconcile-don't-clobber, validation), and `templates/`.
+
+### 6.4 Design System (fourth addon)
+
+- **Design system** is the **fourth** addon. Its full normative content (spec,
+  reasoning templates, onboarding hook, validation step) **MUST** live at:
+
+  ```
+  skills/deepworkplan/addons/design-system/
+  ```
+
+- Scope: an **interface-surface-scoped**, **opt-in** capability that gives a repo a
+  **`DESIGN.md`** — placed at **`docs/DESIGN.md`** alongside the repo's other specs
+  (root only if the repo has no `docs/` tree) and **indexed from `AGENTS.md`** — a
+  Markdown design-system file any coding agent reads to generate interface output
+  consistent with the repo's **own** conventions. It covers three **profiles**,
+  detected independently from real files and stacked into the same single file:
+  **visual-ui** (rendered web/mobile/desktop UI), **cli-output** (styled terminal
+  output: semantic colors, panels, spinners, prompts, TTY/`NO_COLOR` degradation),
+  and **conversational** (chat/email messaging: voice & register, message anatomy,
+  per-platform rendering). When accepted, it **reasons about the repo's actual
+  design source** (CSS custom properties, a Tailwind config, token files, component
+  styles — or a CLI display/theme module, or message-composition helpers) — **never**
+  copying a brand file — documents each accepted profile's canonical sections,
+  checks per-profile integrity (**WCAG AA** contrast; color never the sole carrier
+  of meaning; plain-text fallbacks; token references resolve), and reconciles an
+  existing `DESIGN.md` instead of clobbering it. A detected interface surface
+  makes the evaluation and offer **mandatory** — never skipped, with a clear
+  recommendation and the recorded detection rationale (even for an ambiguous
+  signal) — while every detected profile still requires **explicit acceptance
+  in both guided and trust modes** (addon SPEC §3.5). Visual UI is strongly
+  recommended; CLI and conversational profiles are recommended. No
+  design-system profile is auto-applied. When no interface surface of any kind
+  is present (pure library, headless service, infra-only) the addon is **not**
+  offered. It remains **never required** — a repo with zero optional addons is fully conformant.
+- **Distinct from per-feature design docs:** this addon provides a **repo-level,
+  persistent** design-system file; it is **not** a per-feature technical design
+  document (the "requirements → design → tasks" `design.md` of tool-bound
+  spec-driven workflows). DeepWorkPlan deliberately ships **no** separate
+  per-feature design-doc archetype — a plan's README (Goal + Context), each task's
+  Context and **Acceptance Criteria**, and the **validation gates** already fulfill
+  that role; this addon fills the one gap that role does not cover: durable,
+  repo-native **UI** design context.
+- The full implementation lives at
+  `skills/deepworkplan/addons/design-system/` — see its
+  [`SKILL.md`](../addons/design-system/SKILL.md) (onboarding hook),
+  [`SPEC.md`](../addons/design-system/SPEC.md) (RFC-2119 contract: frontend-scope
+  gate, canonical sections, reason-don't-copy, reconcile-don't-clobber,
+  accessibility & token integrity, pragmatic-reference posture, validation), and
+  `templates/` (the `DESIGN.md` skeleton, per-stack presets, agent prompt guide).
+
+### 6.5 AI Diff Reviewer (fifth addon — required local review, optional CI surface)
+
+- **AI Diff Reviewer** is the **fifth** addon and the one declared exception to
+  the opt-in rule. Its full normative content (spec, reasoning template,
+  onboarding hook, validation step) **MUST** live at:
+
+  ```
+  skills/deepworkplan/addons/ai-diff-reviewer/
+  ```
+
+- **Required local review (baseline since standard 2.3.0).** The `onboard` flow
+  **MUST** install the vendored coding-agent skill
+  (`npx --yes skills add DailybotHQ/ai-diff-reviewer@v2.0.1 --skill ai-diff-reviewer -y`
+  — **tag-pinned**, both `--yes` and `-y` required) and bootstrap a
+  repo-tailored extension file (`.review/extension.md`, via the upstream
+  `generate-extension` sub-skill) as part of the baseline scaffolding
+  (Phase 7a), under the same consent that covers the rest of the onboarding.
+  A targeted harness upgrade reconciles the same two pieces when they are
+  missing. The security pass of the mandatory DWP **Final Review** **MUST** run
+  the upstream parent default flow ("Review my current branch") as a
+  local-review pass and append its output to
+  `analysis_results/SECURITY_REVIEW.md`; `critical` findings from a completed
+  pass block completion until fixed or explicitly accepted. The local review
+  runs through the developer's own coding agent — no CI provider, no secret,
+  no external service.
+- **Optional CI surface (Flow B).** Installing the CI Action
+  (`.github/workflows/pr-review.yml`) stays an **explicit opt-in**: the addon
+  offers it, never installs it unrequested, never defaults to it, and defers
+  the workflow authoring to the upstream `setup` sub-skill (never inventing
+  provider secrets). In Flow B it also surfaces `apply-review` as an optional
+  developer-invoked companion during `execute`.
+- **Honest degradation, never a silent skip.** When the vendored skill or the
+  extension file is missing at execution time, the security pass records a
+  `local reviewer not installed` finding and names it in the completion report.
+  Installation belongs to onboarding or an explicit addon invocation; Final
+  Review never surprise-bootstraps it. An
+  invocation error of a review that could start follows the never-block rule
+  (warn once, record, continue). The conformance checker reports a missing
+  local reviewer as a **failure** for a repository declaring standard 2.3.0 or
+  newer and as a harness-version **finding** for a legacy repository. A
+  developer **MAY** decline the reviewer; the decline is recorded as a declared
+  exception in `AGENTS.md` and the repository is reported as non-conformant on
+  that point until the reviewer is installed.
+- **Vendor-neutral guardrail (narrowed, still binding).** No DWP flow — create,
+  execute, refine, resume, status, verify or onboard — **MAY** require a
+  commercial service, a CI provider or a provider secret. The required
+  component is an MIT-licensed, tag-pinned skill installed through the
+  checksummed `skills` CLI and executed by the agent itself.
+- The full implementation lives at
+  `skills/deepworkplan/addons/ai-diff-reviewer/` — see its
+  [`SKILL.md`](../addons/ai-diff-reviewer/SKILL.md)
+  (onboarding hook), [`SPEC.md`](../addons/ai-diff-reviewer/SPEC.md)
+  (RFC-2119 contract: required local review, optional CI surface, deferred
+  install/auth/wizard, security-pass wiring, optional `apply-review`
+  companion, never-block rule for invocation, validation), and
+  `templates/INTEGRATION.md` (reasoning aid).
+
+> This `ADDONS.md` is the concept + pointer; it **MUST NOT** be treated as any
+> addon's implementation.
+
+---
+
+## 7. References
+
+- [RFC 2119](https://www.rfc-editor.org/rfc/rfc2119)
+- `DOCUMENTATION_STANDARD.md` (§7 reason-per-repo), `AGENT_PROTOCOL.md` (approval gates), `ARCHETYPES.md`, `DWP_SPECIFICATION.md`
+- `../RECONCILIATION.md` (divergence #7), `../../ORCHESTRATOR_MANIFEST.md` (devcontainer-addon decision)
+- Devcontainer addon implementation (`skills/deepworkplan/addons/devcontainer/`)
+- Dailybot addon implementation (`skills/deepworkplan/addons/dailybot/`)
+- Dependency-upgrade addon implementation (`skills/deepworkplan/addons/dependency-upgrade/`)
+- Design-system addon implementation (`skills/deepworkplan/addons/design-system/`)
+- AI Diff Reviewer addon implementation (`skills/deepworkplan/addons/ai-diff-reviewer/`)
+
+---
+
+*Part of the DeepWorkPlan methodology v2.1.0, MIT License, by [Dailybot](https://dailybot.com) / dailybotops.*

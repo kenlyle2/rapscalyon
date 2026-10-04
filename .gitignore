@@ -8,3 +8,6 @@ tools/protected-refs.txt
 tools/demo-instances.json
 tools/demo-matrix.log
 app/tsconfig.tsbuildinfo
+
+# Deep Work Plans (local planning state)
+.dwp/
