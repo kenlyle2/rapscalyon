@@ -27,6 +27,7 @@ Principles:
 | Executor | ClawMagic.ai runs the execution ticket | decided; unverified end to end | `docs/CLAWMAGIC.md` |
 | Business rules | GenAI-Logic declarative rules | proven on SQLite only | `docs/VAL-CALL.md`, `packs/invoice-refunds` |
 | Billing | FluentCart on WordPress; webhook in core | built; real webhook sample unverified | `docs/BILLING.md` |
+| Affiliates | AffiliateWP (owner decision 2026-10-04) with a FluentCart adapter plugin | not built | `docs/DECISIONS.md`, `docs/CLIENT-PLAYBOOK.md` |
 | Email, bot protection, analytics | Loops, Turnstile, PostHog packs | built | `docs/CATALOG.md` |
 | Client websites | Sanity content, one multi-tenant React Router site, hosted Studio per client | built 2026-10-03; Studio hand-off to a client is a human step | `docs/CLIENT-SITES.md`, `docs/DECISIONS.md` (2026-10-03 entries) |
 | Provisioning | `tools/client_site.py`: unclaimed Sanity project, claim link, draft seeding | built, tested on a real claim | `docs/CLIENT-SITES.md` |
