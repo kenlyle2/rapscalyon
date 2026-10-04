@@ -11,12 +11,20 @@ add_action('rest_api_init', function () {
 function rsy_offers_feed(WP_REST_Request $req)
 {
     $limit = max(1, min(20, (int) $req->get_param('limit') ?: 6));
-    $ids = get_posts(['post_type' => 'fluent-products', 'post_status' => 'publish', 'numberposts' => 100, 'fields' => 'ids',
+    $ids = get_posts(['post_type' => ['fluent-products', 'rsy_offer'], 'post_status' => 'publish', 'numberposts' => 100, 'fields' => 'ids',
         'meta_key' => '_rsy_source_id', 'meta_compare' => 'EXISTS']);
     $out = [];
     foreach ($ids as $id) {
         if (count($out) >= $limit) { break; }
         if (!rsy_product_is_active((int) $id)) { continue; }
+        if (get_post_type($id) === 'rsy_offer') {
+            $d = get_post_meta($id, '_rsy_discount', true);
+            $shop = get_post_type_archive_link('fluent-products') ?: home_url('/');
+            $out[] = ['id' => (int) $id, 'title' => get_the_title($id), 'description' => wp_strip_all_tags(get_the_excerpt($id)), 'price_min' => null, 'price_max' => null,
+                'image' => null, 'link' => $shop, 'days' => rsy_label(rsy_get_config((int) $id)), 'code' => (string) get_post_meta($id, '_rsy_coupon_code', true),
+                'discount' => is_array($d) ? ['type' => $d['type'], 'amount' => $d['amount']] : null];
+            continue;
+        }
         $detail = class_exists('\FluentCart\App\Models\ProductDetail') ? \FluentCart\App\Models\ProductDetail::where('post_id', $id)->first() : null;
         $gallery = get_post_meta($id, 'fluent-products-gallery-image', true);
         $img = is_array($gallery) && !empty($gallery[0]['url']) ? esc_url_raw($gallery[0]['url']) : null;

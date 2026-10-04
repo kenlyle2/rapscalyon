@@ -43,18 +43,13 @@ add_action('template_redirect', function () {
     if (!$c) { status_header(400); rsy_offers_page($invalid); }
     [$id, $action, $nonce] = $c;
     $stored = (string) get_post_meta($id, '_rsy_token_nonce', true);
-    if ($stored === '' || !hash_equals($stored, $nonce) || get_post_type($id) !== 'fluent-products') { status_header(400); rsy_offers_page($invalid); }
+    if ($stored === '' || !hash_equals($stored, $nonce) || !in_array(get_post_type($id), ['fluent-products', 'rsy_offer'], true)) { status_header(400); rsy_offers_page($invalid); }
     $title = get_the_title($id);
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         $label = $action === 'approve' ? 'Publicar la oferta' : 'Descartar la oferta';
         rsy_offers_page($title, '<form method="post"><button style="font-size:1.1rem;padding:.7rem 1.2rem">' . esc_html($label) . '</button></form>');
     }
     delete_post_meta($id, '_rsy_token_nonce'); // single use
-    if ($action === 'approve') {
-        wp_update_post(['ID' => $id, 'post_status' => 'publish']);
-        update_post_meta($id, '_rsy_decision', 'approved');
-        rsy_offers_page('Listo: la oferta está publicada.');
-    }
-    update_post_meta($id, '_rsy_decision', 'rejected');
-    rsy_offers_page('Listo: la oferta se descartó y no se volverá a crear.');
+    rsy_offers_decide($id, $action);
+    rsy_offers_page($action === 'approve' ? 'Listo: la oferta está publicada.' : 'Listo: la oferta se descartó y no se volverá a crear.');
 });

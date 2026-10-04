@@ -13,6 +13,11 @@ if (!defined('ABSPATH')) { exit; }
 
 require_once __DIR__ . '/includes/pure.php';
 
+/** A private record for an offer that has no product of its own (a discount offer: it carries a coupon). */
+add_action('init', function () {
+    register_post_type('rsy_offer', ['public' => false, 'show_ui' => false, 'show_in_rest' => false, 'supports' => ['title', 'excerpt'], 'label' => 'Ofertas (registro)']);
+});
+
 register_activation_hook(__FILE__, function () {
     add_role('rsy_offer_bot', 'Offer bot', ['read' => true, 'rsy_manage_offers' => true]);
     $admin = get_role('administrator');

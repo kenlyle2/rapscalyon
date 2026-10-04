@@ -16,7 +16,7 @@ function rsy_schedule_refresh_state(int $post_id): void
 
 add_action(RSY_TICK_HOOK, function () {
     $ids = get_posts([
-        'post_type' => 'fluent-products', 'post_status' => 'any', 'numberposts' => -1, 'fields' => 'ids',
+        'post_type' => ['fluent-products', 'rsy_offer'], 'post_status' => 'any', 'numberposts' => -1, 'fields' => 'ids',
         'meta_query' => ['relation' => 'OR',
             ['key' => RSY_META_DAYS, 'compare' => 'EXISTS'], ['key' => RSY_META_WINDOW, 'compare' => 'EXISTS'],
             ['key' => RSY_META_FROM, 'compare' => 'EXISTS'], ['key' => RSY_META_UNTIL, 'compare' => 'EXISTS']],
