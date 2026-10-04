@@ -1,0 +1,4 @@
+[
+  {"name": "Example", "page_url": "https://www.facebook.com/examplepizza", "page_id": "REPLACE_WITH_PAGE_ID",
+   "source": "graph", "site": "https://billing.rapscalyon.com", "currency": "CRC", "user": "offer-bot"}
+]
