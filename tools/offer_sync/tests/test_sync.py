@@ -81,6 +81,17 @@ class Runner(unittest.TestCase):
         finally:
             os.remove(p)
 
+    def test_env_file_is_loaded_and_blank_values_ignored(self):
+        p = os.path.join(HERE, "t.env")
+        open(p, "w").write("# c\nANTHROPIC_API_KEY=abc\nEMPTY=\n")
+        sp = os.path.join(HERE, "t_shops.json")
+        json.dump([], open(sp, "w"))
+        try:
+            self.assertEqual(sync.main([sp, "--env-file", p, "--dry-run"], env={}), 0)
+        finally:
+            os.remove(p)
+            os.remove(sp)
+
     def test_env_name(self):
         self.assertEqual(sync.env_name({"name": "Way Forward"}, "FB_TOKEN"), "RSY_WAY_FORWARD_FB_TOKEN")
 

@@ -103,7 +103,16 @@ def main(argv=None, env=None):
     ap.add_argument("--state", default="offer-sync-state.json")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--shop")
+    ap.add_argument("--env-file", help="KEY=VALUE lines to add to the environment (secrets file, never committed)")
     a = ap.parse_args(argv)
+    if a.env_file:
+        env = dict(env)
+        for line in open(a.env_file, encoding="utf-8"):
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                k, v = line.split("=", 1)
+                if v.strip():
+                    env[k.strip()] = v.strip().strip("'\"")
     shops = [s for s in load_shops(a.shops) if not a.shop or s["name"] == a.shop]
     if not env.get("ANTHROPIC_API_KEY"):
         print("missing ANTHROPIC_API_KEY", file=sys.stderr)
