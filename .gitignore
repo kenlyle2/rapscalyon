@@ -11,3 +11,7 @@ app/tsconfig.tsbuildinfo
 
 # Deep Work Plans (local planning state)
 .dwp/
+
+# Offer sync local config and state (no secrets, but per-operator)
+shops.local.json
+offer-sync-state.json
