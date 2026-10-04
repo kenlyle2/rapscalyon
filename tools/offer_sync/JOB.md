@@ -4,7 +4,7 @@ Command, every 30 minutes, from the repo root:
 
     python3 tools/offer_sync/sync.py shops.json --state offer-sync-state.json
 
-Needs Python 3 stdlib only. `shops.json` has no secrets (copy `shops.example.json`). Secrets are set by the owner
+Add `--env-file .env.offer-sync` to read secrets from a local file instead of the runner environment (gitignored, template in the repo root). Needs Python 3 stdlib only. `shops.json` has no secrets (copy `shops.example.json`). Secrets are set by the owner
 in the runner's environment, never committed:
 
 | Variable | Used for |
