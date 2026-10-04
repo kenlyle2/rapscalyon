@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rapscalyon.com/schema/offer-1.json",
+  "title": "Offer draft, schema 1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "is_offer", "source", "currency", "confidence", "flags"],
+  "properties": {
+    "schema": {"const": 1},
+    "is_offer": {"type": "boolean"},
+    "source": {
+      "type": "object", "additionalProperties": false,
+      "required": ["platform", "page_url", "post_id", "post_url", "posted_at"],
+      "properties": {
+        "platform": {"enum": ["facebook"]},
+        "page_url": {"type": "string", "pattern": "^https://"},
+        "post_id": {"type": "string", "minLength": 1, "maxLength": 100},
+        "post_url": {"type": "string", "pattern": "^https://"},
+        "posted_at": {"type": "string", "format": "date-time"}
+      }
+    },
+    "title": {"type": "string", "minLength": 1, "maxLength": 200},
+    "description": {"type": "string", "maxLength": 500},
+    "variants": {
+      "type": "array", "maxItems": 10,
+      "items": {"type": "object", "additionalProperties": false, "required": ["label", "price"],
+        "properties": {"label": {"type": "string", "maxLength": 100}, "price": {"type": "number", "exclusiveMinimum": 0}}}
+    },
+    "discount": {
+      "type": ["object", "null"], "additionalProperties": false,
+      "required": ["type", "amount"],
+      "properties": {"type": {"enum": ["percent", "amount"]}, "amount": {"type": "number", "exclusiveMinimum": 0}}
+    },
+    "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+    "weekdays": {"type": "array", "uniqueItems": true, "items": {"type": "integer", "minimum": 0, "maximum": 6}},
+    "time_window": {
+      "type": ["object", "null"], "additionalProperties": false, "required": ["from", "to"],
+      "properties": {"from": {"type": "string", "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"}, "to": {"type": "string", "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"}}
+    },
+    "valid_from": {"type": ["string", "null"], "format": "date"},
+    "valid_until": {"type": ["string", "null"], "format": "date"},
+    "image": {"type": ["object", "null"], "additionalProperties": false, "properties": {"url": {"type": "string"}, "file": {"type": "string"}}},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "flags": {"type": "array", "items": {"type": "string", "maxLength": 200}}
+  }
+}
