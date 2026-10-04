@@ -15,3 +15,4 @@ app/tsconfig.tsbuildinfo
 # Offer sync local config and state (no secrets, but per-operator)
 shops.local.json
 offer-sync-state.json
+.env.offer-sync
