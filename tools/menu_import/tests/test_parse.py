@@ -55,7 +55,20 @@ class Import(unittest.TestCase):
         names = {p["title"] for p in products}
         self.assertIn("Margarita", names)
         self.assertNotIn("Refresco", names)
-        self.assertIn("Pepperoni (Grande)", names)
+        self.assertIn("Pepperoni", names)
+        pep = [x for x in products if x["title"] == "Pepperoni"][0]
+        self.assertEqual([(v["label"], v["price"]) for v in pep["variants"]], [("Pequeña", 5000), ("Grande", 9000)])
+        self.assertEqual(sum(1 for x in products if x["title"].startswith("Pepperoni")), 1)
+
+    def test_sizes_become_one_variable_product(self):
+        d = parse_text(TEXT, "CRC"); d["reviewed"] = True
+        products, _ = import_menu.plan(d)
+        pl = {x["post_title"]: x for x in import_menu.bulk_payload(products, 100)}
+        self.assertEqual(pl["Pepperoni"]["detail"]["variation_type"], "simple_variations")
+        self.assertEqual([v["item_price"] for v in pl["Pepperoni"]["variants"]], [500000, 900000])
+        self.assertEqual(pl["Margarita"]["detail"]["variation_type"], "simple")
+        self.assertEqual(pl["Margarita"]["variants"][0]["item_price"], 700000)
+        self.assertEqual(pl["Margarita"]["categories"], ["Pizzas"])
 
 if __name__ == "__main__":
     unittest.main()

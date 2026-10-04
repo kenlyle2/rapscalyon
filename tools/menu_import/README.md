@@ -18,24 +18,33 @@ Spanish menu for a full OCR run.
 - "7 mil" is read as 7,000 but flagged.
 - OCR often reads the colon sign as a "2" (7.000 becomes 27.000). A price far above the rest of the menu
   that starts with 2 is flagged with the likely value. This happened in the first test run.
-- Sizes on one line ("Pequeña 5.000 Grande 9.000") become variants, imported as "Name (Size)".
+- Sizes on one line become variants of one product.
 - The import skips flagged items until the reviewer marks `"review_ok": true`, and refuses an unreviewed draft.
 - WP-CLI route: refuses if the menu currency differs from the store currency, skips titles that already
   exist, creates drafts only. Store currency on the billing site was USD on 2026-10-04: set it to CRC first.
 
-## Where Pickaxe fits (design, not built)
-- The agent already sees an uploaded image, so it can transcribe a menu itself. This tool adds the part a
-  model is bad at: deterministic price parsing, the checks above, and a file format FluentCart accepts.
-- To call it from an agent, wrap `parse_text` (and `ocr_image`) in a small HTTPS endpoint that returns the draft
-  JSON, and register it as a Pickaxe action. Not built: it needs somewhere to run (the machine with Tesseract)
-  and an action key kept in Pickaxe's secret control.
-- **The agent gets no WP-CLI or shell access.** Menu text and photos come from outside, and a prompt-injected
-  agent with a shell on a live store could do anything the site user can. The agent produces the draft; a person
-  reviews it; the client uploads the CSV, or the operator runs `--apply`.
+## Sizes, photos, categories
+- **Sizes** ("Pequeña 5.000 Grande 9.000") become ONE product with `simple_variations`, one variant per size. Read from
+  FluentCart 1.7.0 `BulkProductInsertService::insertSingleProduct`; `item_price` is in minor units (7000 CRC = 700000).
+  The product's min/max price and default variant are derived by FluentCart itself.
+- **Photos**: `menu_images.py menu.jpg draft.json` finds picture blocks (colour/texture outside the printed text), crops them,
+  and attaches each to the nearest item (level with its text counts most). Ambiguous ones get `image_review`; the
+  import drops an unchecked photo unless the reviewer sets `image_ok: true`. `images/contact.jpg` is the check sheet.
+  FluentCart takes a `gallery` of `{id, url}`; the apply route uploads each crop to the media library first.
+- **Categories**: the menu section ("Pizzas") becomes a FluentCart product category.
+- `import_menu.py draft.json --json payload.json` writes the exact bulk-insert payload (the REST route, no SSH).
+
+## Where Pickaxe fits
+- Recommended: a separate **Product Importer** Pickaxe (design in docs/PICKAXE.md). The agent reads the menu image
+  and produces the draft; this tool's parser and checks do the deterministic part; a person reviews; the OPERATOR runs
+  `--apply`. The agent holds no SSH key: menu text and photos are untrusted input, and a prompt-injected agent with a
+  shell on a live store can do anything the site user can.
+- Client-run alternative needing no key at all: the draft becomes `payload.json`, uploaded through FluentCart's own
+  screen or posted to `POST /fluent-cart/v2/products/bulk-insert` with an application password the client creates.
 
 ## Not done
-- FluentCart's own CSV screen was not tested with this CSV (column mapping is done in its UI).
-- Sizes are separate products, not one product with variations; FluentCart's bulk-insert service supports
-  `simple_variations` and would be the better target.
-- Only tested on one synthetic image; real phone photos (curved, shadowed, handwritten) will need work.
+- Live run of the new apply path is untested (blocked by the permission classifier on 2026-10-04; needs the owner to
+  run it or allow it). The payload shape is checked by tests against the service's validation rules, not by a live call.
+- FluentCart's own CSV screen was not tested with this CSV.
+- Photo detection tested on one synthetic image; real photos with backgrounds and overlapping pictures need tuning.
 - No PDF input yet.
