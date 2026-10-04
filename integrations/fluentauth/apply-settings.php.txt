@@ -1,0 +1,19 @@
+// FluentAuth (plugin slug fluent-security) baseline for a client billing site.
+// Applied to billing.rapscalyon.com on 2026-10-04. Run with WP-CLI (no opening PHP tag):
+//   ssh rapscalyon 'cd domains/<site>/public_html && CLIENT_LOGIN=<clientname> wp eval "$(cat)"' < apply-settings.php.txt
+use FluentAuth\App\Helpers\Helper;
+$new = array_merge(Helper::getAuthSettings(), Helper::getRecommendedSettings(), [
+  'email2fa' => 'yes',   'email2fa_roles'   => ['administrator'],
+  'totp_2fa' => 'yes',   'totp_2fa_roles'   => ['administrator'],
+  'passkey_2fa' => 'yes','passkey_2fa_roles'=> ['administrator'],
+  'totp_required_roles' => ['administrator'],  // admins must have a second factor
+  'two_fa_required_level' => 'any',            // app, passkey or emailed code all count
+]);
+update_option('__fls_auth_settings', $new, true);
+// Rename the default admin to the client's name (WP-CLI cannot change user_login).
+$login = getenv('CLIENT_LOGIN');
+if ($login) {
+  global $wpdb;
+  $wpdb->update($wpdb->users, ['user_login' => $login, 'user_nicename' => $login], ['ID' => 1]);
+  clean_user_cache(1);
+}
