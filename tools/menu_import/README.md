@@ -43,8 +43,7 @@ Spanish menu for a full OCR run.
   screen or posted to `POST /fluent-cart/v2/products/bulk-insert` with an application password the client creates.
 
 ## Not done
-- Live run of the new apply path is untested (blocked by the permission classifier on 2026-10-04; needs the owner to
-  run it or allow it). The payload shape is checked by tests against the service's validation rules, not by a live call.
+- Live run done 2026-10-04 on the billing site (store currency now CRC): one product with two variants, minor-unit prices, gallery photo and categories all verified, test products removed.
 - FluentCart's own CSV screen was not tested with this CSV.
 - Photo detection tested on one synthetic image; real photos with backgrounds and overlapping pictures need tuning.
 - No PDF input yet.
