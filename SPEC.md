@@ -99,7 +99,7 @@ and operates. Details, provenance and the unverified parts are in `docs/CLAWMAGI
 
 ## 3c. Features (possibility) **[user, proposal]**
 
-Packs are database and app building blocks. Clients should see something simpler: **features** they switch on, such as email, billing, or offer sync. A feature may bundle a pack (database), an executor job in ClawMagic or OpenClaw (a watcher or publisher), and a connector to a commodity tool such as FluentCart. "Pack" stays the technical term for the installable database unit; "feature" is the word for clients and the interviewer. Nothing is renamed in the installer, the registry or the live Pickaxe agents yet. First candidate: `offer-sync` (`docs/briefs/offer-sync.md`).
+Packs are database and app building blocks. Clients should see something simpler: **features** they switch on, such as email, billing, or offer sync. A feature may bundle a pack (database), an executor job in ClawMagic or OpenClaw (a watcher or publisher), and a connector to a commodity tool such as FluentCart. "Pack" stays the technical term for the installable database unit; "feature" is the word for clients and the interviewer. Nothing is renamed in the installer, the registry or the live Pickaxe agents yet. First candidate: `offer-sync` (`docs/briefs/offer-sync.md`): plugins and a runner around FluentCart, no database pack.
 
 ClawMagic as the day-to-day business-management interface for clients is a possibility the owner believes in; it rests on the unverified claims in `docs/CLAWMAGIC.md` and on one real run. ClawMagic is described by the owner as a superset of OpenClaw (not verified by us), and each client may run an OpenClaw instance; that is why principle 7 matters.
 
