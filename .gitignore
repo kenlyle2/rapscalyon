@@ -16,3 +16,4 @@ app/tsconfig.tsbuildinfo
 shops.local.json
 offer-sync-state.json
 .env.offer-sync
+pickaxe/kb/platform-plus/
