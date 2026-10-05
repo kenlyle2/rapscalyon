@@ -470,7 +470,17 @@ def cmd_catalog(args):
         body = [f"# {i['title']} ({i['name']})", "", i["tagline"], "", f"Tier: {i['tier']}. Version {i['version']}. {i['description']}", ""]
         for sec, lines in i["sections"].items(): body += [f"## {sec}", ""] + [("- " + l if sec == "What you get" else l) for l in lines] + [""]
         (kb / f"{i['name']}.md").write_text("\n".join(body))
-    print(f"catalog: {len(items)} packs")
+    # Commercial packs from RAPSCALYON_PACKS_PATH get Tier-1 documents too, in a gitignored folder: the public catalog and kb/platform stay public-only.
+    plus = ROOT / "pickaxe" / "kb" / "platform-plus"; n_plus = 0
+    for root in EXTRA_PACKS:
+        for d in sorted(root.iterdir()) if root.is_dir() else []:
+            mk = d / "docs" / "MARKETING.md"
+            if not (d / "pack.toml").exists() or not mk.exists(): continue
+            m = tomllib.loads((d / "pack.toml").read_text())["pack"]
+            plus.mkdir(parents=True, exist_ok=True)
+            (plus / f"{m['name']}.md").write_text(f"{mk.read_text().rstrip()}\n\nPack: {m['name']} {m['version']}, {m.get('tier', 'commercial')} tier (private rapscalyon-plus repo, licence required; installs with RAPSCALYON_PACKS_PATH). {m['description']}\n")
+            n_plus += 1
+    print(f"catalog: {len(items)} packs" + (f" (+{n_plus} commercial knowledge documents in pickaxe/kb/platform-plus)" if n_plus else ""))
 
 def cmd_list(_):
     for k, v in sorted(installed_packs().items()): print(f"{k} {v}")
