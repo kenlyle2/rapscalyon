@@ -11,8 +11,8 @@ in the runner's environment, never committed:
 |---|---|
 | `ANTHROPIC_API_KEY` | the no-tools extraction call (default) |
 | `RSY_LLM=deepseek` + `DEEPSEEK_API_KEY` | use DeepSeek instead (model `deepseek-flash`, reads images; override with `DEEPSEEK_MODEL`, `DEEPSEEK_VISION_MODEL`) |
-| `RSY_<SHOP>_FB_TOKEN` | Graph API page token (source `graph`); `<SHOP>` is the shop name upper-cased, non-alphanumerics as `_` |
-| `SCRAPECREATORS_API_KEY` | fallback source (`scrapecreators`) |
+| `SCRAPECREATORS_API_KEY` | default source (`scrapecreators`): reads public posts from the page URL |
+| `RSY_<SHOP>_FB_TOKEN` | optional Graph API page token (source `graph`); `<SHOP>` is the shop name upper-cased, non-alphanumerics as `_` |
 | `RSY_<SHOP>_WP_PASSWORD` | application password of the shop's `rsy_offer_bot` user |
 
 Exit codes: 0 all shops ran; 1 a shop needs a person (expired Facebook token, bad credentials, wrong currency), see the

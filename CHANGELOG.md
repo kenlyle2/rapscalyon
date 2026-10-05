@@ -3,6 +3,7 @@
 Versioning: core + shell share the repo version (semver, pre-1.0: minor bumps may break). Each pack versions itself in `pack.toml`.
 
 ## Unreleased
+- Offer sync: DeepSeek adapter (`RSY_LLM=deepseek`, reads images) and ScrapeCreators as the default Facebook source; Graph API docs marked optional.
 - Offer synchronizer (`docs/OFFER-SYNC.md`): Facebook posts become FluentCart offer drafts a shopkeeper approves with one tap. New `integrations/fluentcart-schedule` (weekday, time and date availability, enforced at every purchase path), `integrations/fluentcart-offers` (REST receiver, signed approval links, public active-offers feed), `integrations/offers-widget` (`<rsy-offers>`), and `tools/offer_sync` (Graph API and ScrapeCreators sources, Spanish extractor, stdlib runner).
 - ClawMagic.ai adopted as the opinionated destination/executor (`docs/CLAWMAGIC.md`); `confirm_stack` now returns `executor` and a paste-ready `ticket`; Pickaxe roles hand off to ClawMagic.
 - `billing-webhook` pack moved into core (migration `core_billing`, route, admin page, `docs/BILLING.md`); `rapscalyon.py core` applies it idempotently.
