@@ -16,12 +16,13 @@ function rsy_offers_notify(int $id): void
     };
     $title = get_the_title($id);
     $flags = (array) get_post_meta($id, '_rsy_flags', true);
-    $body = "Encontramos esta oferta en su página de Facebook:\n\n" . wp_strip_all_tags($title) . "\n"
-        . ($flags ? "\nRevise esto antes de publicar:\n- " . implode("\n- ", $flags) . "\n" : '')
-        . "\nPara publicarla en su tienda: " . $link('approve')
-        . "\nPara descartarla: " . $link('reject')
-        . "\n\nNo se publica nada hasta que usted lo apruebe. Los enlaces valen 7 días.";
-    wp_mail($to, 'Nueva oferta para aprobar: ' . wp_strip_all_tags($title), $body);
+    $li = static function (string $t): string { return '<li>' . esc_html($t) . '</li>'; };
+    $body = '<p>Encontramos esta oferta en su página de Facebook:</p><p><strong>' . esc_html(wp_strip_all_tags($title)) . '</strong></p>'
+        . ($flags ? '<p>Revise esto antes de publicar:</p><ul>' . implode('', array_map($li, $flags)) . '</ul>' : '')
+        . '<p><a href="' . esc_url($link('approve')) . '">Publicar en mi tienda</a></p>'
+        . '<p><a href="' . esc_url($link('reject')) . '">Descartar esta oferta</a></p>'
+        . '<p>No se publica nada hasta que usted lo apruebe. Los enlaces valen 7 días.</p>';
+    wp_mail($to, 'Nueva oferta para aprobar: ' . wp_strip_all_tags($title), $body, ['Content-Type: text/html; charset=UTF-8']);
 }
 
 function rsy_offers_page(string $msg, string $form = ''): void
