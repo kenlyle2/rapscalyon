@@ -1,4 +1,6 @@
-# Connect your Facebook page to your store (DRAFT 2026-10-04)
+# Connect your Facebook page to your store: optional Graph route (DRAFT 2026-10-04)
+
+**Not the default.** Shops normally only give us their page address and we read public posts (ScrapeCreators, `docs/OFFER-SYNC.md`). Use this only if a shop wants us to read through Facebook's official API.
 
 For the shop owner. Time: 2 minutes. You do not need a developer account, an app, or any key. You only let your RapScalYon operator see your page's posts.
 
