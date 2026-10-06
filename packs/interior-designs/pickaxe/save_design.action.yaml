@@ -1,0 +1,112 @@
+# Pickaxe custom action: saves a finished design to the user's account through the ingest API (server/ingest/route.ts).
+# NOT uploaded to any workspace yet. Create it with action_create_manifest after the owner's go, set the two environment
+# variables in Pickaxe's secret control (never in this file), then attach it to the design agent with the trigger below.
+# The email and identifier come from Pickaxe's runtime (PICKAXE_USER_*), never from model text. Do not forward PICKAXE_USER_MEMORIES.
+schema_version: '1.0'
+kind: pickaxe-action
+metadata:
+  name: save_design
+  display_name: Save design to my account
+  description: Saves the finished room design (images, prompt, room, style) to the signed-in user's account.
+  category: general
+  visibility: private
+  is_cloneable: false
+activation:
+  default_trigger_prompt: After you have shown the user a finished redesign and they ask to save it (or the flow says to save), call this action once with the image links from the generation result. Never call it for a user who is not signed in.
+interface:
+  inputs:
+  - id: prompt
+    name: prompt
+    description: The design request in the user's words.
+    example: Bright Scandinavian living room with oak floors
+    type: string
+    is_required: true
+  - id: room_type
+    name: room_type
+    description: The kind of room, for example living room, kitchen, bedroom.
+    example: living room
+    type: string
+    is_required: true
+  - id: theme
+    name: theme
+    description: The design style, for example scandinavian, industrial, modern.
+    example: scandinavian
+    type: string
+    is_required: true
+  - id: result_urls
+    name: result_urls
+    description: The generated image links from this run, one per line. Copy them exactly; they expire after two hours.
+    example: https://cdn.mail.studio/action_generated_files/example.png
+    type: string
+    is_required: true
+  - id: reference_url
+    name: reference_url
+    description: The link to the user's original room photo, if they uploaded one. Leave empty otherwise.
+    example: ''
+    type: string
+    is_required: false
+  - id: space
+    name: space
+    description: Which home or business the design belongs to (for example Beach house). Leave empty for the user's default space.
+    example: Beach house
+    type: string
+    is_required: false
+  environment_variables:
+  - id: IDG_INGEST_URL
+    name: IDG_INGEST_URL
+    description: Full URL of the ingest API, for example https://app.example.com/api/interior-designs/ingest
+    type: string
+    is_required: true
+    is_special_display: false
+    provisioning: user-provided
+  - id: IDG_INGEST_SECRET
+    name: IDG_INGEST_SECRET
+    description: Shared secret for the ingest API. Keep it in Pickaxe's secret control.
+    type: string
+    is_required: true
+    is_special_display: true
+    provisioning: user-provided
+implementation:
+  runtime:
+    language: python
+    version: '3'
+  entrypoint: save_design
+  source: |
+    import os
+    import requests
+
+    def save_design(prompt: str, room_type: str, theme: str, result_urls: str, reference_url: str = "", space: str = ""):
+        identifier = os.environ.get("PICKAXE_USER_IDENTIFIER", "")
+        email = os.environ.get("PICKAXE_USER_EMAIL", "")
+        if not email or identifier.upper().startswith("API_GUEST:"):
+            return "The user is not signed in. Ask them to sign in with their account, then try saving again."
+        urls = [u.strip() for u in result_urls.replace(",", "\n").splitlines() if u.strip()]
+        body = {
+            "identifier": identifier, "email": email, "response_id": os.environ.get("PICKAXE_RESPONSE_ID", ""),
+            "prompt": prompt, "room_type": room_type, "theme": theme, "result_urls": urls,
+        }
+        if reference_url.strip():
+            body["reference_url"] = reference_url.strip()
+        if space.strip():
+            body["space"] = space.strip()
+        try:
+            r = requests.post(os.environ["IDG_INGEST_URL"], json=body, headers={"x-ingest-secret": os.environ["IDG_INGEST_SECRET"]}, timeout=60)
+        except requests.RequestException:
+            return "Saving failed because the service could not be reached. Tell the user to try again in a minute."
+        if r.status_code == 200:
+            return "Saved to the user's account (" + str(len(urls)) + " image(s))."
+        code = ""
+        try:
+            code = r.json().get("error", "")
+        except ValueError:
+            pass
+        messages = {
+            "no_account": "There is no confirmed account for this email. Tell the user to register and confirm their email, then try again.",
+            "guest": "The user is not signed in. Ask them to sign in, then try again.",
+            "space_limit": "Their plan does not allow another space. Offer to save it in their existing space instead.",
+            "source_unavailable": "The image links have expired or could not be read. Generate the design again, then save it straight away.",
+            "not_an_image": "One of the links was not an image. Do not retry; tell the user it could not be saved.",
+        }
+        return messages.get(code, "Saving failed (" + (code or "HTTP " + str(r.status_code)) + "). Tell the user it was not saved.")
+docs:
+  readme_markdown: ''

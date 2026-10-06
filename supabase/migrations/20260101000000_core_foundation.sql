@@ -349,6 +349,8 @@ begin
     execute format('alter table %s enable row level security', cmd.object_identity);
   end loop;
 end $$;
+-- New hosted Supabase projects can ship their own event trigger of this name (public.rls_auto_enable); ours replaces it.
+drop event trigger if exists ensure_rls;
 create event trigger ensure_rls on ddl_command_end when tag in ('CREATE TABLE','CREATE TABLE AS','SELECT INTO') execute function public.ensure_rls();
 
 -- ---------------------------------------------------------------------------
