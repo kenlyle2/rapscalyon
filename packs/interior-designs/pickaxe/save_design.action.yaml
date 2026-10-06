@@ -6,7 +6,7 @@ schema_version: '1.0'
 kind: pickaxe-action
 metadata:
   name: save_design
-  display_name: Save design to my account
+  display_name: Save design
   description: Saves the finished room design (images, prompt, room, style) to the signed-in user's account.
   category: general
   visibility: private
