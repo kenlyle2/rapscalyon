@@ -478,7 +478,14 @@ def cmd_catalog(args):
             if not (d / "pack.toml").exists() or not mk.exists(): continue
             m = tomllib.loads((d / "pack.toml").read_text())["pack"]
             plus.mkdir(parents=True, exist_ok=True)
-            (plus / f"{m['name']}.md").write_text(f"{mk.read_text().rstrip()}\n\nPack: {m['name']} {m['version']}, {m.get('tier', 'commercial')} tier (private rapscalyon-plus repo, licence required; installs with RAPSCALYON_PACKS_PATH). {m['description']}\n")
+            def _tier(n):
+                for base in [PACKS, *EXTRA_PACKS]:
+                    f = base / n / "pack.toml"
+                    if f.exists(): return tomllib.loads(f.read_text())["pack"].get("tier", "community")
+                return "unknown"
+            reqs = ", ".join(f"{r} ({'official, public' if _tier(r) != 'commercial' else 'commercial'})" for r in m.get("requires", []))
+            req_line = f" Requires: {reqs}. Only packs marked commercial need the private repo and a licence." if reqs else ""
+            (plus / f"{m['name']}.md").write_text(f"{mk.read_text().rstrip()}\n\nPack: {m['name']} {m['version']}, {m.get('tier', 'commercial')} tier (private rapscalyon-plus repo, licence required; installs with RAPSCALYON_PACKS_PATH).{req_line} {m['description']}\n")
             n_plus += 1
     print(f"catalog: {len(items)} packs" + (f" (+{n_plus} commercial knowledge documents in pickaxe/kb/platform-plus)" if n_plus else ""))
 
