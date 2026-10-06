@@ -1,0 +1,18 @@
+[pack]
+name = "content-writer"
+prefix = "cwr"
+version = "0.1.0"
+description = "AI-written content pieces (the BuilderKit content_creations table) as a child of item-tracker: topic, style, voice, word limit and the text, recorded once by the server with an optional core charge in the same transaction."
+license = "AGPL-3.0-or-later"
+tier = "official"
+requires_core = ">=0.1"
+requires = ["item-tracker"]
+conflicts = []
+
+[db]
+tables = ["cwr_pieces"]
+functions = ["cwr_valid_keys", "cwr_check_kind", "cwr_record"]
+api_functions = []
+
+[credits]
+operations = [{ name = "cwr.generate", label = "Write content" }]

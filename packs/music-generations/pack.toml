@@ -1,0 +1,18 @@
+[pack]
+name = "music-generations"
+prefix = "mgn"
+version = "0.1.0"
+description = "Text-to-music generation jobs (the BuilderKit music_generations table) as a child of item-tracker: prompt, genre, mood, duration and an audio key, charged up front or recorded from an outside generator."
+license = "AGPL-3.0-or-later"
+tier = "official"
+requires_core = ">=0.1"
+requires = ["item-tracker"]
+conflicts = []
+
+[db]
+tables = ["mgn_tracks"]
+functions = ["mgn_valid_keys", "mgn_check_kind", "mgn_request", "mgn_mark_started", "mgn_complete", "mgn_fail", "mgn_record"]
+api_functions = ["mgn_request"]
+
+[credits]
+operations = [{ name = "mgn.generate", label = "Generate a music track" }]

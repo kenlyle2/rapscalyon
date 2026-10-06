@@ -1,0 +1,17 @@
+drop table if exists public.hsh_generations;
+drop function if exists public.hsh_gen_request(uuid, uuid, text, text);
+drop function if exists public.hsh_gen_mark_started(uuid, text);
+drop function if exists public.hsh_gen_complete(uuid, text[]);
+drop function if exists public.hsh_gen_fail(uuid, text);
+drop function if exists public.hsh_gen_record(uuid, uuid, text, uuid, text, text, text[]);
+drop function if exists public.hsh_gen_check_kind();
+drop table if exists public.hsh_models;
+drop function if exists public.hsh_model_request(uuid, text, text, text[]);
+drop function if exists public.hsh_model_mark_started(uuid, text);
+drop function if exists public.hsh_model_complete(uuid, text, timestamptz);
+drop function if exists public.hsh_model_fail(uuid, text);
+drop function if exists public.hsh_model_record(uuid, uuid, text, text, text, text[], text, timestamptz);
+drop function if exists public.hsh_model_check_kind();
+delete from public.it_items where kind = 'headshot_model';
+delete from public.it_items where kind = 'headshot';
+drop function if exists public.hsh_valid_keys(text[], integer);

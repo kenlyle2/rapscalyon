@@ -1,0 +1,18 @@
+[pack]
+name = "image-generations"
+prefix = "igen"
+version = "0.1.0"
+description = "Text-to-image generation jobs (the BuilderKit image_generations table; also the base for the Ghibli-style variant) as a child of item-tracker: prompt, settings and result keys per job, charged up front and refunded once on failure, or recorded from an outside generator."
+license = "AGPL-3.0-or-later"
+tier = "official"
+requires_core = ">=0.1"
+requires = ["item-tracker"]
+conflicts = []
+
+[db]
+tables = ["igen_generations"]
+functions = ["igen_valid_keys", "igen_check_kind", "igen_request", "igen_mark_started", "igen_complete", "igen_fail", "igen_record"]
+api_functions = ["igen_request"]
+
+[credits]
+operations = [{ name = "igen.generate", label = "Generate an image" }]

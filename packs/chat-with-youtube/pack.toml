@@ -1,0 +1,15 @@
+[pack]
+name = "chat-with-youtube"
+prefix = "cwy"
+version = "0.1.0"
+description = "Chat with a video: the link, title, style, tone, transcript and summary attached 1:1 to an ai-chat conversation, with an ingestion flag. Replaces the BuilderKit chat_with_youtube table."
+license = "AGPL-3.0-or-later"
+tier = "official"
+requires_core = ">=0.1"
+requires = ["item-tracker", "ai-chat"]
+conflicts = []
+
+[db]
+tables = ["cwy_sources"]
+functions = ["cwy_attach", "cwy_mark_ingested"]
+api_functions = []

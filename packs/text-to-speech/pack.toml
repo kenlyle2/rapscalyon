@@ -1,0 +1,18 @@
+[pack]
+name = "text-to-speech"
+prefix = "tts"
+version = "0.1.0"
+description = "Text-to-speech clips (the BuilderKit text_to_speech table) as a child of item-tracker: title, text, model, voice and an audio key, recorded once by the server with an optional core charge in the same transaction."
+license = "AGPL-3.0-or-later"
+tier = "official"
+requires_core = ">=0.1"
+requires = ["item-tracker"]
+conflicts = []
+
+[db]
+tables = ["tts_clips"]
+functions = ["tts_valid_keys", "tts_check_kind", "tts_record"]
+api_functions = []
+
+[credits]
+operations = [{ name = "tts.generate", label = "Generate speech" }]

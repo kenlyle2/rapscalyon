@@ -1,0 +1,18 @@
+[pack]
+name = "voice-transcriptions"
+prefix = "vtr"
+version = "0.1.0"
+description = "Voice-to-text jobs (the BuilderKit voice_transcriptions table) as a child of item-tracker: the audio key, transcript and summary, charged up front or recorded from an outside service."
+license = "AGPL-3.0-or-later"
+tier = "official"
+requires_core = ">=0.1"
+requires = ["item-tracker"]
+conflicts = []
+
+[db]
+tables = ["vtr_transcriptions"]
+functions = ["vtr_valid_keys", "vtr_check_kind", "vtr_request", "vtr_mark_started", "vtr_complete", "vtr_fail", "vtr_record"]
+api_functions = ["vtr_request"]
+
+[credits]
+operations = [{ name = "vtr.transcribe", label = "Transcribe audio" }]

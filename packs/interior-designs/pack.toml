@@ -1,0 +1,21 @@
+[pack]
+name = "interior-designs"
+prefix = "idg"
+version = "0.2.0"
+description = "AI room redesigns as a child of item-tracker: prompt, room type, theme and a reference photo become either a generation job charged up front in core credits and refunded once on failure, or a design recorded from an outside generator such as a Pickaxe agent, whose own credits are then the only ledger and which charges no core credits. Written from the BKIDA schema and behaviour, with no BuilderKit code."
+license = "AGPL-3.0-or-later"
+tier = "official"
+requires_core = ">=0.1"
+requires = ["item-tracker"]
+conflicts = []
+
+[db]
+tables = ["idg_designs"]
+functions = ["idg_check_kind", "idg_request_design", "idg_mark_started", "idg_complete", "idg_fail", "idg_record_design", "idg_resolve_user", "idg_ensure_subject"]
+api_functions = ["idg_request_design"]
+
+[credits]
+operations = [{ name = "idg.generate", label = "Generate an interior design" }]
+
+[nav]
+entries = [{ label = "Designs", href = "/designs", icon = "Palette", group = "main" }]

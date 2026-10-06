@@ -2,6 +2,214 @@
 export type CatalogEntry = { name: string; version: string; tier: string; license: string; description: string; title: string; tagline: string; sections: Record<string, string[]> };
 export const catalog: CatalogEntry[] = [
  {
+  "name": "ai-chat",
+  "version": "0.1.0",
+  "tier": "official",
+  "license": "AGPL-3.0-or-later",
+  "description": "AI chat conversations as a child of item-tracker: a chat per provider and model with its messages in order, recorded by the server, with an optional core charge per reply in the same transaction. Covers the BuilderKit llamagpt, multillm_chatgpt, deepseek_chat and gemini_chat tables with one shape.",
+  "title": "AI chat",
+  "tagline": "Keep every AI conversation per person, message by message, whichever model answered.",
+  "sections": {
+   "Who it's for": [
+    "Builders of a chat app on any model provider (LLaMA, DeepSeek, Gemini, a multi-model switcher) who want conversation storage, ordering and optional credits done safely."
+   ],
+   "What you get": [
+    "A chat per conversation: provider, model, title and a numbered message list, owned by a workspace.",
+    "Messages are rows, not a JSON blob: ordered, countable, capped at 5,000 per chat.",
+    "Optionally charge core credits per reply in the same transaction; a replay never charges twice.",
+    "Nothing is charged by default: an outside platform's credits can stay the ledger."
+   ],
+   "Works well with": [
+    "item-tracker, subject-individual, chat-with-file, chat-with-youtube."
+   ],
+   "Under the hood": [
+    "A child of item-tracker: every chat is an item (kind chat) with a 1:1 chat row and many message rows. Clients can read; only the server writes, idempotently."
+   ]
+  }
+ },
+ {
+  "name": "chat-with-file",
+  "version": "0.1.0",
+  "tier": "official",
+  "license": "AGPL-3.0-or-later",
+  "description": "Chat with a document: the uploaded file's storage key and name attached 1:1 to an ai-chat conversation. Replaces the BuilderKit chat_with_file table.",
+  "title": "Chat with a file",
+  "tagline": "Ask questions about an uploaded document and keep the conversation per person.",
+  "sections": {
+   "Who it's for": [
+    "Builders of a chat-with-your-PDF app who want the document link and the conversation stored safely."
+   ],
+   "What you get": [
+    "A document attached to a chat: its storage key and file name, owned by the same workspace as the chat.",
+    "One document per chat; the conversation itself is an ai-chat conversation.",
+    "The file is a private storage key, never an inline copy."
+   ],
+   "Works well with": [
+    "ai-chat, item-tracker, subject-individual."
+   ],
+   "Under the hood": [
+    "A 1:1 detail row on an ai-chat conversation. Clients can read; only the server writes, once."
+   ]
+  }
+ },
+ {
+  "name": "chat-with-youtube",
+  "version": "0.1.0",
+  "tier": "official",
+  "license": "AGPL-3.0-or-later",
+  "description": "Chat with a video: the link, title, style, tone, transcript and summary attached 1:1 to an ai-chat conversation, with an ingestion flag. Replaces the BuilderKit chat_with_youtube table.",
+  "title": "Chat with a video",
+  "tagline": "Ask questions about a YouTube video from its transcript and keep the conversation per person.",
+  "sections": {
+   "Who it's for": [
+    "Builders of a chat-with-a-video app who want the transcript, summary and conversation stored safely."
+   ],
+   "What you get": [
+    "A video attached to a chat: link, title, style, tone, transcript and summary, owned by the same workspace as the chat.",
+    "An ingestion flag that flips once the transcript is indexed.",
+    "One video per chat; the conversation itself is an ai-chat conversation."
+   ],
+   "Works well with": [
+    "ai-chat, youtube-content, item-tracker."
+   ],
+   "Under the hood": [
+    "A 1:1 detail row on an ai-chat conversation. Clients can read; only the server writes."
+   ]
+  }
+ },
+ {
+  "name": "content-writer",
+  "version": "0.1.0",
+  "tier": "official",
+  "license": "AGPL-3.0-or-later",
+  "description": "AI-written content pieces (the BuilderKit content_creations table) as a child of item-tracker: topic, style, voice, word limit and the text, recorded once by the server with an optional core charge in the same transaction.",
+  "title": "Content writer",
+  "tagline": "Keep every AI-written article per person with the topic, style and voice that produced it.",
+  "sections": {
+   "Who it's for": [
+    "Builders of an AI writing app who want the content record and credits done safely."
+   ],
+   "What you get": [
+    "A piece per request: topic, style, voice, word limit and the finished text, owned by a workspace.",
+    "Record a finished piece and, optionally, charge core credits in the same transaction; a replay returns the same piece.",
+    "A way to record pieces written elsewhere without charging core credits."
+   ],
+   "Works well with": [
+    "item-tracker, subject-individual, youtube-content."
+   ],
+   "Under the hood": [
+    "A child of item-tracker: every piece is an item with a 1:1 record row. Generation happens outside the database; a service-role function records the result once."
+   ]
+  }
+ },
+ {
+  "name": "headshots",
+  "version": "0.1.0",
+  "tier": "official",
+  "license": "AGPL-3.0-or-later",
+  "description": "AI headshots as two children of item-tracker (BuilderKit headshot_models and headshot_generations): train a personal model from uploaded photos, then generate headshots from a finished model of the same workspace, charged up front or recorded from an outside generator.",
+  "title": "Headshots",
+  "tagline": "Train a personal model from a person's photos and generate professional headshots from it, with every step tracked and charged safely.",
+  "sections": {
+   "Who it's for": [
+    "Builders of an AI headshot app who want model training and generation records, credits and photo storage done safely."
+   ],
+   "What you get": [
+    "A personal model per person: name, type, the training photos and its status, with an expiry when the provider deletes it.",
+    "A headshot per prompt, generated from a finished model of the same workspace only.",
+    "Credits charged before training and before each generation, refunded exactly once on failure; replays change nothing.",
+    "Photos and results are private storage keys, never inline images or expiring links."
+   ],
+   "Works well with": [
+    "item-tracker, subject-individual, image-generations."
+   ],
+   "Under the hood": [
+    "Two children of item-tracker: models (kind headshot_model) and headshots (kind headshot). A headshot references a succeeded model of the same workspace through a composite key. Clients can read but cannot write."
+   ]
+  }
+ },
+ {
+  "name": "image-generations",
+  "version": "0.1.0",
+  "tier": "official",
+  "license": "AGPL-3.0-or-later",
+  "description": "Text-to-image generation jobs (the BuilderKit image_generations table; also the base for the Ghibli-style variant) as a child of item-tracker: prompt, settings and result keys per job, charged up front and refunded once on failure, or recorded from an outside generator.",
+  "title": "Image generations",
+  "tagline": "Text-to-image jobs with the prompt, settings and results kept per person, charged by the database or by the platform that made them.",
+  "sections": {
+   "Who it's for": [
+    "Builders of an AI image app (any text-to-image model) who want the job record, credits and result storage done safely."
+   ],
+   "What you get": [
+    "A generation per prompt: prompt, negative prompt, model, guidance, steps and number of outputs, owned by a workspace.",
+    "Credits charged before the job and refunded exactly once if it fails; a replayed model callback changes nothing.",
+    "A way to record images made elsewhere (for example by a Pickaxe agent) without charging core credits.",
+    "Result images are private storage keys, never links that expire."
+   ],
+   "Works well with": [
+    "item-tracker, subject-individual, image-transforms."
+   ],
+   "Under the hood": [
+    "A child of item-tracker: every generation is an item with a 1:1 job row. Clients can read their jobs but cannot write them."
+   ]
+  }
+ },
+ {
+  "name": "image-transforms",
+  "version": "0.1.0",
+  "tier": "official",
+  "license": "AGPL-3.0-or-later",
+  "description": "Image upscale, enhance and style-transfer jobs (BuilderKit image_enhancer_upscaler and ghibli_generation tables) as a child of item-tracker: the input key, the result key and a free-text transform type, charged up front or recorded from an outside generator.",
+  "title": "Image transforms",
+  "tagline": "Upscale, enhance or restyle an image and keep the input, the result and the cost per person.",
+  "sections": {
+   "Who it's for": [
+    "Builders of an image-enhancer, upscaler or style-transfer app (including Ghibli-style) who want job tracking and credits done safely."
+   ],
+   "What you get": [
+    "A job per image: transform type, the input image and the finished result, owned by a workspace.",
+    "Credits charged before the job and refunded exactly once on failure; replays change nothing.",
+    "A way to record transforms made elsewhere without charging core credits.",
+    "Input and output are private storage keys, never inline images or expiring links."
+   ],
+   "Works well with": [
+    "item-tracker, subject-individual, image-generations."
+   ],
+   "Under the hood": [
+    "A child of item-tracker: every transform is an item with a 1:1 job row. Clients can read their jobs but cannot write them."
+   ]
+  }
+ },
+ {
+  "name": "interior-designs",
+  "version": "0.2.0",
+  "tier": "official",
+  "license": "AGPL-3.0-or-later",
+  "description": "AI room redesigns as a child of item-tracker: prompt, room type, theme and a reference photo become either a generation job charged up front in core credits and refunded once on failure, or a design recorded from an outside generator such as a Pickaxe agent, whose own credits are then the only ledger and which charges no core credits. Written from the BKIDA schema and behaviour, with no BuilderKit code.",
+  "title": "Interior designs",
+  "tagline": "AI room redesigns, owned by the person who made them, saved safely and charged either by the database or by the outside platform that made them.",
+  "sections": {
+   "Who it's for": [
+    "Builders of an interior-design app, or any room-makeover product, who want the generation record, credits and result storage done safely instead of rebuilt from a boilerplate."
+   ],
+   "What you get": [
+    "A design per room: prompt, room type, theme, reference photo and the finished images, owned by the person's Space (a home or a business).",
+    "Two ways to pay: the app's own generator can charge core credits before generation and refund exactly once on failure; or, when an outside platform such as Pickaxe makes the image, that platform's credits are the only ledger and the app charges nothing.",
+    "A way to record designs made outside the app, for example by a Pickaxe agent, never charging core credits for them.",
+    "Image locations are stored as private storage keys, never as links that expire."
+   ],
+   "Works well with": [
+    "item-tracker, subject-individual, interior-design-bid-process."
+   ],
+   "In your customers' words": [
+    "Customers see Spaces (a home or a business) and Designs; the technical terms never reach them."
+   ],
+   "Under the hood": [
+    "A child of item-tracker: every design is an item of kind interior_design with a 1:1 row for the generation job. Clients can read their designs but cannot write the job; only the server-side functions move it forward."
+   ]
+  }
+ },
+ {
   "name": "invoice-refunds",
   "version": "0.1.0",
   "tier": "official",
@@ -104,6 +312,32 @@ export const catalog: CatalogEntry[] = [
   }
  },
  {
+  "name": "music-generations",
+  "version": "0.1.0",
+  "tier": "official",
+  "license": "AGPL-3.0-or-later",
+  "description": "Text-to-music generation jobs (the BuilderKit music_generations table) as a child of item-tracker: prompt, genre, mood, duration and an audio key, charged up front or recorded from an outside generator.",
+  "title": "Music generations",
+  "tagline": "Text-to-music jobs with genre, mood and length kept per person, charged by the database or by the platform that made them.",
+  "sections": {
+   "Who it's for": [
+    "Builders of an AI music app who want the job record, credits and track storage done safely."
+   ],
+   "What you get": [
+    "A track per prompt: prompt, genre, mood, duration and the finished audio, owned by a workspace.",
+    "Credits charged before the job and refunded exactly once on failure; replays change nothing.",
+    "A way to record tracks made elsewhere without charging core credits.",
+    "Audio is a private storage key, never an expiring link."
+   ],
+   "Works well with": [
+    "item-tracker, subject-individual, text-to-speech."
+   ],
+   "Under the hood": [
+    "A child of item-tracker: every track is an item with a 1:1 job row. Clients can read their jobs but cannot write them."
+   ]
+  }
+ },
+ {
   "name": "posthog-analytics",
   "version": "0.1.0",
   "tier": "official",
@@ -125,6 +359,32 @@ export const catalog: CatalogEntry[] = [
    ],
    "Under the hood": [
     "Consent is private to its owner; the gate function is service-role only so users cannot probe each other."
+   ]
+  }
+ },
+ {
+  "name": "qr-code-generations",
+  "version": "0.1.0",
+  "tier": "official",
+  "license": "AGPL-3.0-or-later",
+  "description": "AI QR-code generation jobs (the BuilderKit qr_code_generations table) as a child of item-tracker: prompt, target URL and an image key, charged up front or recorded from an outside generator.",
+  "title": "QR code generations",
+  "tagline": "Artistic QR codes made from a prompt and a link, kept per person and charged by the database or by the platform that made them.",
+  "sections": {
+   "Who it's for": [
+    "Builders of an AI QR-code app who want the job record, credits and image storage done safely."
+   ],
+   "What you get": [
+    "A QR code per request: prompt, target link and the finished image, owned by a workspace.",
+    "Credits charged before the job and refunded exactly once on failure; replays change nothing.",
+    "A way to record codes made elsewhere without charging core credits.",
+    "The image is a private storage key, never an expiring link."
+   ],
+   "Works well with": [
+    "item-tracker, subject-individual, image-generations."
+   ],
+   "Under the hood": [
+    "A child of item-tracker: every QR code is an item with a 1:1 job row. Clients can read their jobs but cannot write them."
    ]
   }
  },
@@ -254,6 +514,32 @@ export const catalog: CatalogEntry[] = [
   }
  },
  {
+  "name": "text-to-speech",
+  "version": "0.1.0",
+  "tier": "official",
+  "license": "AGPL-3.0-or-later",
+  "description": "Text-to-speech clips (the BuilderKit text_to_speech table) as a child of item-tracker: title, text, model, voice and an audio key, recorded once by the server with an optional core charge in the same transaction.",
+  "title": "Text to speech",
+  "tagline": "Turn text into spoken audio and keep each clip per person, recorded safely whether the app or an outside platform made it.",
+  "sections": {
+   "Who it's for": [
+    "Builders of a text-to-speech app who want the clip record, credits and audio storage done safely."
+   ],
+   "What you get": [
+    "A clip per request: title, text, model, voice and the audio, owned by a workspace.",
+    "Record a finished clip and, optionally, charge core credits in the same transaction; a replay returns the same clip.",
+    "A way to record clips made elsewhere without charging core credits.",
+    "Audio is a private storage key, never an expiring link."
+   ],
+   "Works well with": [
+    "item-tracker, subject-individual, music-generations."
+   ],
+   "Under the hood": [
+    "A child of item-tracker: every clip is an item with a 1:1 record row. Generation happens outside the database; a service-role function records the result once."
+   ]
+  }
+ },
+ {
   "name": "turnstile",
   "version": "0.1.0",
   "tier": "official",
@@ -275,6 +561,57 @@ export const catalog: CatalogEntry[] = [
    ],
    "Under the hood": [
     "Verification happens server-side only. Raw IPs are never stored, and retention defaults to 30 days."
+   ]
+  }
+ },
+ {
+  "name": "voice-transcriptions",
+  "version": "0.1.0",
+  "tier": "official",
+  "license": "AGPL-3.0-or-later",
+  "description": "Voice-to-text jobs (the BuilderKit voice_transcriptions table) as a child of item-tracker: the audio key, transcript and summary, charged up front or recorded from an outside service.",
+  "title": "Voice transcriptions",
+  "tagline": "Audio in, transcript and summary out, kept per person and charged by the database or by the platform that did the work.",
+  "sections": {
+   "Who it's for": [
+    "Builders of a voice-to-text or meeting-notes app who want the job record, credits and transcript storage done safely."
+   ],
+   "What you get": [
+    "A transcription per audio file: the audio key, the transcript and an optional summary, owned by a workspace.",
+    "Credits charged before the job and refunded exactly once on failure; replays change nothing.",
+    "A way to record transcripts made elsewhere without charging core credits.",
+    "Audio is a private storage key, never an expiring link."
+   ],
+   "Works well with": [
+    "item-tracker, subject-individual, youtube-content."
+   ],
+   "Under the hood": [
+    "A child of item-tracker: every transcription is an item with a 1:1 job row. Clients can read their jobs but cannot write them."
+   ]
+  }
+ },
+ {
+  "name": "youtube-content",
+  "version": "0.1.0",
+  "tier": "official",
+  "license": "AGPL-3.0-or-later",
+  "description": "Video-to-content records (the BuilderKit youtube_content_generator table) as a child of item-tracker: link, title, language, transcript, summary and generated content, recorded once by the server with an optional core charge in the same transaction.",
+  "title": "YouTube content",
+  "tagline": "Turn a video's transcript into summaries and social content, kept per person with the source link.",
+  "sections": {
+   "Who it's for": [
+    "Builders of a video-to-content app who want the record and credits done safely."
+   ],
+   "What you get": [
+    "A piece per video: link, title, language, transcript, summary and generated content, owned by a workspace.",
+    "Record a finished piece and, optionally, charge core credits in the same transaction; a replay returns the same piece.",
+    "A way to record pieces made elsewhere without charging core credits."
+   ],
+   "Works well with": [
+    "item-tracker, subject-individual, chat-with-youtube."
+   ],
+   "Under the hood": [
+    "A child of item-tracker: every piece is an item with a 1:1 record row. Transcription and generation happen outside the database; a service-role function records the result once."
    ]
   }
  }

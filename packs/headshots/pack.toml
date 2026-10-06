@@ -1,0 +1,18 @@
+[pack]
+name = "headshots"
+prefix = "hsh"
+version = "0.1.0"
+description = "AI headshots as two children of item-tracker (BuilderKit headshot_models and headshot_generations): train a personal model from uploaded photos, then generate headshots from a finished model of the same workspace, charged up front or recorded from an outside generator."
+license = "AGPL-3.0-or-later"
+tier = "official"
+requires_core = ">=0.1"
+requires = ["item-tracker"]
+conflicts = []
+
+[db]
+tables = ["hsh_models", "hsh_generations"]
+functions = ["hsh_valid_keys", "hsh_model_check_kind", "hsh_model_request", "hsh_model_mark_started", "hsh_model_complete", "hsh_model_fail", "hsh_model_record", "hsh_gen_check_kind", "hsh_gen_request", "hsh_gen_mark_started", "hsh_gen_complete", "hsh_gen_fail", "hsh_gen_record"]
+api_functions = ["hsh_model_request", "hsh_gen_request"]
+
+[credits]
+operations = [{ name = "hsh.train", label = "Train a headshot model" }, { name = "hsh.generate", label = "Generate a headshot" }]
