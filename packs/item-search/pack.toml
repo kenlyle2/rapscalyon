@@ -1,7 +1,7 @@
 [pack]
 name = "item-search"
 prefix = "is"
-version = "0.1.0"
+version = "0.1.1"
 description = "Saved search profiles, candidate items proposed by an external matcher, and a review-then-dispatch queue for a worker. Ships the plumbing and the security model, not the matching intelligence."
 license = "AGPL-3.0-or-later"
 tier = "official"

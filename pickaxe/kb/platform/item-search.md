@@ -2,7 +2,7 @@
 
 Saved searches, a review inbox and a safe worker queue, with your matcher plugged in from outside.
 
-Tier: official. Version 0.1.0. Saved search profiles, candidate items proposed by an external matcher, and a review-then-dispatch queue for a worker. Ships the plumbing and the security model, not the matching intelligence.
+Tier: official. Version 0.1.1. Saved search profiles, candidate items proposed by an external matcher, and a review-then-dispatch queue for a worker. Ships the plumbing and the security model, not the matching intelligence.
 
 ## Who it's for
 
