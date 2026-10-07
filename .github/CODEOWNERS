@@ -1,0 +1,7 @@
+# Every change needs the owner's review once branch protection requires code-owner review (a repository setting).
+*                 @kenlyle2
+/supabase/        @kenlyle2
+/tools/           @kenlyle2
+/.github/         @kenlyle2
+/app/             @kenlyle2
+/registry/        @kenlyle2
