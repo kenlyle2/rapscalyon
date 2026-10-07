@@ -1,0 +1,77 @@
+name: Packs
+
+# Pull requests: the pack gate (generated files current, versions bumped, every official pack installs, passes its tests and removes cleanly).
+# Pushes to main: report knowledge documents in Pickaxe that no longer match the repo. Nothing is published automatically.
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  gate:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Generated files are current
+        run: |
+          python3 tools/rapscalyon.py catalog
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "Generated files are out of date. Run 'python3 tools/rapscalyon.py catalog' and commit:"; git status --porcelain; exit 1
+          fi
+      - name: A changed pack has a higher version
+        run: python3 tools/rapscalyon.py registry-check "origin/${{ github.base_ref }}"
+      - name: Install order resolves
+        run: python3 tools/ci_packs.py --plan
+      - name: App types
+        working-directory: app
+        run: |
+          npm ci
+          npx tsc --noEmit
+      - uses: supabase/setup-cli@v1
+      - name: Local Supabase (throwaway)
+        run: supabase start -x studio,imgproxy,edge-runtime,logflare,vector,supavisor,inbucket,pgmeta
+      - name: Install, test and remove every official pack
+        run: python3 tools/ci_packs.py
+
+  docs-drift:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compare the repo with the published knowledge documents
+        id: check
+        run: |
+          set +e
+          python3 tools/kb_sync.py check | tee check.txt
+          echo "stale=$([ ${PIPESTATUS[0]} -ne 0 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+      - name: Open an issue if documents are stale
+        if: steps.check.outputs.stale == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          {
+            echo "Knowledge documents in Pickaxe no longer match the repo."
+            echo
+            echo '```'
+            cat check.txt
+            echo '```'
+            echo
+            echo "Redeploy the app if the catalog changed (the interviewer reads it live through /api/interview), then, on purpose:"
+            echo '`python3 tools/kb_sync.py publish`'
+          } > body.md
+          gh issue create --title "Pickaxe knowledge documents are stale" --body-file body.md || true
