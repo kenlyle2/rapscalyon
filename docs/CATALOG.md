@@ -210,7 +210,7 @@ subject-individual, subject-business, loops-email.
 
 Triggers write every derived value; clients cannot. Role-switched SQL tests try to break each rule.
 
-## Item search (`item-search` 0.1.0, official)
+## Item search (`item-search` 0.1.1, official)
 
 > Saved searches, a review inbox and a safe worker queue, with your matcher plugged in from outside.
 

@@ -44,7 +44,7 @@ SECRET_PATTERNS = [
 def die(msg, code=1):
     print(msg, file=sys.stderr); sys.exit(code)
 
-# Production projects this tool must never touch (PostGlider, TatPlat, JobsGlider).
+# Production projects this tool must never touch (the owner's production apps).
 # Projects this tool must never touch (your production refs). Kept out of the repo: set RS_PROTECTED_REFS="ref1,ref2"
 # or list one ref per line in tools/protected-refs.txt (git-ignored).
 def _protected_refs():

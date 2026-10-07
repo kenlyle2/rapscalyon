@@ -40,8 +40,10 @@ jobs:
           npm ci
           npx tsc --noEmit
       - uses: supabase/setup-cli@v1
+        with:
+          version: 2.109.1   # the version supabase/config.toml was written with
       - name: Local Supabase (throwaway)
-        run: supabase start -x studio,imgproxy,edge-runtime,logflare,vector,supavisor,inbucket,pgmeta
+        run: supabase start -x studio,imgproxy,edge-runtime,logflare,vector,supavisor,mailpit,postgres-meta
       - name: Install, test and remove every official pack
         run: python3 tools/ci_packs.py
 

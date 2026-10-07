@@ -4,10 +4,9 @@ Versioning: core + shell share the repo version (semver, pre-1.0: minor bumps ma
 
 ## Unreleased
 - Offer sync: DeepSeek adapter (`RSY_LLM=deepseek`, reads images) and ScrapeCreators as the default Facebook source; Graph API docs marked optional.
-- Offer synchronizer (`docs/OFFER-SYNC.md`): Facebook posts become FluentCart offer drafts a shopkeeper approves with one tap. New `integrations/fluentcart-schedule` (weekday, time and date availability, enforced at every purchase path), `integrations/fluentcart-offers` (REST receiver, signed approval links, public active-offers feed), `integrations/offers-widget` (`<rsy-offers>`), and `tools/offer_sync` (Graph API and ScrapeCreators sources, Spanish extractor, stdlib runner).
-- ClawMagic.ai adopted as the opinionated destination/executor (`docs/CLAWMAGIC.md`); `confirm_stack` now returns `executor` and a paste-ready `ticket`; Pickaxe roles hand off to ClawMagic.
+- Offer synchronizer: Facebook posts become FluentCart offer drafts a shopkeeper approves with one tap. New `integrations/fluentcart-schedule` (weekday, time and date availability, enforced at every purchase path), `integrations/fluentcart-offers` (REST receiver, signed approval links, public active-offers feed), `integrations/offers-widget` (`<rsy-offers>`), and `tools/offer_sync` (Graph API and ScrapeCreators sources, Spanish extractor, stdlib runner).
+- ClawMagic.ai adopted as the opinionated destination/executor; `confirm_stack` now returns `executor` and a paste-ready `ticket`; Pickaxe roles hand off to ClawMagic.
 - `billing-webhook` pack moved into core (migration `core_billing`, route, admin page, `docs/BILLING.md`); `rapscalyon.py core` applies it idempotently.
-- Added `AGENTS.md` (working policy).
 - New AGPL base packs: `item-tracker`, `item-search` (generic item/search model; child packs add typed kinds).
 - Installer: `tier = "commercial"` packs (`license = "LicenseRef-..."`) and `RAPSCALYON_PACKS_PATH` for packs distributed outside this repo.
 - `jobs-tracker` moved out to the private commercial `rapscalyon-plus` repo (0.2.0 is a child of `item-tracker`).
@@ -24,4 +23,4 @@ Versioning: core + shell share the repo version (semver, pre-1.0: minor bumps ma
 - Installer/validator, `deploy.sh`, Dockerfile, demo-matrix tooling.
 - Verified on 8 hosted demo instances (all suites green, identical core fingerprint) plus Playwright UI e2e.
 
-Not yet: CLA text, trademark, FluentCart field verification, JobsGlider baseline migration, Tier-2 KB docs. See `docs/DECISIONS.md`.
+Not yet: CLA text, trademark, FluentCart field verification, JobsGlider baseline migration, Tier-2 KB docs.
