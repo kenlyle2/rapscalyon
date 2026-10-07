@@ -33,7 +33,10 @@ def build(entry):
     """Text of one document, exactly as it is uploaded."""
     b = entry['build']
     if b['kind'] == 'file':
-        return open(os.path.join(KB, b['path'])).read()
+        # private documents live in the private rapscalyon-app repo; point RAPSCALYON_APP_PATH at its checkout
+        for base in (KB, os.path.join(os.environ.get('RAPSCALYON_APP_PATH', '/nonexistent'), 'pickaxe', 'kb')):
+            if os.path.exists(os.path.join(base, b['path'])): return open(os.path.join(base, b['path'])).read()
+        return None
     names, _ = official_packs()
     if b.get('members') == 'rest':  # every official pack not named in another group
         taken = {n for e in load()['docs'] if e['build'].get('kind') == 'packs' and isinstance(e['build'].get('members'), list) for n in e['build']['members']}
@@ -48,7 +51,9 @@ def build(entry):
 def cmd_check():
     m = load(); _, cv = official_packs(); stale = []
     for e in m['docs']:
-        h = sha(build(e))
+        text = build(e)
+        if text is None: print(f"skip  {e['name']:34} private source not available (set RAPSCALYON_APP_PATH)"); continue
+        h = sha(text)
         state = 'ok' if h == e.get('publishedSha256') else 'STALE'
         if state != 'ok': stale.append(e['name'])
         print(f"{state:5} {e['name']:34} {e.get('documentId', '-')}")
@@ -80,6 +85,7 @@ def cmd_publish(only):
     call = client(); m = load(); _, cv = official_packs()
     for e in m['docs']:
         text = build(e)
+        if text is None: print(f"skip {e['name']}: private source not available (set RAPSCALYON_APP_PATH)"); continue
         if (only and e['name'] not in only) or (not only and sha(text) == e.get('publishedSha256')): continue
         old = e.get('documentId')
         new = call('document_create', {'name': e['name'], 'title': e['name'], 'documentType': 'text', 'rawContent': text})['documentId']
