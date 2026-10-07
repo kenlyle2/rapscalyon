@@ -67,7 +67,7 @@ The repo is the single source of truth. Everything else is generated from `packs
 
 **Reviewing a contributed pack.** Tier `official` needs an AGPL licence; no third-party source (BuilderKit rule); read `docs/SECURITY.md` of the pack; a new commercial name needs the hard-coded list in `app/lib/interview.ts` edited by hand (not yet generated).
 
-**Verified here 2026-10-07 (see the CI run on the pull request that added this line for the rest):** `catalog`, `registry-check` (fails on a changed pack with the same version, passes after a bump), `ci_packs.py --plan`, `kb_sync.py adopt` and `check` (read-only against Pickaxe), the app type-check. **Not run:** the workflow itself on GitHub, `supabase start` in CI, `ci_packs.py` end to end (it needs a fresh database; the scratch database here holds 11 packs), and `kb_sync.py publish`. `check` reports `rapscalyon-packs` stale: the live copy has an older header and banner format; a publish refreshes it.
+**Verified 2026-10-07:** the whole gate ran green on GitHub (pull request 2): generated files current, version rule, install order, app types, a throwaway local Supabase, then 24 official packs installed in order, 29 of 29 test suites passed, all packs removed leaving nothing. Its first runs found two real defects, both fixed: a CI-only Supabase CLI version mismatch, and the `item-search` rollback, which could not drop its tables while functions on their row types existed (0.1.1). `kb_sync.py adopt` and `check` ran read-only against Pickaxe. **Not run:** `kb_sync.py publish` and the production redeploy of the app (both blocked pending the owner's explicit go in this session). `check` reports `rapscalyon-packs` stale: the live copy has an older header and banner format.
 
 ## Installing and removing packs
 
