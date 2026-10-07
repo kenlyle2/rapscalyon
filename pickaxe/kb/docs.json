@@ -1,0 +1,181 @@
+{
+ "agents": [
+  "NWCR3HQ6JB0D",
+  "ZWRT9WUT8NLR",
+  "D56AVF9N0U5W"
+ ],
+ "docs": [
+  {
+   "name": "rapscalyon-packs",
+   "build": {
+    "kind": "packs",
+    "members": "rest"
+   },
+   "documentId": "OACYS6DK3YS6G92I18991LN0E",
+   "agents": [
+    "NWCR3HQ6JB0D",
+    "ZWRT9WUT8NLR"
+   ],
+   "publishedSha256": "742dc7e85e850bd29468b877ae14665bb036179f5062f4fef3138a4174cc6b97"
+  },
+  {
+   "name": "rapscalyon-packs-ai-apps",
+   "build": {
+    "kind": "packs",
+    "members": [
+     "interior-designs",
+     "ai-chat",
+     "chat-with-file",
+     "chat-with-youtube",
+     "image-generations",
+     "image-transforms",
+     "headshots",
+     "music-generations",
+     "voice-transcriptions",
+     "text-to-speech",
+     "qr-code-generations",
+     "content-writer",
+     "youtube-content"
+    ]
+   },
+   "documentId": "36D7SFVG8CPZGIZQQO1KHUCD3",
+   "agents": [
+    "NWCR3HQ6JB0D",
+    "ZWRT9WUT8NLR"
+   ],
+   "publishedSha256": "1179fcd6e12756125c0851e0741d83a4d70615b28221e0f807a3c540f858b0f6"
+  },
+  {
+   "name": "vertical-affiliatewp",
+   "build": {
+    "kind": "file",
+    "path": "vertical/affiliatewp.md"
+   },
+   "documentId": "E2AXR0RZ38KHPKL55F584XYS8",
+   "agents": [
+    "NWCR3HQ6JB0D"
+   ],
+   "publishedSha256": "ec12cd1a3f24263d4dc24c6aec8d4d585f63e134976ba0d9b5c8b8dad436cd8f"
+  },
+  {
+   "name": "vertical-fluentcart",
+   "build": {
+    "kind": "file",
+    "path": "vertical/fluentcart.md"
+   },
+   "documentId": "NFVWHHPQVG203AC3G04AUJ2SL",
+   "agents": [
+    "NWCR3HQ6JB0D"
+   ],
+   "publishedSha256": "b1729a4aee29467318859f931c3b348e2c22b242d5435e4d18ff6cc3296dd933"
+  },
+  {
+   "name": "vertical-hostinger-node-hosting",
+   "build": {
+    "kind": "file",
+    "path": "vertical/hostinger-node-hosting.md"
+   },
+   "documentId": "7OJKK6GHBGD3ZSWQTJMAIF6EJ",
+   "agents": [
+    "NWCR3HQ6JB0D"
+   ],
+   "publishedSha256": "2f3c07c3895b48471225027c8368b4d8f2959ad5bf1265961a167730abfaeedc"
+  },
+  {
+   "name": "vertical-ninjapipe",
+   "build": {
+    "kind": "file",
+    "path": "vertical/ninjapipe.md"
+   },
+   "documentId": "7ODPR81B7O9WABRHYQWA3F1UC",
+   "agents": [
+    "NWCR3HQ6JB0D"
+   ],
+   "publishedSha256": "28a8fd38067515533ca26fb59b6235179ceb3dc58d3465b1f9befcdedc424d7a"
+  },
+  {
+   "name": "vertical-pickaxe-agents",
+   "build": {
+    "kind": "file",
+    "path": "vertical/pickaxe-agents.md"
+   },
+   "documentId": "YEQ65XHAS6TDEYXZPXQF02GX5",
+   "agents": [
+    "NWCR3HQ6JB0D"
+   ],
+   "publishedSha256": "93b884c065e61d8d7f565918e01850553906e18a816d19267413d40a59446809"
+  },
+  {
+   "name": "vertical-sanity-headless-cms",
+   "build": {
+    "kind": "file",
+    "path": "vertical/sanity-headless-cms.md"
+   },
+   "documentId": "BZ6XUL7N26LAQOIM2DE6XC5T2",
+   "agents": [
+    "NWCR3HQ6JB0D"
+   ],
+   "publishedSha256": "f3d2c322687ecbb063057f67970ec1d8814922922cb8bae6bbf691dea15d04c8"
+  },
+  {
+   "name": "vertical-supabase-foundation",
+   "build": {
+    "kind": "file",
+    "path": "vertical/supabase-foundation.md"
+   },
+   "documentId": "PMFR4EVX7E8UBK0XOZ33HT2PL",
+   "agents": [
+    "NWCR3HQ6JB0D"
+   ],
+   "publishedSha256": "fbd421d45fa6196e87013878370fdd82908ec828d1f34a6aec715ee1bef26981"
+  },
+  {
+   "name": "vertical-vercel-nextjs-hosting",
+   "build": {
+    "kind": "file",
+    "path": "vertical/vercel-nextjs-hosting.md"
+   },
+   "documentId": "LX1MORHII8U2B7R56NNRLXWG0",
+   "agents": [
+    "NWCR3HQ6JB0D"
+   ],
+   "publishedSha256": "a33589778781394e0b5cb4add52eabfcbf50bcf3bf9e356c0abbf1670ea74fcc"
+  },
+  {
+   "name": "vertical-wordpress-multisite",
+   "build": {
+    "kind": "file",
+    "path": "vertical/wordpress-multisite.md"
+   },
+   "documentId": "O4K9YZHJ9Q10DHD2AWC1QPQ8W",
+   "agents": [
+    "NWCR3HQ6JB0D"
+   ],
+   "publishedSha256": "97bc57ab7926c9978a5238a4c6c49255960ed4052e5bb5b3dde335d071e8f781"
+  },
+  {
+   "name": "commerce-stacks",
+   "build": {
+    "kind": "file",
+    "path": "vertical/commerce-stacks.md"
+   },
+   "documentId": "YT7F8HFXCA0W0JWNPBLEIUPZM",
+   "agents": [
+    "D56AVF9N0U5W"
+   ],
+   "publishedSha256": "b51425a8adf9f238d88832909634a942e8971351009364d6376095abfb17e749"
+  },
+  {
+   "name": "launch-page-sets",
+   "build": {
+    "kind": "file",
+    "path": "vertical/launch-page-sets.md"
+   },
+   "documentId": "SEUSMPMVG9TGEE3NENEBJFZDV",
+   "agents": [
+    "D56AVF9N0U5W"
+   ],
+   "publishedSha256": "c588597ec33b1861c1b517bcdf19c79f43ab9b98ba7f57d805b30e75663ef59c"
+  }
+ ]
+}
