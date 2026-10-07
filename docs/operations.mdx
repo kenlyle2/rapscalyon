@@ -46,7 +46,7 @@ store site (WordPress)                                    RapScalYon app (Next.j
 
 **Event flow into core.** A bridge posts `{subscription_id, customer_id?, status, email, product_name?, plan_key?, event_id, occurred_at}`. Core maps `active|trialing|renewed` to activated or renewed, `on-hold|failed|past_due` to payment failed, `cancelled|canceled|pending-cancel` to canceled, plus `expired` and `refunded`. The event id (`fc:<sub>:<status>:<time>`, `wps:...` for WPSubscription) makes a retry a duplicate and a second cancel a new event. The email identifies the customer; the FluentCart bridge skips an event with no email or subscription id.
 
-**Choosing the stack per client** is in `docs/COMMERCE-STACKS.md`: FluentCart is the default, WooCommerce with WPSubscription the exception (an existing Woo store, or the owner's JobsGlider and PostGlider sites), FluentCart with FluentAffiliate when affiliates are simple.
+**Choosing the stack per client** is in `docs/COMMERCE-STACKS.md`: FluentCart is the default, WooCommerce with WPSubscription the exception (an existing Woo store, or the owner's existing sites), FluentCart with FluentAffiliate when affiliates are simple.
 
 ## Pack registry, versions and what happens on a pull request
 
@@ -79,7 +79,7 @@ RAPSCALYON_PACKS_PATH=~/projects/rapscalyon-plus/packs   # for commercial packs
 
 Hosted mode links with `supabase link` and runs `supabase db query --linked` through the Management API. The token is a personal access token in `~/.config/rapscalyon/surf-infra.token` (mode 600, `SUPABASE_ACCESS_TOKEN=sbp_...`), used per command and never printed. `pack validate` of the chat-with-* packs needs `ai-chat` installed first. A hosted project may already have an event trigger named `ensure_rls`; core drops it and installs its own.
 
-Protected projects, never touched: PostGlider, TatPlat, JobsGlider production (`tools/protected-refs.txt`).
+Protected projects, never touched: the owner's production Supabase projects (`tools/protected-refs.txt`).
 
 ## Verifying the FluentCart bridge (repeatable)
 

@@ -9,7 +9,7 @@ import sources  # noqa: E402
 
 
 def fx(name):
-    with open(os.path.join(HERE, "fixtures", name + ".json"), "rb") as f:
+    with open(os.path.join(HERE, "data", name + ".json"), "rb") as f:
         return f.read()
 
 

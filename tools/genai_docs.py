@@ -7,7 +7,7 @@
 
 Dependency-free. The pages come from https://apilogicserver.github.io/Docs/<Page>/ (third-party documentation: the
 merged text is written to a build directory, never committed). State lives in pickaxe/kb/genai-logic.state.json.
-After a publish, re-run the retrieval questions in docs/PICKAXE.md and packs/invoice-refunds/rules/poc/run_scenarios.py.
+After a publish, re-run the retrieval questions in packs/invoice-refunds/rules/poc/run_scenarios.py.
 """
 import hashlib, json, os, re, sys, time, urllib.request
 from datetime import date
