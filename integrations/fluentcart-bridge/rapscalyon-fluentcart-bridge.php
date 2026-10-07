@@ -25,7 +25,9 @@ function rapscalyon_fc_get($src, array $keys) {
 }
 
 /** Map one FluentCart hook to the flat JSON the core webhook documents. Pure: no WordPress calls. */
-function rapscalyon_fc_payload(string $status, array $data, string $discriminator = '') {
+/** The event id carries the time of the event, so cancel, resume and a second cancel are different events; a retry reuses the payload. */
+function rapscalyon_fc_payload(string $status, array $data, string $discriminator = '', ?int $now = null) {
+    $now = $now ?? time();
     $sub = $data['subscription'] ?? null;
     $cust = $data['customer'] ?? null;
     $order = $data['order'] ?? null;
@@ -40,8 +42,8 @@ function rapscalyon_fc_payload(string $status, array $data, string $discriminato
         'email' => (string) $email,
         'product_name' => rapscalyon_fc_get($sub, ['item_name', 'product_name', 'title', 'plan_name']),
         'plan_key' => rapscalyon_fc_get($sub, ['variation_id', 'object_id', 'item_id']),
-        'event_id' => 'fc:' . $sub_id . ':' . $status . ($discriminator !== '' ? ':' . $discriminator : ''),
-        'occurred_at' => gmdate('c'),
+        'event_id' => 'fc:' . $sub_id . ':' . $status . ($discriminator !== '' ? ':' . $discriminator : '') . ':' . $now,
+        'occurred_at' => gmdate('c', $now),
     ], function ($v) { return $v !== null; });
 }
 
