@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "is_offer": false,
+  "source": {
+    "platform": "facebook",
+    "page_url": "https://www.facebook.com/examplepizza",
+    "post_url": "https://www.facebook.com/examplepizza/posts/100000000000003",
+    "posted_at": "2026-09-29T14:10:00-06:00",
+    "post_id": "100000000000003"
+  },
+  "currency": "CRC",
+  "confidence": 0.97,
+  "flags": []
+}

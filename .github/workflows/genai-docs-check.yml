@@ -44,6 +44,6 @@ jobs:
             echo "python3 tools/genai_docs.py publish"
             echo '```'
             echo
-            echo "Then re-run the retrieval questions in docs/PICKAXE.md and packs/invoice-refunds/rules/poc/run_scenarios.py, and commit pickaxe/kb/genai-logic.state.json."
+            echo "Then re-run the retrieval questions in packs/invoice-refunds/rules/poc/run_scenarios.py, and commit pickaxe/kb/genai-logic.state.json."
           } > body.md
           gh issue create --title "GenAI-Logic docs changed ($(date +%Y-%m))" --body-file body.md

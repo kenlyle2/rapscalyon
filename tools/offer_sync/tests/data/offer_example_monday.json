@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "is_offer": true,
+  "source": {
+    "platform": "facebook",
+    "page_url": "https://www.facebook.com/examplepizza",
+    "post_url": "https://www.facebook.com/examplepizza/posts/100000000000001",
+    "posted_at": "2026-09-29T14:10:00-06:00",
+    "post_id": "100000000000001"
+  },
+  "title": "Lunes de promo: 2 pizzas por ₡12.000",
+  "description": "Todos los lunes, 2 pizzas por ₡12.000.",
+  "variants": [
+    {
+      "label": "",
+      "price": 12000
+    }
+  ],
+  "discount": null,
+  "currency": "CRC",
+  "weekdays": [
+    0
+  ],
+  "time_window": null,
+  "valid_from": null,
+  "valid_until": null,
+  "image": null,
+  "confidence": 0.93,
+  "flags": []
+}

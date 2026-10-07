@@ -24,14 +24,14 @@ Principles:
 | Data, auth | Supabase: core migrations, subjects, RLS, MFA gate | built | README.md, `supabase/migrations/` |
 | Functionality | Packs (AGPL here; commercial "plus" packs in a separate repo) | built, 11 packs | `docs/CATALOG.md`, CONTRIBUTING.md |
 | App shell | Next.js with a nav built from installed packs | built | `app/` |
-| Front door | Pickaxe agents: Stack Interviewer (proposes the stack), Pack Builder (writes a pack) | live, retests pending | `docs/PICKAXE.md` |
-| Executor | ClawMagic.ai runs the execution ticket | decided; unverified end to end | `docs/CLAWMAGIC.md` |
-| Business rules | GenAI-Logic declarative rules | proven on SQLite only | `docs/VAL-CALL.md`, `packs/invoice-refunds` |
+| Front door | Pickaxe agents: Stack Interviewer (proposes the stack), Pack Builder (writes a pack) | live, retests pending | private `rapscalyon-app` repo |
+| Executor | ClawMagic.ai runs the execution ticket | decided; unverified end to end | private `rapscalyon-app` repo |
+| Business rules | GenAI-Logic declarative rules | proven on SQLite only | `packs/invoice-refunds` |
 | Billing | FluentCart on WordPress; webhook in core | built; real webhook sample unverified | `docs/BILLING.md` |
-| Affiliates | AffiliateWP (owner decision 2026-10-04) with a FluentCart adapter plugin | not built | `docs/DECISIONS.md`, `docs/CLIENT-PLAYBOOK.md` |
+| Affiliates | AffiliateWP (owner decision 2026-10-04) with a FluentCart adapter plugin | adapter built (`integrations/affiliatewp-fluentcart/`) | `docs/BILLING.md` |
 | Email, bot protection, analytics | Loops, Turnstile, PostHog packs | built | `docs/CATALOG.md` |
-| Client websites | Sanity content, one multi-tenant React Router site, hosted Studio per client | built 2026-10-03; Studio hand-off to a client is a human step | `docs/CLIENT-SITES.md`, `docs/DECISIONS.md` (2026-10-03 entries) |
-| Provisioning | `tools/client_site.py`: unclaimed Sanity project, claim link, draft seeding | built, tested on a real claim | `docs/CLIENT-SITES.md` |
+| Client websites | Sanity content, one multi-tenant React Router site, hosted Studio per client | built 2026-10-03; Studio hand-off to a client is a human step | private `rapscalyon-app` repo |
+| Provisioning | `tools/client_site.py`: unclaimed Sanity project, claim link, draft seeding | built, tested on a real claim | private `rapscalyon-app` repo |
 
 Customer journey (**[proposal]**, assembled from the pieces above): subscribe through FluentCart, interview in Pickaxe, receive a stack proposal and execution ticket, ClawMagic installs the packs into the client's own Supabase project, the provisioning tool creates their Sanity project and drafts their site from the interview, the client claims it, reviews drafts in their Studio, and their domain is added to `SANITY_SITES`.
 
@@ -39,22 +39,20 @@ Worked example of a child pack from a brief, with prompts: `car-deal-finder-buil
 
 ## 0c. Related documents
 
-In this repo: `README.md`, `AGENTS.md` (working policy), `CONTRIBUTING.md`, `CHANGELOG.md`, `docs/DECISIONS.md` (dated decisions and lessons, including the Sanity choice, the claim path, the trial downgrade, hosting options and multi-tenancy), `docs/CLIENT-SITES.md` (recipe, pricing, Sanity announcements and how they fit, verified and unverified points), `docs/BILLING.md`, `docs/PICKAXE.md`, `docs/CLAWMAGIC.md`, `docs/CATALOG.md`, `docs/VAL-CALL.md`, `docs/BACK-OFFICE.md` (what runs the company back office, and why it is not an app).
+In this repo: `README.md`, `CONTRIBUTING.md`, `CHANGELOG.md`, `docs/BILLING.md`, `docs/CATALOG.md`, `docs/COMMERCE-STACKS.md`, `docs/BYOD.md`, `docs/operations.mdx`.
 
-Outside this repo, in the owner's working folder `~/projects/infra-eval/` (not under version control; named here so they can be found): `rapscalyon-packs-architecture.md` (how the packs were derived from PostGlider, TatPlat and JobsGlider), `rapscalyon-manifest.toml` (which objects are core or pack), the three `*-schema-extract.md` and policy files, and `car-deal-finder-build-plan.md`. They contain schema detail of private products, so they stay private; move only what is genericized.
+The role prompts, working policy, decision log and client-facing playbooks live in the private `rapscalyon-app` repo. Schema extracts of the owner's private products stay out of every repo; only genericized material is moved here.
 
-Other repos: `rapscalyon-plus` (commercial packs), `rapscalyon-main` (marketing site, the multi-tenant client site template and the Studio, https://rapscalyon.surf).
+Other repos: `rapscalyon-plus` (commercial packs), `rapscalyon-app` (private: role prompts, strategy and client docs), `rapscalyon-main` (marketing site and the multi-tenant client site template).
 
-## 0d. Hosting and limits **[checked 2026-10-03]**
+## 0d. Hosting **[checked 2026-10-03]**
 
-Account: Hostinger shared web hosting, 5 Node.js "apps", unlimited websites, 50 GB. Measured over SSH: 7 TB disk partition shared, our home 911 MB (the site build 290 MB), inode use 34% of the partition, 8192 open files per process, a LiteSpeed Node runtime (`lsnode`) running two worker processes of about 115 MB each. CPU and memory caps are CloudLinux per-account limits that are not readable from inside the account.
-From Hostinger's public pages (marketing, not a contract; verify in the account): 2 CPU cores and 3 GB RAM per plan, **unlimited bandwidth with no meter**, free CDN, SSL, daily backups. So bandwidth is not the constraint; **CPU and RAM during traffic bursts and the single Node app are**. Sources: https://www.hostinger.com/ph/web-apps-hosting/react-hosting, https://www.hostinger.com/compare/hostinger-vs-vercel.
-**Unverified and the biggest risk to multi-tenancy:** whether a Hostinger Node app answers for client domains added as separate websites in the panel, or each domain is its own vhost and app slot. Test before selling it (see `docs/CLIENT-SITES.md`). Fallback: Cloudflare Workers free tier or a small VPS (`docs/DECISIONS.md`).
+Client sites run as one multi-tenant Node app on shared Node hosting (the plan allows a handful of Node apps, so one app serves many domains). Whether the host answers for every client domain without a separate app slot per domain is the biggest unverified risk to multi-tenancy; test it before selling it. Fallbacks: a serverless edge platform or a small VPS.
 
 ## 1. Purpose **[user]**
 
 RapScalYon aims to be the fastest way to build any business app. It is a Next.js shell
-plus a Supabase backend, shaped by lessons learned on PostGlider, JobsGlider and TatPlat.
+plus a Supabase backend, shaped by lessons learned on earlier production apps.
 Supabase provides data services and authentication. Business infrastructure is included,
 such as Cloudflare Turnstile and Loops.so (business email). Optional **packs** add
 functionality on top of the base.
@@ -79,10 +77,8 @@ functionality on top of the base.
 The owner's brief called this table "objects". **In the repo it is `subjects`**
 (`core_foundation.sql:246-267`): "the generic thing the user's data hangs off (persona,
 business location, ...)". Access goes through `has_subject_access(subject_id)` in every
-pack policy. A subject is a TatPlat business profile, a JobsGlider persona
-("job search"), and so on. **[proposal]** If "objects" is the intended public name, rename
-in core in the same change as every downstream reference. JobsGlider AGENTS.md rule 7
-forbids leaving a wrong name in place.
+pack policy. A subject is a business profile, a job-search persona, and so on. **[proposal]** If "objects" is the intended public name, rename
+in core in the same change as every downstream reference; never leave a wrong name in place.
 
 ## 3. Item model **[repo: packs/item-tracker, packs/item-search]**
 
@@ -90,18 +86,18 @@ The base packs are generic: a **subject** owns **items** (`item-tracker`) and sa
 review queue (`item-search`). A specific kind of item is a **child pack** that keys 1:1 on the base
 table and adds typed columns (class-table inheritance, kind enforced by a trigger). "Item" is used
 instead of "object" to avoid Supabase's `storage.objects`. `subjects` keeps its name (owner decision).
-Child packs, including the commercial job packs, are distributed separately; see `docs/DECISIONS.md`.
+Child packs, including the commercial job packs, are distributed separately.
 
 ## 3b. Destination **[user]**
 
 ClawMagic.ai is the opinionated destination for clients, users and builders: Pickaxe designs, ClawMagic executes
-and operates. Details, provenance and the unverified parts are in `docs/CLAWMAGIC.md`.
+and operates.
 
 ## 3c. Features (possibility) **[user, proposal]**
 
-Packs are database and app building blocks. Clients should see something simpler: **features** they switch on, such as email, billing, or offer sync. A feature may bundle a pack (database), an executor job in ClawMagic or OpenClaw (a watcher or publisher), and a connector to a commodity tool such as FluentCart. "Pack" stays the technical term for the installable database unit; "feature" is the word for clients and the interviewer. Nothing is renamed in the installer, the registry or the live Pickaxe agents yet. First candidate: `offer-sync` (`docs/briefs/offer-sync.md`): plugins and a runner around FluentCart, no database pack.
+Packs are database and app building blocks. Clients should see something simpler: **features** they switch on, such as email, billing, or offer sync. A feature may bundle a pack (database), an executor job in ClawMagic or OpenClaw (a watcher or publisher), and a connector to a commodity tool such as FluentCart. "Pack" stays the technical term for the installable database unit; "feature" is the word for clients and the interviewer. Nothing is renamed in the installer, the registry or the live Pickaxe agents yet. First candidate: `offer-sync` (`integrations/fluentcart-offers/`): plugins and a runner around FluentCart, no database pack.
 
-ClawMagic as the day-to-day business-management interface for clients is a possibility the owner believes in; it rests on the unverified claims in `docs/CLAWMAGIC.md` and on one real run. ClawMagic is described by the owner as a superset of OpenClaw (not verified by us), and each client may run an OpenClaw instance; that is why principle 7 matters.
+ClawMagic as the day-to-day business-management interface for clients is a possibility the owner believes in; it rests on unverified claims and on one real run. ClawMagic is described by the owner as a superset of OpenClaw (not verified by us), and each client may run an OpenClaw instance; that is why principle 7 matters.
 
 ## 4. Licensing model **[user, proposal]**
 
@@ -111,6 +107,6 @@ installed with `RAPSCALYON_PACKS_PATH`. The installer applies every security rul
 
 ## 5. Standing constraints **[user, memory]**
 
-Never touch production Supabase projects (PostGlider, TatPlat, JobsGlider) without
+Never touch the owner's production Supabase projects without
 explicit approval. Cloud spend only with approval. Do not print secrets. Ask before
 outward-facing actions. The public repo carries no production identifiers.

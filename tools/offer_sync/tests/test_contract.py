@@ -9,7 +9,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(HERE))
 import contract  # noqa: E402
 
-FIX = os.path.join(HERE, "fixtures")
+FIX = os.path.join(HERE, "data")
 
 
 def load(name):

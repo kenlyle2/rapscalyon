@@ -1,0 +1,23 @@
+{
+  "success": true,
+  "posts": [
+    {
+      "id": "300",
+      "url": "https://www.facebook.com/examplepizza/posts/300",
+      "text": "Lunes de promo: 2 pizzas por ₡12.000",
+      "publishTime": "2026-09-28T14:10:00Z",
+      "image": {
+        "uri": "https://scontent.xx.fbcdn.net/v/t39/a.jpg"
+      }
+    },
+    {
+      "id": "299",
+      "text": "Abrimos de 12 a 9",
+      "url": "https://www.facebook.com/examplepizza/posts/299"
+    },
+    {
+      "nothing": "useful"
+    }
+  ],
+  "cursor": "CUR1"
+}

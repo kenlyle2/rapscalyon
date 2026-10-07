@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "is_offer": true,
+  "source": {
+    "platform": "facebook",
+    "page_url": "https://www.facebook.com/examplepizza",
+    "post_url": "https://www.facebook.com/examplepizza/posts/100000000000002",
+    "posted_at": "2026-09-29T14:10:00-06:00",
+    "post_id": "100000000000002"
+  },
+  "title": "20% de descuento en fin de semana",
+  "description": "",
+  "variants": [],
+  "discount": {
+    "type": "percent",
+    "amount": 20
+  },
+  "currency": "CRC",
+  "weekdays": [
+    5,
+    6
+  ],
+  "time_window": {
+    "from": "17:00",
+    "to": "22:00"
+  },
+  "valid_from": "2026-10-03",
+  "valid_until": "2026-10-31",
+  "image": null,
+  "confidence": 0.8,
+  "flags": []
+}

@@ -1,0 +1,7 @@
+{
+  "error": {
+    "message": "Error validating access token: Session has expired",
+    "type": "OAuthException",
+    "code": 190
+  }
+}

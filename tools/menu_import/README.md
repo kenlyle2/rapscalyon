@@ -38,10 +38,10 @@ Spanish menu for a full OCR run.
 - **Hostinger AI Assistant 3.1.2**: "Create product with AI" (description from a short brief, length and tone, featured image) is a metabox on the WooCommerce `product` post type only; its content generator accepts only `post`, `product` and `page`. FluentCart products are `fluent-products`, so it never appears on them. Its MCP server has generic post-type list/search tools plus Woo-specific product tools; none create FluentCart variants. Hostinger's site Builder generated 0 products here.
 - **FluentCart 1.7.0**: no AI description writer. Its MCP module (off by default, Settings, Features & addon) has product tools that are read-only (list, get, inventory).
 - Result: nothing to reuse for importing or describing FluentCart products. The importer only uses printed text for descriptions; an optional "draft descriptions" step is a product decision for the owner, not built.
-- A stylised social post (the Example's Monday promo image) is not a menu: OCR returned noise, the parser kept one flagged junk item and nothing would import. Reading art like that is the Pickaxe's job (vision), which is why the Importer Pickaxe exists.
+- A stylised social post (a promo image) is not a menu: OCR returned noise, the parser kept one flagged junk item and nothing would import. Reading art like that is the Pickaxe's job (vision), which is why the Importer Pickaxe exists.
 
 ## Where Pickaxe fits
-- Recommended: a separate **Product Importer** Pickaxe (design in docs/PICKAXE.md). The agent reads the menu image
+- Recommended: a separate **Product Importer** Pickaxe. The agent reads the menu image
   and produces the draft; this tool's parser and checks do the deterministic part; a person reviews; the OPERATOR runs
   `--apply`. The agent holds no SSH key: menu text and photos are untrusted input, and a prompt-injected agent with a
   shell on a live store can do anything the site user can.

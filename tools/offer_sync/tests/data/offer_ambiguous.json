@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "is_offer": true,
+  "source": {
+    "platform": "facebook",
+    "page_url": "https://www.facebook.com/examplepizza",
+    "post_url": "https://www.facebook.com/examplepizza/posts/100000000000004",
+    "posted_at": "2026-09-29T14:10:00-06:00",
+    "post_id": "100000000000004"
+  },
+  "title": "Promo especial",
+  "description": "",
+  "variants": [
+    {
+      "label": "",
+      "price": 2000
+    }
+  ],
+  "discount": null,
+  "currency": "CRC",
+  "weekdays": [],
+  "time_window": null,
+  "valid_from": null,
+  "valid_until": null,
+  "image": null,
+  "confidence": 0.4,
+  "flags": [
+    "price 2000 is far below this menu; probably 12.000 (colon sign read as 2)",
+    "no weekday or date printed"
+  ]
+}

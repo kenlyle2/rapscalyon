@@ -4,7 +4,7 @@ require __DIR__ . '/../includes/pure.php';
 
 $fail = 0;
 function check($name, $got, $want) { global $fail; if ($got !== $want) { $fail++; echo "FAIL $name: got " . var_export($got, true) . "\n"; } }
-$fx = function ($n) { return json_decode(file_get_contents(__DIR__ . '/../../../tools/offer_sync/tests/fixtures/' . $n . '.json'), true); };
+$fx = function ($n) { return json_decode(file_get_contents(__DIR__ . '/../../../tools/offer_sync/tests/data/' . $n . '.json'), true); };
 
 foreach (['offer_example_monday', 'offer_percent_weekend', 'not_offer', 'offer_ambiguous'] as $n) {
     check("fixture $n valid", rsy_offer_problems($fx($n)), []);
