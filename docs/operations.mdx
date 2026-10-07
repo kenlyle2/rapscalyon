@@ -67,7 +67,7 @@ The repo is the single source of truth. Everything else is generated from `packs
 
 **Reviewing a contributed pack.** Tier `official` needs an AGPL licence; no third-party source (BuilderKit rule); read `docs/SECURITY.md` of the pack; a new commercial name needs the hard-coded list in `app/lib/interview.ts` edited by hand (not yet generated).
 
-**Verified here 2026-10-07:** `catalog`, `registry-check` (fails on a changed pack with the same version, passes after a bump), `ci_packs.py --plan`, `kb_sync.py adopt` and `check` (read-only against Pickaxe), the app type-check. **Not run:** the workflow itself on GitHub, `supabase start` in CI, `ci_packs.py` end to end (it needs a fresh database; the scratch database here holds 11 packs), and `kb_sync.py publish`. `check` reports `rapscalyon-packs` stale: the live copy has an older header and banner format; a publish refreshes it.
+**Verified here 2026-10-07 (see the CI run on the pull request that added this line for the rest):** `catalog`, `registry-check` (fails on a changed pack with the same version, passes after a bump), `ci_packs.py --plan`, `kb_sync.py adopt` and `check` (read-only against Pickaxe), the app type-check. **Not run:** the workflow itself on GitHub, `supabase start` in CI, `ci_packs.py` end to end (it needs a fresh database; the scratch database here holds 11 packs), and `kb_sync.py publish`. `check` reports `rapscalyon-packs` stale: the live copy has an older header and banner format; a publish refreshes it.
 
 ## Installing and removing packs
 
