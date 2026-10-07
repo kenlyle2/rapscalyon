@@ -75,12 +75,14 @@ if (function_exists('add_action')) {
         'fluent_cart/payments/subscription_failing'  => ['past_due', null],
         'fluent_cart/subscription_past_due'          => ['past_due', null],
         'fluent_cart/subscriptions/system_charge_failed'    => ['past_due', 'attempt'],
-        'fluent_cart/subscriptions/system_charge_succeeded' => ['renewed', 'attempt'],
+        // Fired for every paid renewal, gateway-managed (Stripe, PayPal) or store-managed; system_charge_succeeded covers only the second.
+        'fluent_cart/subscription_renewed' => ['renewed', 'order'],
     ];
     foreach ($map as $hook => [$status, $disc]) {
         add_action($hook, function ($data) use ($status, $disc) {
             $data = is_array($data) ? $data : (array) $data;
-            $d = $disc ? (string) ($data[$disc] ?? '') . ':' . (string) rapscalyon_fc_get($data['order'] ?? null, ['id']) : '';
+            $d = $disc === 'order' ? 'o' . (string) rapscalyon_fc_get($data['order'] ?? null, ['id'])
+                : ($disc ? (string) ($data[$disc] ?? '') . ':' . (string) rapscalyon_fc_get($data['order'] ?? null, ['id']) : '');
             $p = rapscalyon_fc_payload($status, $data, $d);
             if ($p === null) { error_log("rapscalyon-fc: {$status} event without subscription id or email, skipped"); return; }
             rapscalyon_fc_send($p);
