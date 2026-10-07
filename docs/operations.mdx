@@ -2,7 +2,7 @@
 title: "Operations"
 description: "How to run, test, verify and clean up the commerce integrations, the Surf Infra test project and the Pickaxe knowledge documents."
 visibility: internal
-verified_against_commit: 6fbc52d
+verified_against_commit: 1ea855e
 ---
 
 <Callout kind="info">
@@ -18,6 +18,35 @@ verified_against_commit: 6fbc52d
 | FluentCart sender | `integrations/fluentcart-bridge/` | FluentCart free has hooks and no sender (webhook is Pro). |
 | WPSubscription sender | `integrations/wpsubscription-bridge/` | Replaces Bit Integrations; unit-tested only. |
 | Affiliate adapter | `integrations/affiliatewp-fluentcart/` | First order, paid, refund, cancel, renewal. |
+
+## The e-commerce and subscription system: layout and function
+
+Everything lives in \`integrations/\`. Each folder is a separate WordPress plugin (AGPL-3.0-or-later) for the store site, not part of the Next.js app; the app only receives their events. There is a plugin per job, so a store installs only what it needs.
+
+\`\`\`
+store site (WordPress)                                    RapScalYon app (Next.js + Supabase)
+  FluentCart (free, 1.7.0)  or  WooCommerce + WPSubscription
+    |-- fluentcart-bridge / wpsubscription-bridge  --signed JSON-->  /api/billing-webhook --> core billing ledger
+    |-- affiliatewp-fluentcart  --> AffiliateWP referrals (pending, unpaid, rejected, renewals)
+    |-- fluentcart-schedule  (when a product can be bought)
+    |-- fluentcart-offers  <--POST /rapscalyon/v1/offers-- offer synchronizer (Facebook posts read by ScrapeCreators)
+    |        '-- GET /rapscalyon/v1/offers/active --> offers-widget (any website)
+    '-- fluentauth/apply-settings.php.txt  (login hardening, run once)
+\`\`\`
+
+| Folder | Function | Hooks and endpoints | Status |
+|---|---|---|---|
+| \`fluentcart-bridge/\` | Sends FluentCart subscription events to the core billing webhook. Needed because the free plugin has hooks and no sender. | Listens on \`fluent_cart/payments/subscription_active|trialing|canceled|expired|failing\`, \`fluent_cart/subscription_past_due\`, \`fluent_cart/subscriptions/system_charge_failed\`, \`fluent_cart/subscription_renewed\`. Posts flat JSON signed with HMAC-SHA256 (\`x-webhook-signature\`); retries up to 4 times. Needs \`RAPSCALYON_WEBHOOK_URL\` and \`RAPSCALYON_WEBHOOK_SECRET\` in \`wp-config.php\`. | Payloads verified against real FluentCart hooks in a sandbox 2026-10-07. No live gateway run. |
+| \`wpsubscription-bridge/\` | Same job for WPSubscription on WooCommerce; replaces Bit Integrations. | \`subscrpt_subscription_*\` hooks, \`subscrpt_subscription_payment_completed\` (renewal unless it is the parent order's payment), \`woocommerce_order_fully_refunded\` (refund). Same constants and signing. | Unit-tested (16 checks). Not run on a live store. |
+| \`affiliatewp-fluentcart/\` | Registers a \`fluentcart\` integration in AffiliateWP so referrals follow FluentCart orders. | \`fluent_cart/checkout/prepare_other_data\` (pending), \`order_paid_done\` (unpaid), \`order_fully_refunded\` and \`order_status_changed_to_canceled\` (rejected), \`subscription_renewed\` (renewal commission). Files: \`affiliatewp-fluentcart.php\` (registration through \`affwp_extended_integrations\`), \`class-integration.php\`. | Orders tested on cash-on-delivery; renewals tested with a stub only. |
+| \`fluentcart-schedule/\` | Makes a product buyable only on chosen weekdays, hours and dates in the store's timezone. A product with no schedule is untouched. | Checks at purchase through \`fluent_cart/cart/can_purchase\`, \`.../variation/can_purchase_bundle\`, \`.../checkout/validate_before_process\`, \`.../coupon/can_use_coupon\`; meta box on \`fluent-products\`; a cron tick keeps state and cache tidy. Logic in \`includes/active.php\` (pure, \`tests/active_test.php\`). | Built and unit-tested. |
+| \`fluentcart-offers/\` | Receives offers from the offer synchronizer, creates FluentCart draft products (a discount offer is a private \`rsy_offer\` record with a coupon), emails the shopkeeper approve and reject links, and publishes the active ones. Requires \`fluentcart-schedule\`. | \`POST /wp-json/rapscalyon/v1/offers\` (capability \`rsy_manage_offers\`, role "Offer bot", WordPress application password); \`GET /wp-json/rapscalyon/v1/offers/active\` (public). Approval page changes nothing until the button is pressed. Settings: \`auto_publish\`, \`notify_email\`. | Live end to end run 2026-10-05; see \`docs/OFFER-SYNC.md\`. |
+| \`offers-widget/\` | \`<rsy-offers src="https://shop.example" limit="6">\`: shows the active offers on any site. No framework; feed text reaches the page only through \`textContent\`; links used only when https on the shop's host. | Reads the offers feed. | Built, \`test.js\`. |
+| \`fluentauth/\` | Baseline login hardening for a client billing site (FluentAuth, slug \`fluent-security\`): second factor required for administrators (app, passkey or emailed code), default admin renamed to the client. | \`apply-settings.php.txt\`, run once through WP-CLI over SSH. | Applied to \`billing.rapscalyon.com\` 2026-10-04. |
+
+**Event flow into core.** A bridge posts \`{subscription_id, customer_id?, status, email, product_name?, plan_key?, event_id, occurred_at}\`. Core maps \`active|trialing|renewed\` to activated or renewed, \`on-hold|failed|past_due\` to payment failed, \`cancelled|canceled|pending-cancel\` to canceled, plus \`expired\` and \`refunded\`. The event id (\`fc:<sub>:<status>:<time>\`, \`wps:...\` for WPSubscription) makes a retry a duplicate and a second cancel a new event. The email identifies the customer; the FluentCart bridge skips an event with no email or subscription id.
+
+**Choosing the stack per client** is in \`docs/COMMERCE-STACKS.md\`: FluentCart is the default, WooCommerce with WPSubscription the exception (an existing Woo store, or the owner's JobsGlider and PostGlider sites), FluentCart with FluentAffiliate when affiliates are simple.
 
 ## Installing and removing packs
 
