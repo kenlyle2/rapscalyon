@@ -11,12 +11,14 @@
     "kind": "packs",
     "members": "rest"
    },
-   "documentId": "OACYS6DK3YS6G92I18991LN0E",
+   "documentId": "5RVSWZDKUP0JYOMN93NFB1VG5",
    "agents": [
     "NWCR3HQ6JB0D",
     "ZWRT9WUT8NLR"
    ],
-   "publishedSha256": "742dc7e85e850bd29468b877ae14665bb036179f5062f4fef3138a4174cc6b97"
+   "publishedSha256": "8c53cdec0a2bea179213130ecbcdcf3b87d459b3048f1d9a928ed0af0fd46d10",
+   "catalogVersion": "8b25773eff6b",
+   "publishedOn": "2026-10-07"
   },
   {
    "name": "rapscalyon-packs-ai-apps",
@@ -99,11 +101,13 @@
     "kind": "file",
     "path": "vertical/pickaxe-agents.md"
    },
-   "documentId": "YEQ65XHAS6TDEYXZPXQF02GX5",
+   "documentId": "VULNINTIZZRC6B9RSKVZJUY3A",
    "agents": [
     "NWCR3HQ6JB0D"
    ],
-   "publishedSha256": "93b884c065e61d8d7f565918e01850553906e18a816d19267413d40a59446809"
+   "publishedSha256": "1008676d06ea6cdaf0c9ddf3c7f2e00bc2ed4ee7f58c942fadcd1902d9860c4e",
+   "catalogVersion": "8b25773eff6b",
+   "publishedOn": "2026-10-07"
   },
   {
    "name": "vertical-sanity-headless-cms",
