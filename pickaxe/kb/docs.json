@@ -11,13 +11,13 @@
     "kind": "packs",
     "members": "rest"
    },
-   "documentId": "5RVSWZDKUP0JYOMN93NFB1VG5",
+   "documentId": "T2J6AY1EF6KZJJJ1467SOSVE3",
    "agents": [
     "NWCR3HQ6JB0D",
     "ZWRT9WUT8NLR"
    ],
-   "publishedSha256": "8c53cdec0a2bea179213130ecbcdcf3b87d459b3048f1d9a928ed0af0fd46d10",
-   "catalogVersion": "8b25773eff6b",
+   "publishedSha256": "6e13c7e7bc601cd1dc829b0399af0ce67588d29ac115b6c1e500a4ad2dbcbd53",
+   "catalogVersion": "2978cadc9e56",
    "publishedOn": "2026-10-07"
   },
   {
@@ -180,6 +180,20 @@
     "D56AVF9N0U5W"
    ],
    "publishedSha256": "c588597ec33b1861c1b517bcdf19c79f43ab9b98ba7f57d805b30e75663ef59c"
+  },
+  {
+   "name": "builder-pack-authoring",
+   "build": {
+    "kind": "file",
+    "path": "builder/pack-authoring.md"
+   },
+   "documentId": "5XHTHZ7P5QSJAEV8NP53FOHLA",
+   "agents": [
+    "ZWRT9WUT8NLR"
+   ],
+   "publishedSha256": "a4073fd84f2ff1d869262433b2ff678868a0d16351e2a779d83ab18f481179ff",
+   "catalogVersion": "2978cadc9e56",
+   "publishedOn": "2026-10-07"
   }
  ]
 }
