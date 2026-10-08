@@ -11,13 +11,13 @@
     "kind": "packs",
     "members": "rest"
    },
-   "documentId": "5RVSWZDKUP0JYOMN93NFB1VG5",
+   "documentId": "T2J6AY1EF6KZJJJ1467SOSVE3",
    "agents": [
     "NWCR3HQ6JB0D",
     "ZWRT9WUT8NLR"
    ],
-   "publishedSha256": "8c53cdec0a2bea179213130ecbcdcf3b87d459b3048f1d9a928ed0af0fd46d10",
-   "catalogVersion": "8b25773eff6b",
+   "publishedSha256": "6e13c7e7bc601cd1dc829b0399af0ce67588d29ac115b6c1e500a4ad2dbcbd53",
+   "catalogVersion": "2978cadc9e56",
    "publishedOn": "2026-10-07"
   },
   {
