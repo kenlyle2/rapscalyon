@@ -1,7 +1,7 @@
 [pack]
 name = "item-search"
 prefix = "is"
-version = "0.1.2"
+version = "0.3.0"
 description = "Saved search profiles, candidate items proposed by an external matcher, and a review-then-dispatch queue for a worker. Ships the plumbing and the security model, not the matching intelligence."
 license = "AGPL-3.0-or-later"
 tier = "official"
@@ -10,10 +10,10 @@ requires = ["item-tracker"]
 conflicts = []
 
 [db]
-tables = ["is_profiles", "is_candidates", "is_dispatches", "is_outbox"]
+tables = ["is_profiles", "is_candidates", "is_dispatches", "is_outbox", "is_price_history", "is_lists", "is_list_items"]
 functions = ["is_enforce_profile_limit", "is_profile_changed", "is_dispatch_approved", "is_emit", "is_accept_candidate", "is_dismiss_candidate",
-             "is_set_dispatch_overrides", "is_approve_dispatch", "is_cancel_dispatch", "is_claim_next_dispatch", "is_complete_dispatch", "is_claim_outbox"]
-api_functions = ["is_accept_candidate", "is_dismiss_candidate", "is_set_dispatch_overrides", "is_approve_dispatch", "is_cancel_dispatch"]
+             "is_set_dispatch_overrides", "is_approve_dispatch", "is_cancel_dispatch", "is_claim_next_dispatch", "is_complete_dispatch", "is_claim_outbox", "is_record_price", "is_create_list", "is_rename_list", "is_delete_list", "is_add_to_list", "is_remove_from_list"]
+api_functions = ["is_accept_candidate", "is_dismiss_candidate", "is_set_dispatch_overrides", "is_approve_dispatch", "is_cancel_dispatch", "is_create_list", "is_rename_list", "is_delete_list", "is_add_to_list", "is_remove_from_list"]
 
 [limits]
 is_max_profiles = { default = 3, note = "search profiles per subject (applies to browser/API users; service-role code is exempt)" }

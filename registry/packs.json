@@ -1,5 +1,5 @@
 {
- "catalogVersion": "2978cadc9e56",
+ "catalogVersion": "1023120f0d6c",
  "core": "0.1.0",
  "packs": {
   "ai-chat": {
@@ -93,14 +93,14 @@
    "contentHash": "5d33aae6be2648a3071790567d50d8d849c56addb0e2176fcdfca773ccc4e8b8"
   },
   "item-search": {
-   "version": "0.1.2",
+   "version": "0.3.0",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [
     "item-tracker"
    ],
    "requires_core": ">=0.1",
-   "contentHash": "0d14348272f1dc08137395c26dcd6c0f29a0b5d3ff5c3772cb42f41a87e13bd0"
+   "contentHash": "8bab1359be294da6afbf35ef2063f7b2242342a9a968848d006eb9bc8010ce7a"
   },
   "item-tracker": {
    "version": "0.1.0",
