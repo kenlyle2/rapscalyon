@@ -23,15 +23,15 @@ Principles:
 |---|---|---|---|
 | Data, auth | Supabase: core migrations, subjects, RLS, MFA gate | built | README.md, `supabase/migrations/` |
 | Functionality | Packs (AGPL here; commercial "plus" packs in a separate repo) | built, 11 packs | `docs/CATALOG.md`, CONTRIBUTING.md |
-| App shell | Next.js with a nav built from installed packs | built | `app/` |
-| Front door | Pickaxe agents: Stack Interviewer (proposes the stack), Pack Builder (writes a pack) | live, retests pending | private `rapscalyon-app` repo |
-| Executor | ClawMagic.ai runs the execution ticket | decided; unverified end to end | private `rapscalyon-app` repo |
+| App base code | Next.js with a nav built from installed packs | built | `app/` |
+| Front door | Pickaxe agents: Stack Interviewer (proposes the stack), Pack Builder (writes a pack) | live, retests pending | private `rapscalyon-px-app` repo |
+| Executor | ClawMagic.ai runs the execution ticket | decided; unverified end to end | private `rapscalyon-px-app` repo |
 | Business rules | GenAI-Logic declarative rules | proven on SQLite only | `packs/invoice-refunds` |
 | Billing | FluentCart on WordPress; webhook in core | built; real webhook sample unverified | `docs/BILLING.md` |
 | Affiliates | AffiliateWP (owner decision 2026-10-04) with a FluentCart adapter plugin | adapter built (`integrations/affiliatewp-fluentcart/`) | `docs/BILLING.md` |
 | Email, bot protection, analytics | Loops, Turnstile, PostHog packs | built | `docs/CATALOG.md` |
-| Client websites | Sanity content, one multi-tenant React Router site, hosted Studio per client | built 2026-10-03; Studio hand-off to a client is a human step | private `rapscalyon-app` repo |
-| Provisioning | `tools/client_site.py`: unclaimed Sanity project, claim link, draft seeding | built, tested on a real claim | private `rapscalyon-app` repo |
+| Client websites | Sanity content, one multi-tenant React Router site, hosted Studio per client | built 2026-10-03; Studio hand-off to a client is a human step | private `rapscalyon-px-app` repo |
+| Provisioning | `tools/client_site.py`: unclaimed Sanity project, claim link, draft seeding | built, tested on a real claim | private `rapscalyon-px-app` repo |
 
 Customer journey (**[proposal]**, assembled from the pieces above): subscribe through FluentCart, interview in Pickaxe, receive a stack proposal and execution ticket, ClawMagic installs the packs into the client's own Supabase project, the provisioning tool creates their Sanity project and drafts their site from the interview, the client claims it, reviews drafts in their Studio, and their domain is added to `SANITY_SITES`.
 
@@ -41,9 +41,9 @@ Worked example of a child pack from a brief, with prompts: `car-deal-finder-buil
 
 In this repo: `README.md`, `CONTRIBUTING.md`, `CHANGELOG.md`, `docs/BILLING.md`, `docs/CATALOG.md`, `docs/COMMERCE-STACKS.md`, `docs/BYOD.md`, `docs/operations.mdx`.
 
-The role prompts, working policy, decision log and client-facing playbooks live in the private `rapscalyon-app` repo. Schema extracts of the owner's private products stay out of every repo; only genericized material is moved here.
+The role prompts, working policy, decision log and client-facing playbooks live in the private `rapscalyon-px-app` repo. Schema extracts of the owner's private products stay out of every repo; only genericized material is moved here.
 
-Other repos: `rapscalyon-plus` (commercial packs), `rapscalyon-app` (private: role prompts, strategy and client docs), `rapscalyon-main` (marketing site and the multi-tenant client site template).
+Other repos: `rapscalyon-plus` (commercial packs), `rapscalyon-px-app` (private: role prompts, strategy and client docs), `rapscalyon-main` (marketing site and the multi-tenant client site template).
 
 ## 0d. Hosting **[checked 2026-10-03]**
 
@@ -51,7 +51,7 @@ Client sites run as one multi-tenant Node app on shared Node hosting (the plan a
 
 ## 1. Purpose **[user]**
 
-RapScalYon aims to be the fastest way to build any business app. It is a Next.js shell
+RapScalYon aims to be the fastest way to build any business app. It is a Next.js app base code
 plus a Supabase backend, shaped by lessons learned on earlier production apps.
 Supabase provides data services and authentication. Business infrastructure is included,
 such as Cloudflare Turnstile and Loops.so (business email). Optional **packs** add
@@ -67,7 +67,7 @@ functionality on top of the base.
   change core. An installer (`tools/rapscalyon.py pack add`) validates and applies each
   pack in one transaction. A pack bundles tables, RLS, grants, functions, extensions
   and cron jobs.
-- **app** (`app/`): Next.js shell with a nav built from installed packs.
+- **app** (`app/`): Next.js app base code with a nav built from installed packs.
 - Official (AGPL) packs today: `subject-individual`, `subject-business`, `team`,
   `real-estate-listings`, `item-tracker`, `item-search`, `social-posts`, `loops-email`, `turnstile`,
   `posthog-analytics`.

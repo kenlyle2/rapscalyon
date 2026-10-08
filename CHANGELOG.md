@@ -1,6 +1,6 @@
 # Changelog
 
-Versioning: core + shell share the repo version (semver, pre-1.0: minor bumps may break). Each pack versions itself in `pack.toml`.
+Versioning: core + app base code share the repo version (semver, pre-1.0: minor bumps may break). Each pack versions itself in `pack.toml`.
 
 ## Unreleased
 - Offer sync: DeepSeek adapter (`RSY_LLM=deepseek`, reads images) and ScrapeCreators as the default Facebook source; Graph API docs marked optional.
@@ -18,7 +18,7 @@ Versioning: core + shell share the repo version (semver, pre-1.0: minor bumps ma
 
 - Core: RLS-everywhere, default-deny grants, MFA gate, subjects/limits/pricing, private `media` bucket.
 - 10 official packs (AGPL-3.0-or-later): subject-individual, subject-business, team, real-estate-listings, jobs-tracker, social-posts, loops-email, turnstile, posthog-analytics, billing-webhook.
-- Next.js 15 shell with pack-installed UI/API routes; generic `/api/billing-webhook` (WooCommerce/WPSubscription, FluentCart, or any caller).
+- Next.js 15 app base code with pack-installed UI/API routes; generic `/api/billing-webhook` (WooCommerce/WPSubscription, FluentCart, or any caller).
 - Pickaxe interviewer artifacts (role prompt, OpenAPI action, platform KB).
 - Installer/validator, `deploy.sh`, Dockerfile, demo-matrix tooling.
 - Verified on 8 hosted demo instances (all suites green, identical core fingerprint) plus Playwright UI e2e.
