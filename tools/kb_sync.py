@@ -33,7 +33,7 @@ def build(entry):
     """Text of one document, exactly as it is uploaded."""
     b = entry['build']
     if b['kind'] == 'file':
-        # private documents live in the private rapscalyon-app repo; point RAPSCALYON_APP_PATH at its checkout
+        # private documents live in the private rapscalyon-px-app repo; point RAPSCALYON_APP_PATH at its checkout
         for base in (KB, os.path.join(os.environ.get('RAPSCALYON_APP_PATH', '/nonexistent'), 'pickaxe', 'kb')):
             if os.path.exists(os.path.join(base, b['path'])): return open(os.path.join(base, b['path'])).read()
         return None

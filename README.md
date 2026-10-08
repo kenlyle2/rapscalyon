@@ -1,11 +1,13 @@
 # RapScalYon
 
-A security-first Supabase foundation ("core") plus installable **packs** and a Next.js shell, for standing up a real, multi-tenant, billing-ready app fast. Packs are Lego bricks: each one is optional, prefixed, tested, removable, and cannot change core.
+A security-first Supabase foundation ("core") plus installable **packs** and a Next.js app base code, for standing up a real, multi-tenant, billing-ready app fast. Packs are Lego bricks: each one is optional, prefixed, tested, removable, and cannot change core.
 
 ## What is in the box
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the layers (core, packs, app base code, tools, integrations), the repositories and the naming rules.
+
 - **core** (`supabase/migrations/`): profiles, credits and plan limits (idempotent `charge_credits`), billing-event ledger, rate limiting, subjects (workspaces) and members, MFA gate, `ensure_rls` event trigger, default-deny privileges, and a private `media` storage bucket scoped by workspace. Secrets live in a service-only table, never in `profiles`.
 - **packs** (`packs/`, see [docs/CATALOG.md](docs/CATALOG.md)): `subject-individual`, `subject-business`, `team`, `real-estate-listings`, `item-tracker`, `item-search`, `invoice-refunds`, `social-posts`, `loops-email`, `turnstile`, `posthog-analytics`, and thirteen AI-app packs (`interior-designs`, `ai-chat`, `chat-with-file`, `chat-with-youtube`, `image-generations`, `image-transforms`, `headshots`, `music-generations`, `voice-transcriptions`, `text-to-speech`, `qr-code-generations`, `content-writer`, `youtube-content`) whose table shapes follow the apps on [builderkit.ai/apps](https://builderkit.ai/apps) (not affiliated).
-- **app** (`app/`): Next.js shell with Supabase auth, a workspace switcher, a nav built from installed packs, pack pages and API routes, public `/packs` marketing pages, and the interview API for the Pickaxe layer.
+- **app** (`app/`): Next.js app base code with Supabase auth, a workspace switcher, a nav built from installed packs, pack pages and API routes, public `/packs` marketing pages, and the interview API for the Pickaxe layer.
 - **tools**: `tools/rapscalyon.py` (installer, validator, test runner, catalog), `deploy.sh`, `Dockerfile`, `app.json`.
 
 ## Quick start
@@ -35,7 +37,7 @@ A pack is rejected, and its transaction rolled back, if it: leaves RLS off, gran
 - Enable leaked-password protection in Supabase Auth (Pro plan setting).
 - The RLS helper functions (`has_subject_access`, `is_admin`, `is_subject_owner`, `session_satisfies_mfa`, `get_my_limits`) are intentionally executable by signed-in users, because policies call them as that user; they reveal only the caller's own access.
 - `rate_limits` and `user_credentials` have RLS and no policies on purpose: service role only.
-- Never expose `SUPABASE_SERVICE_ROLE_KEY` to the browser; the shell only reads it in server code.
+- Never expose `SUPABASE_SERVICE_ROLE_KEY` to the browser; the app base code only reads it in server code.
 
 ## Licence
 AGPL-3.0-or-later for core and official packs (see [CONTRIBUTING.md](CONTRIBUTING.md) for tiers and the contributor agreement).
