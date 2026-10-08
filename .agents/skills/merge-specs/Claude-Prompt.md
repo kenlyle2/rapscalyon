@@ -15,10 +15,13 @@ List every conflict (stack, scope, order, numbers, naming, ranking logic) as
 silently resolve any. When I decide, rewrite the text as "DECIDED — ...", remove
 the tag, and prune the dead alternatives.
 
-Split the result into Part A (what the product does, its rules, data model, risks)
-and Part B (implementation guidance), with a reading guide at the top saying which
-sections [the downstream agent, e.g. the Interviewer] should use. Keep stack advice
-out of Part A.
+Put the product material first and the implementation guidance after a divider line:
+========== IMPLEMENTATION NOTES (Builder and worker only; Interviewer stops reading
+above this line) ==========
+Everything above the divider must read as a client would say it: no pack names, table
+names, vendors or stack advice. Add a short "Decisions" list above the divider, each
+with who decided and when, and a one-line reading guide at the top saying which side
+[the downstream agent, e.g. the Interviewer] uses.
 
 Merge [outside analysis, if any] by adopting ideas, not text: rewrite into the
 spec's vocabulary, let the spec win where they conflict, record the differences in
