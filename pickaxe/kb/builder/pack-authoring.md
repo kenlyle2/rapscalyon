@@ -42,3 +42,11 @@ RapScalYon's direction is declarative rules (GenAI-Logic: Sum, Count, Formula, C
 
 ## Reference pack
 `invoice-refunds` (prefix `ir`) shows every pattern above: derived columns, a state machine, an owner-only decision, an outbox event, and a test suite that attacks each rule. Its migration and tests are attached as reference documents.
+
+## Child packs: extend a base pack, never duplicate it
+A pack that refines another (for example a car matcher on `item-search`) lists it under `requires` and adds tables keyed 1:1 to the base rows (`profile_id` to `is_profiles`, `candidate_id` to `is_candidates`, both with `subject_id` in the composite key). It does not create its own candidate or profile table, and does not re-declare the base statuses.
+
+Facts about the base packs a child builds on:
+- `item-tracker`: `it_items` has `archived_at` (null means active), `it_item_events` is the append-only log (`status_change` and `system` kinds are not client-writable), and a plan cap counts unarchived items.
+- `item-search`: `is_profiles` (criteria and exclusions as jsonb, `active`), `is_candidates` (status `new`, `accepted`, `dismissed`; `item_id` links the tracked item; unique per profile and `external_ref`), `is_dispatches`, `is_outbox`; accept and dismiss go through `is_accept_candidate` and `is_dismiss_candidate`. Candidate delivery is a service-role insert.
+- Ticket scope paths follow the layout at the top of this document exactly (`pack.toml`, `migrations/`, `rollback/`, `tests/`, `docs/`). There is no `pack.json`, `schema/` or `policies/` directory.
