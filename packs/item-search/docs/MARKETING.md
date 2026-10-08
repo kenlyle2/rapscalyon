@@ -15,3 +15,7 @@ item-tracker, loops-email (commercial child: jobs-search).
 
 ## Under the hood
 Every user action is a function that checks the caller, the workspace and the MFA gate. The queue contract is three service-role functions, and the pack contains no matching or submission logic.
+
+## Matching recipe
+
+The pack contains no matching, but ships a recipe for child packs that rank by deal quality and fit (`docs/MATCHING.md`): preferences are scored, hard filters are real exclusions, fit is a weighted 0 to 100 score, value is the gap to a comparables-based fair value with a confidence, and delivery is gate-then-blend with fixed scaling. It also says how to value without self-reference and how to test without tuning on the answer. The six worker stages (fetch, normalize, extract, value, score, deliver) have a typed contract in `docs/WORKER.md`, so a Builder can target each stage on its own.
