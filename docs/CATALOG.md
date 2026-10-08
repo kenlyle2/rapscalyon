@@ -210,7 +210,7 @@ subject-individual, subject-business, loops-email.
 
 Triggers write every derived value; clients cannot. Role-switched SQL tests try to break each rule.
 
-## Item search (`item-search` 0.1.1, official)
+## Item search (`item-search` 0.1.2, official)
 
 > Saved searches, a review inbox and a safe worker queue, with your matcher plugged in from outside.
 
@@ -232,6 +232,10 @@ item-tracker, loops-email (commercial child: jobs-search).
 **Under the hood**
 
 Every user action is a function that checks the caller, the workspace and the MFA gate. The queue contract is three service-role functions, and the pack contains no matching or submission logic.
+
+**Matching recipe**
+
+The pack contains no matching, but ships a recipe for child packs that rank by deal quality and fit (`docs/MATCHING.md`): preferences are scored, hard filters are real exclusions, fit is a weighted 0 to 100 score, value is the gap to a comparables-based fair value with a confidence, and delivery is gate-then-blend with fixed scaling. It also says how to value without self-reference and how to test without tuning on the answer. The six worker stages (fetch, normalize, extract, value, score, deliver) have a typed contract in `docs/WORKER.md`, so a Builder can target each stage on its own.
 
 ## Item tracker (`item-tracker` 0.1.0, official)
 
