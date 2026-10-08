@@ -24,14 +24,21 @@ Goal: one spec a downstream agent (e.g., an interviewer or builder pipeline) can
 - When the user decides, rewrite the text as `DECIDED — ...`, delete the `[DECIDE]` tag, and prune dead alternatives. Items the user calls irrelevant get one line, not a section.
 - Never silently resolve a conflict; if you must make a call (e.g., ranking superseded), list it in your summary so the user can veto it.
 
-## 4. Separate product from implementation
-- Part A: what the product does, its rules, data model and risks. Part B: implementation guidance.
-- Say in a reading guide at the top which sections each downstream agent should use. Keep tool/stack advice out of the section an interviewer reads.
+## 4. Mark where the implementation notes start
+- One file is enough. Put the product material first (what it does, its rules, data model, risks), then a divider line, then the implementation guidance:
+
+  `========== IMPLEMENTATION NOTES (Builder and worker only; Interviewer stops reading above this line) ==========`
+
+  Anything below the divider may use pack names, table names, vendors and stack advice. Anything above it must read as a client would say it.
+- Optionally wrap the lower part in `<implementation-notes for="builder">...</implementation-notes>` so an agent can strip it mechanically.
+- Say in a one-line reading guide at the top which side each downstream agent uses.
+- Keep decided answers (markets, vendors, accepted risks) in a short "Decisions" list above the divider, each with who decided and when, so an interviewer can ask them as questions instead of inheriting them.
 
 ## 5. Merging external analyses (e.g., from another LLM)
 - Adopt ideas, not text. Rewrite into the spec's vocabulary and tables.
 - Where it conflicts with settled decisions, the spec wins; record the difference in a short "differences" table.
 - Challenge flaws (e.g., score penalties used as hard filters, double-counted terms, unnormalized scales) and fix them in the merge.
+- Keep a rejection log of what was adopted, changed or dropped, with the reason. See the `reconcile-analysis` skill.
 
 ## 6. Consistency pass (always, before handing back)
 Re-read the final file top to bottom and check:
