@@ -187,11 +187,13 @@
     "kind": "file",
     "path": "builder/pack-authoring.md"
    },
-   "documentId": "ZC5844VMH1P7A4C46V82CX3YF",
+   "documentId": "5XHTHZ7P5QSJAEV8NP53FOHLA",
    "agents": [
     "ZWRT9WUT8NLR"
    ],
-   "publishedSha256": "4f3001cbc37c9a5924664ece60f751763c9f6eafcec4c0dc2b3555f382929372"
+   "publishedSha256": "a4073fd84f2ff1d869262433b2ff678868a0d16351e2a779d83ab18f481179ff",
+   "catalogVersion": "2978cadc9e56",
+   "publishedOn": "2026-10-07"
   }
  ]
 }
