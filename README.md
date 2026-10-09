@@ -3,7 +3,7 @@
 A security-first Supabase foundation ("core") plus installable **packs** and a Next.js app base code, for standing up a real, multi-tenant, billing-ready app fast. Packs are Lego bricks: each one is optional, prefixed, tested, removable, and cannot change core.
 
 ## What is in the box
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the layers (core, packs, app base code, tools, integrations), the repositories and the naming rules.
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the layers (core, packs, app base code, tools, integrations), the repositories and the naming rules. Account modes (app accounts or WordPress accounts) are in [docs/AUTH-MODES.md](docs/AUTH-MODES.md).
 
 - **core** (`supabase/migrations/`): profiles, credits and plan limits (idempotent `charge_credits`), billing-event ledger, rate limiting, subjects (workspaces) and members, MFA gate, `ensure_rls` event trigger, default-deny privileges, and a private `media` storage bucket scoped by workspace. Secrets live in a service-only table, never in `profiles`.
 - **packs** (`packs/`, see [docs/CATALOG.md](docs/CATALOG.md)): `subject-individual`, `subject-business`, `team`, `real-estate-listings`, `item-tracker`, `item-search`, `invoice-refunds`, `social-posts`, `loops-email`, `turnstile`, `posthog-analytics`, and thirteen AI-app packs (`interior-designs`, `ai-chat`, `chat-with-file`, `chat-with-youtube`, `image-generations`, `image-transforms`, `headshots`, `music-generations`, `voice-transcriptions`, `text-to-speech`, `qr-code-generations`, `content-writer`, `youtube-content`) whose table shapes follow the apps on [builderkit.ai/apps](https://builderkit.ai/apps) (not affiliated).
