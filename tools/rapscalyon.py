@@ -7,7 +7,7 @@
   rapscalyon.py pack list
   rapscalyon.py test [--pack name]
 
-Environment: DATABASE_URL (default: local Supabase on :54322).
+Environment: DATABASE_URL (default: local Supabase on :54322). Local databases must hold only core and installed packs (RS_ALLOW_UNREGISTERED=1 overrides).
 A pack is installed in ONE transaction: snapshot -> apply migrations -> catalog validation -> commit.
 Any violation aborts the transaction, so a rejected pack leaves no trace.
 """
@@ -28,7 +28,7 @@ DB_URL = os.environ.get("DATABASE_URL", "postgresql://postgres:postgres@127.0.0.
 CORE_VERSION = "0.1.0"
 
 CORE_TABLES = ["profiles", "user_credentials", "admin_settings", "billing_events", "operation_pricing", "credit_usage_log",
-               "rate_limits", "subjects", "subject_members", "app_events", "account_health_findings", "pack_migrations"]
+               "rate_limits", "subjects", "subject_members", "app_events", "account_health_findings", "pack_migrations", "bw_plan_map"]
 CORE_FUNCTIONS = ["set_updated_at", "handle_new_user", "is_admin", "get_plan_limit", "get_my_limits", "charge_credits",
                   "check_rate_limit", "has_subject_access", "is_subject_owner", "session_satisfies_mfa", "apply_mfa_gate", "ensure_rls"]
 
@@ -105,6 +105,27 @@ def query(sql):
 def installed_packs():
     out = query("select pack || ' ' || version from public.pack_migrations group by pack, version")
     return {l.split()[0]: l.split()[1] for l in out.splitlines() if l}
+
+def unregistered_tables():
+    """Tables in public that neither core nor an installed pack declares. A pack applied with raw psql (bypassing the validator) or
+    another project's schema on a shared database shows up here."""
+    declared = set(CORE_TABLES)
+    for name in installed_packs():
+        try: declared |= set(load_pack(name)[1].get("db", {}).get("tables", []))
+        except SystemExit: pass
+    rows = query("select tablename from pg_tables where schemaname = 'public'").splitlines()
+    return sorted(t for t in rows if t and t not in declared)
+
+def preflight_database():
+    """Local databases only (a hosted product project legitimately holds its own tables). Refuse to install into or test against a
+    database that holds objects no installed pack accounts for: results would depend on someone else's schema."""
+    if REMOTE or os.environ.get("RS_ALLOW_UNREGISTERED") == "1": return
+    extra = unregistered_tables()
+    if extra:
+        die("this database holds tables that core and the installed packs do not declare: " + ", ".join(extra[:8]) + (" ..." if len(extra) > 8 else "")
+            + ".\n  It is not a clean RapScalYon database (another project's schema, or a pack applied without the installer)."
+            + "\n  Give each project its own local dev database instance (own project_id and ports in supabase/config.toml), or `supabase db reset`."
+            + "\n  To proceed anyway: RS_ALLOW_UNREGISTERED=1")
 
 def load_pack(arg):
     d = Path(arg) if Path(arg).is_dir() else pack_dir(arg)
@@ -311,8 +332,22 @@ def with_registry(f, pack, version):
     return text.rstrip("\n") + (f"\n\ninsert into public.pack_migrations (pack, version, filename, checksum) "
                                 f"values ('{pack}', '{version}', '{f.name}', '{sha}') on conflict (pack, filename) do nothing;\n"), sha
 
+def next_stamp():
+    """A migration timestamp later than every file already in supabase/migrations, so two installs in one second never collide."""
+    last = max((int(f.name[:14]) for f in MIGRATIONS.glob("[0-9]" * 14 + "_*.sql")), default=0) if MIGRATIONS.is_dir() else 0
+    return max(int(time.strftime("%Y%m%d%H%M%S", time.gmtime())), last + 1)
+
+def forget_pack_migrations(name):
+    """Delete the replay files a pack's installs generated. An installed-then-removed pack leaves nothing to replay, so
+    `supabase db reset` rebuilds exactly the packs that are installed now."""
+    pat = re.compile(r"^\d{14}_pack_" + re.escape(name.replace("-", "_")) + r"_(\d+_.+|remove)\.sql$")
+    gone = [f for f in MIGRATIONS.glob("*.sql") if pat.match(f.name)] if MIGRATIONS.is_dir() else []
+    for f in gone: f.unlink()
+    return len(gone)
+
 def cmd_add(args, dry_override=None):
     dry = args.dry_run if dry_override is None else dry_override
+    preflight_database()
     d, m, mig = load_pack(args.pack)
     p = m["pack"]
     have = installed_packs()
@@ -351,7 +386,7 @@ def cmd_add(args, dry_override=None):
     print(("VALIDATED (dry run, rolled back): " if dry else "INSTALLED: ") + f"{p['name']} {p['version']} ({len(pending)} migration(s))")
     if not dry and not REMOTE:
         MIGRATIONS.mkdir(parents=True, exist_ok=True)
-        stamp = int(time.strftime("%Y%m%d%H%M%S", time.gmtime()))
+        stamp = next_stamp()
         for i, (src, out) in enumerate(pending):
             dest = MIGRATIONS / f"{stamp + i}_pack_{p['name'].replace('-', '_')}_{src.stem}.sql"
             shutil.copy(out, dest); print("  wrote", dest.relative_to(ROOT))
@@ -372,9 +407,7 @@ def cmd_remove(args):
     if r.returncode: die(r.stderr)
     if getattr(args, "app", None): app_uninstall(name, args.app)
     if REMOTE: print("REMOVED", name, f"(remote {REMOTE})"); return
-    stamp = time.strftime("%Y%m%d%H%M%S", time.gmtime())
-    dest = MIGRATIONS / f"{stamp}_pack_{name.replace('-', '_')}_remove.sql"
-    dest.write_text(body); print("REMOVED", name, "->", dest.relative_to(ROOT))
+    print("REMOVED", name, f"(dropped {forget_pack_migrations(name)} generated replay file(s) from supabase/migrations)")
 
 def _app_dir(app):
     return (ROOT / app) if not Path(app).is_absolute() else Path(app)
@@ -538,6 +571,7 @@ def cmd_list(_):
     for k, v in sorted(installed_packs().items()): print(f"{k} {v}")
 
 def cmd_test(args):
+    preflight_database()
     files = [ROOT / "tests" / "_helpers.sql"]
     suites = sorted((ROOT / "tests").glob("[0-9]*.sql"))
     if args.pack: suites = []
