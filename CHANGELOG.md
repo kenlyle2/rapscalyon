@@ -3,6 +3,7 @@
 Versioning: core + app base code share the repo version (semver, pre-1.0: minor bumps may break). Each pack versions itself in `pack.toml`.
 
 ## Unreleased
+- Installer: `pack add --project <ref>` now also copies the pack's `server/`, `ui/` and `public/` files into `--app` and regenerates the registry (it used to skip this for hosted projects). Mode B verified end to end against a hosted Supabase scratch project (`docs/AUTH-MODES.md`).
 - `docs/AUTH-MODES.md`: Hostinger section records a real scratch install through the Hostinger MCP (what worked, misleading 500s, deploy quirk).
 - Pickaxe KB `vertical-hostinger-node-hosting`: adds the WordPress site for account mode B and a labelled note on the Hostinger AI Agent. Republished (document id changed).
 - `docs/AUTH-MODES.md`: Hostinger section for creating the Mode B WordPress site (API operations, polling, what is unverified) and an honest AI Agent note.

@@ -390,7 +390,7 @@ def cmd_add(args, dry_override=None):
         for i, (src, out) in enumerate(pending):
             dest = MIGRATIONS / f"{stamp + i}_pack_{p['name'].replace('-', '_')}_{src.stem}.sql"
             shutil.copy(out, dest); print("  wrote", dest.relative_to(ROOT))
-        app_install(d, m, Path(args.app) if args.app else None)
+    if not dry: app_install(d, m, Path(args.app) if args.app else None)
 
 def cmd_remove(args):
     name = args.name
