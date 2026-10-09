@@ -101,7 +101,7 @@ Mandatory proactive triggers:
 
 | Change type | Required proactive action |
 |---|---|
-| Pack added, changed or removed | Version bump, migration plus rollback, tests, `catalog`, `registry-check`, CHANGELOG, pack docs, interviewer rules (`app/lib/interview.ts`) if the pack should be proposed |
+| Pack added, changed or removed | Version bump, migration plus rollback, tests, `catalog`, `registry-check`, CHANGELOG, pack docs, the interviewer rule set (read from `INTERVIEW_RULES`, kept outside this repo) if the pack should be proposed |
 | Function, type or table renamed or changed | Every call site, test, policy, doc and generated file |
 | Core migration | Pack compatibility (`requires_core`), rollback, `tests/0*.sql`, `docs/` |
 | App base code route, page or action changed | Typecheck, build, e2e (`app/e2e/`), and the products that carry a copy of that file |

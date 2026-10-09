@@ -1,6 +1,6 @@
 ---
 title: "Operations"
-description: "How to run, test, verify and clean up the commerce integrations, the Surf Infra test project and the Pickaxe knowledge documents."
+description: "How to run, test, verify and clean up the commerce integrations and the Surf Infra test project."
 visibility: internal
 verified_against_commit: 1ea855e
 ---
@@ -57,13 +57,10 @@ The repo is the single source of truth. Everything else is generated from `packs
 | `registry/packs.json`: per pack `version`, `tier`, `license`, `requires`, `requires_core`, `contentHash`, plus `catalogVersion` and the core version | `rapscalyon.py catalog` | CI, the app, humans |
 | `app/lib/packs/catalog.generated.ts` (same data, with the marketing sections, and `catalogVersion`) | `rapscalyon.py catalog` | `/api/interview` |
 | `pickaxe/kb/platform/*.md`, `docs/CATALOG.md` | `rapscalyon.py catalog` | knowledge documents |
-| `pickaxe/kb/docs.json`: each managed Pickaxe document with its id, agents, and the hash of the text last published | `kb_sync.py adopt` and `publish` | `kb_sync.py check` |
 
 **Versions.** `contentHash` is a sha256 over every file in the pack. `catalogVersion` is a short hash of every pack's name, version and content hash, so it changes whenever anything in the catalog does. `rapscalyon.py registry-check <git ref>` fails when a pack's content changed and its `[pack].version` did not go up, when a version went down, or when a pack disappeared (a removal is the owner's decision). `/api/interview` returns `catalogVersion` and each pack's version from `get_context`, and `get_pack` (operation `get_pack`, argument `pack`) returns one pack's sections, requirements and tier from the catalog bundled in the deployment.
 
 **Pull request gate** (`.github/workflows/packs.yml`, job `gate`, no secrets, no hosted database): regenerate the catalog and fail on any difference; `registry-check origin/main`; resolve the install order; type-check the app; start a throwaway local Supabase; `tools/ci_packs.py` installs core and every official pack in dependency order (the installer's security rules and static scan run on each), runs all tests, removes the packs in reverse order and requires an empty result. `.github/CODEOWNERS` names the owner for every path; it takes effect once branch protection requires code-owner review (repository setting, not yet set).
-
-**After a merge.** Pushes to `main` run `docs-drift`: `kb_sync.py check` compares the text the repo would upload with the hash last published, and opens an issue if any document is stale. Nothing is published automatically. The owner then redeploys the app if the catalog changed (the interviewer reads the catalog live through the action) and runs `python3 tools/kb_sync.py publish`, which replaces each stale document in Pickaxe (create, connect, disconnect, delete), reads back the attachment and the text, and records the new id and hash in `pickaxe/kb/docs.json`. Commit that file.
 
 **Reviewing a contributed pack.** Tier `official` needs an AGPL licence; no third-party source (BuilderKit rule); read `docs/SECURITY.md` of the pack; a new commercial name needs the hard-coded list in `app/lib/interview.ts` edited by hand (not yet generated).
 
@@ -101,17 +98,6 @@ On `fluent_cart/subscription_renewed` the adapter finds the first order's referr
 - The bridge sends no `refunded` event to core.
 - WPSubscription bridge on a live WooCommerce store.
 - Revoke the Surf Infra PAT and rotate the project secret key when the work is done.
-
-## Pickaxe knowledge documents
-
-Agents: Stack Interviewer `NWCR3HQ6JB0D`, Pack Builder `ZWRT9WUT8NLR`, Launch Interviewer `D56AVF9N0U5W`. The workspace is near its 50-document cap and `document_update` edits metadata only, so replace a document in this order:
-
-1. `document_create` (`name`, `title`, `documentType: "text"`, `rawContent`).
-2. `document_connect` (camelCase `pickaxeId`, `documentId`).
-3. `document_disconnect`, then `document_delete` (snake_case `document_id`).
-4. Read back: attached ids (`pickaxe_documents`) and the text at `storageUrl` equal to the repo file. `document_get` takes `document_id` and returns metadata only; a camelCase argument gives a misleading 404.
-
-Live as of 2026-10-07: `vertical-affiliatewp` `E2AXR0RZ38KHPKL55F584XYS8` (Interviewer), `commerce-stacks` `YT7F8HFXCA0W0JWNPBLEIUPZM` (Launch Interviewer), both equal to `pickaxe/kb/vertical/`. The Launch role is the repo `pickaxe/launch.role.md`. The role text lives in the `role` field; the `prompt` field is empty.
 
 ## Conventions
 
