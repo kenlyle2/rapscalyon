@@ -15,7 +15,7 @@ Use `mcp__codebase-memory-mcp__search_graph`, `trace_path`, `get_code_snippet` a
 ## Before doing anything
 
 1. Read `SPEC.md` and `docs/ARCHITECTURE.md` (layers, repos, naming). Read the pack's own `docs/` for pack work.
-2. If the task touches a named pack, route, feature or decision, or you are about to write about its status, read the owner's decision log (`docs/DECISIONS.md` in the private `rapscalyon-px-app` repo) first. An analysis file saying "X should be done" is not evidence that X is not done.
+2. If the task touches a named pack, route, feature or decision, or you are about to write about its status, read the owner's decision log (`docs/DECISIONS.md` in the private `rapscalyon-internal` repo) first. An analysis file saying "X should be done" is not evidence that X is not done.
 3. Check for concurrent work before touching shared files: `git status`, `git worktree list`, `git log -5`.
 4. Starting point for any structured task: an existing plan in `.dwp/plans/` (DeepWorkPlan, see `.agents/skills/deepworkplan`). New multi-step work gets a plan there; plans are gitignored and `.dwp/RESUME.md` says where things stand.
 

@@ -41,7 +41,7 @@ Worked example of a child pack from a brief, with prompts: `car-deal-finder-buil
 
 In this repo: `README.md`, `CONTRIBUTING.md`, `CHANGELOG.md`, `docs/BILLING.md`, `docs/CATALOG.md`, `docs/COMMERCE-STACKS.md`, `docs/BYOD.md`, `docs/operations.mdx`.
 
-The role prompts, working policy, decision log and client-facing playbooks live in the private `rapscalyon-px-app` repo. Schema extracts of the owner's private products stay out of every repo; only genericized material is moved here.
+The role prompts, working policy and client-facing playbooks live in the private `rapscalyon-px-app` repo; the decision log lives in the private `rapscalyon-internal` repo. Schema extracts of the owner's private products stay out of every repo; only genericized material is moved here.
 
 Other repos: `rapscalyon-plus` (commercial packs), `rapscalyon-px-app` (private: role prompts, strategy and client docs), `rapscalyon-main` (marketing site and the multi-tenant client site template).
 
