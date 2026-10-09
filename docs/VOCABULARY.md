@@ -1,6 +1,6 @@
 # Vocabulary: core words and product words (DRAFT 2026-10-05)
 
-Core uses three structural words. Customers never need them: each product says them in its own language, in its screens, its Pickaxe agents and its interview questions. The table names stay the same everywhere.
+Core uses three structural words. Customers never need them: each product says them in its own language, in its screens, its Interview agents and its interview questions. The table names stay the same everywhere.
 
 | Core word | Table | What it is | Interior design app says | Other products might say |
 |---|---|---|---|---|
@@ -25,7 +25,7 @@ If a product ever needs the words in the database (for example to show them in a
 - Design = one saved redesign: the prompt, room, style, the reference photo and the images.
 - **Project** (a renovation grouping several designs, for example "Kitchen remodel") is not modelled for the end-user version. The professional pack `interior-design-bid-process` has projects, specs and bids for designers. Whether end users need a lightweight Project is an open owner decision.
 
-## In the Pickaxe flow
+## In the Interview flow
 
 - Say "Space" (or "home") to the user, never "subject" or "item".
 - Ask which Space only when the person has more than one; otherwise save to the default without asking.
