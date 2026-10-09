@@ -7,7 +7,7 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the layers (core, packs, ap
 
 - **core** (`supabase/migrations/`): profiles, credits and plan limits (idempotent `charge_credits`), billing-event ledger, rate limiting, subjects (workspaces) and members, MFA gate, `ensure_rls` event trigger, default-deny privileges, and a private `media` storage bucket scoped by workspace. Secrets live in a service-only table, never in `profiles`.
 - **packs** (`packs/`, see [docs/CATALOG.md](docs/CATALOG.md)): `subject-individual`, `subject-business`, `team`, `real-estate-listings`, `item-tracker`, `item-search`, `invoice-refunds`, `social-posts`, `loops-email`, `turnstile`, `posthog-analytics`, and thirteen AI-app packs (`interior-designs`, `ai-chat`, `chat-with-file`, `chat-with-youtube`, `image-generations`, `image-transforms`, `headshots`, `music-generations`, `voice-transcriptions`, `text-to-speech`, `qr-code-generations`, `content-writer`, `youtube-content`) whose table shapes follow the apps on [builderkit.ai/apps](https://builderkit.ai/apps) (not affiliated).
-- **app** (`app/`): Next.js app base code with Supabase auth, a workspace switcher, a nav built from installed packs, pack pages and API routes, public `/packs` marketing pages, and the interview API for the Pickaxe layer.
+- **app** (`app/`): Next.js app base code with Supabase auth, a workspace switcher, a nav built from installed packs, pack pages and API routes, public `/packs` marketing pages.
 - **tools**: `tools/rapscalyon.py` (installer, validator, test runner, catalog), `deploy.sh`, `Dockerfile`, `app.json`.
 
 ## Quick start
@@ -26,7 +26,7 @@ rapscalyon.py pack remove <name> [--app app]
 rapscalyon.py pack list | validate <dir> | core | catalog
 rapscalyon.py test [--pack name]                 # role-switched SQL suites (anon / owner / other user / service)
 ```
-Opinionated destination: [ClawMagic.ai](https://clawmagic.ai) runs the execution tickets that Pickaxe produces.
+Opinionated destination: [ClawMagic.ai](https://clawmagic.ai) runs the execution tickets that the interview produces.
 
 Browser end-to-end test: `app/e2e/README.md`.
 

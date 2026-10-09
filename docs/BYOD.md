@@ -17,10 +17,10 @@ A RapScalYon product, report or automation connects to the existing database wit
 
 ## Mode 2: Migrate (convert into the foundation)
 
-A new Supabase project gets core, then the data is imported through a reviewed migration. This is the "separate, reviewed piece of work" named in `pickaxe/kb/vertical/supabase-foundation.md` [repo].
+A new Supabase project gets core, then the data is imported through a reviewed migration. This is the "separate, reviewed piece of work" named in the Supabase foundation guidance.
 
 - App users become core profiles; each user gets an individual subject (`subject-individual` pack).
-- App credit and plan columns map onto core credits and the billing ledger; payment webhooks are replaced by core's billing webhook fed from FluentCart (`docs/BILLING.md`).
+- App credit and plan columns map onto core credits and the billing ledger; payment webhooks are replaced by core's billing webhook fed from FluentCart.
 - Each app table becomes a pack table: prefixed, with `subject_id`, row-level security through core's helper functions, a removable migration and tests.
 - Files move to storage that does not force a paid plan (Cloudflare R2 is the recommendation from the interioraidesigner project) or to core's private media bucket.
 - The migration is reviewed by a person and run by the installer in one transaction.

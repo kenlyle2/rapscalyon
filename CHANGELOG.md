@@ -3,7 +3,8 @@
 Versioning: core + app base code share the repo version (semver, pre-1.0: minor bumps may break). Each pack versions itself in `pack.toml`.
 
 ## Unreleased
-- New `places` pack 0.1.0 (from the CarShopper work): Provincia / Cantón / Distrito / town directory from OpenStreetMap with fuzzy search, place-in-text, nearest-place and km distance; Coto Brus seeded, `tools/load-canton.mjs` loads any canton. Interviewer rules: need tags `location`, `near-me`, `distance`, `geocoding`, `places` and the `wants_location` answer propose it (`app/lib/interview.ts`).
+- The Pickaxe knowledge-document tooling (`kb_sync.py`, `genai_docs.py`, their workflows and manifest), the vertical stack guidance, `docs/BILLING.md`, `docs/COMMERCE-STACKS.md` and the agent-facing service code are no longer in this repo; `docs/operations.mdx` loses its Pickaxe section and the `docs-drift` job leaves `packs.yml`. Earlier history still contains them.
+- New `places` pack 0.1.0 (from the CarShopper work): Provincia / Cantón / Distrito / town directory from OpenStreetMap with fuzzy search, place-in-text, nearest-place and km distance; Coto Brus seeded, `tools/load-canton.mjs` loads any canton.
 - Public repository is self-contained: no file names a private repository or points into one. Removed the dead "Licence check: `docs/DECISIONS.md`" sentence from 12 BuilderKit-shaped pack READMEs and the generator (their Origin section already states the clean-room basis); commercial-pack mentions in code, docs and comments say "a separate private repo"; `AGENTS.md`, `SPEC.md` and `docs/ARCHITECTURE.md` describe only this repository. Patch bumps to 0.1.1 for the 12 packs and `item-tracker` (docs only, no migration change). `tools/builderkit_packs/gen.py` writes to `$BUILDERKIT_OUT` (default `./out`).
 - `item-search` 0.3.0: user-managed lists (`is_lists`, `is_list_items`; create, rename, delete, add, remove through functions that check subject access and MFA). A candidate can be on several lists.
 - `item-search` 0.2.0: price history for every kind of item (`is_price_history`, `is_record_price()` for child packs; one row per price change with the price as typed). Migration 002, rollback and suite included.
@@ -15,15 +16,12 @@ Versioning: core + app base code share the repo version (semver, pre-1.0: minor 
 - Installer: `tier = "commercial"` packs (`license = "LicenseRef-..."`) and `RAPSCALYON_PACKS_PATH` for packs distributed outside this repo.
 - `jobs-tracker` moved out to a separate private repo for commercial packs (0.2.0 is a child of `item-tracker`).
 - New AGPL pack `invoice-refunds` 0.1.0: customers, invoices, lines, refunds with money rules enforced by triggers (refund only against a paid invoice, never beyond what remains, owner-only approval, outbox event); `rules/declare_logic.py` holds the same rules in GenAI-Logic form (run and proven in LogicBank on SQLite: 12 scenarios mirror the SQL tests).
-- Interviewer needs mapping: crm, contacts, sales-pipeline, booking, scheduling, automations, follow-ups, client-portal, customer-portal, quotes and e-signature map to NinjaPipe as `external` (buy, don't build, never a pack); needs that match nothing come back as `unmatched` instead of being dropped silently.
-- Pickaxe Interviewer: GenAI-Logic docs attached, role Step 3B captures business rules as requirements for the hand-off ticket (GenAI-Logic is the planned rules target, not yet generated).
 
 ## 0.5.0 — 2026-10-01 — first complete, tested release (pre-1.0)
 
 - Core: RLS-everywhere, default-deny grants, MFA gate, subjects/limits/pricing, private `media` bucket.
 - 10 official packs (AGPL-3.0-or-later): subject-individual, subject-business, team, real-estate-listings, jobs-tracker, social-posts, loops-email, turnstile, posthog-analytics, billing-webhook.
 - Next.js 15 app base code with pack-installed UI/API routes; generic `/api/billing-webhook` (WooCommerce/WPSubscription, FluentCart, or any caller).
-- Pickaxe interviewer artifacts (role prompt, OpenAPI action, platform KB).
 - Installer/validator, `deploy.sh`, Dockerfile, demo-matrix tooling.
 - Verified on 8 hosted demo instances (all suites green, identical core fingerprint) plus Playwright UI e2e.
 
