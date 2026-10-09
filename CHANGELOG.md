@@ -3,6 +3,7 @@
 Versioning: core + app base code share the repo version (semver, pre-1.0: minor bumps may break). Each pack versions itself in `pack.toml`.
 
 ## Unreleased
+- Account mode B: new official pack `wp-fluentauth` 0.1.0 (WordPress/FluentAuth owns sign-up, login, recovery and MFA; handoff log `wf_handoffs`) and WordPress plugin `integrations/rapscalyon-pseudo-sso` (about 40 lines; replaces SupaWP for this mode) with an idempotent `install-wordpress.sh --dry-run`. App base code seam: packs may declare `[auth]` in `pack.toml` (`login_path` or `login_env`, `signup`, `public_paths`) and install `public/` routes into `app/(public)`; `/login` and the middleware read it from the generated registry. Default behaviour is unchanged when no pack declares it.
 - `item-search` 0.3.0: user-managed lists (`is_lists`, `is_list_items`; create, rename, delete, add, remove through functions that check subject access and MFA). A candidate can be on several lists.
 - `item-search` 0.2.0: price history for every kind of item (`is_price_history`, `is_record_price()` for child packs; one row per price change with the price as typed). Migration 002, rollback and suite included.
 - Offer sync: DeepSeek adapter (`RSY_LLM=deepseek`, reads images) and ScrapeCreators as the default Facebook source; Graph API docs marked optional.
