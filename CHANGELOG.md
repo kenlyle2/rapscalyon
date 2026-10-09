@@ -3,6 +3,7 @@
 Versioning: core + app base code share the repo version (semver, pre-1.0: minor bumps may break). Each pack versions itself in `pack.toml`.
 
 ## Unreleased
+- `docs/ARCHITECTURE.md`: lists the new private `rapscalyon-internal` repo (internal master repo for non-public operating docs; keeps real project ids out of this public repo).
 - `item-search` 0.3.0: user-managed lists (`is_lists`, `is_list_items`; create, rename, delete, add, remove through functions that check subject access and MFA). A candidate can be on several lists.
 - `item-search` 0.2.0: price history for every kind of item (`is_price_history`, `is_record_price()` for child packs; one row per price change with the price as typed). Migration 002, rollback and suite included.
 - Offer sync: DeepSeek adapter (`RSY_LLM=deepseek`, reads images) and ScrapeCreators as the default Facebook source; Graph API docs marked optional.
