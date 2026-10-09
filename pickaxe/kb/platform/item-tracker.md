@@ -2,7 +2,7 @@
 
 One tracked-thing model for any vertical, with an event log the browser cannot rewrite.
 
-Tier: official. Version 0.1.0. The base class for anything a subject tracks: a typed item (job, listing, lead, ...) with notes, a link and an append-only event log. Child packs add typed columns for one kind of item.
+Tier: official. Version 0.1.1. The base class for anything a subject tracks: a typed item (job, listing, lead, ...) with notes, a link and an append-only event log. Child packs add typed columns for one kind of item.
 
 ## Who it's for
 

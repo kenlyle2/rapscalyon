@@ -2,7 +2,7 @@
 
 Text-to-music jobs with genre, mood and length kept per person, charged by the database or by the platform that made them.
 
-Tier: official. Version 0.1.0. Text-to-music generation jobs (the BuilderKit music_generations table) as a child of item-tracker: prompt, genre, mood, duration and an audio key, charged up front or recorded from an outside generator.
+Tier: official. Version 0.1.1. Text-to-music generation jobs (the BuilderKit music_generations table) as a child of item-tracker: prompt, genre, mood, duration and an audio key, charged up front or recorded from an outside generator.
 
 ## Who it's for
 

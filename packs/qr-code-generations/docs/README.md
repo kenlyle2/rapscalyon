@@ -2,7 +2,7 @@
 
 AI QR-code generation jobs (the BuilderKit qr_code_generations table) as a child of item-tracker: prompt, target URL and an image key, charged up front or recorded from an outside generator.
 
-Written against the BuilderKit app's table shape (generated types) and behaviour, with fresh code; no BuilderKit source. Licence check: `docs/DECISIONS.md` in the rapscalyon repo (2026-10-05).
+Written against the BuilderKit app's table shape (generated types) and behaviour, with fresh code; no BuilderKit source.
 
 ## What is in it
 - `qrg_codes` (item kind `qr_code`): functions `qrg_check_kind`, `qrg_request`, `qrg_mark_started`, `qrg_complete`, `qrg_fail`, `qrg_record`

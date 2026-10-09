@@ -2,7 +2,7 @@
 
 Train a personal model from a person's photos and generate professional headshots from it, with every step tracked and charged safely.
 
-Tier: official. Version 0.1.0. AI headshots as two children of item-tracker (BuilderKit headshot_models and headshot_generations): train a personal model from uploaded photos, then generate headshots from a finished model of the same workspace, charged up front or recorded from an outside generator.
+Tier: official. Version 0.1.1. AI headshots as two children of item-tracker (BuilderKit headshot_models and headshot_generations): train a personal model from uploaded photos, then generate headshots from a finished model of the same workspace, charged up front or recorded from an outside generator.
 
 ## Who it's for
 

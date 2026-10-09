@@ -1,19 +1,19 @@
 {
- "catalogVersion": "41401cb03c47",
+ "catalogVersion": "95dff65c2bce",
  "core": "0.1.0",
  "packs": {
   "ai-chat": {
-   "version": "0.1.0",
+   "version": "0.1.1",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [
     "item-tracker"
    ],
    "requires_core": ">=0.1",
-   "contentHash": "9999db339fe3e032a2fd35eeafc008cbbb60f094052a515a7b6b58dfec9d60d3"
+   "contentHash": "33b76f889c50a5cdd2890b1de527a26ecd80cc350860af48253993fd4e0ab2d3"
   },
   "chat-with-file": {
-   "version": "0.1.0",
+   "version": "0.1.1",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [
@@ -21,10 +21,10 @@
     "ai-chat"
    ],
    "requires_core": ">=0.1",
-   "contentHash": "82d13346dfcc36c2feda5e5ba67e9d29ac8715f948af4f3586a849901a630403"
+   "contentHash": "f4022dc20c6ea36c4ebfece489d7242cc1e36c02d8e1551956ce3aa98845f5c6"
   },
   "chat-with-youtube": {
-   "version": "0.1.0",
+   "version": "0.1.1",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [
@@ -32,47 +32,47 @@
     "ai-chat"
    ],
    "requires_core": ">=0.1",
-   "contentHash": "c7c8db5b7e6df5faf3ffbd1de6f965fe0eb8b0a3100f44c1bd15f1b647b59a56"
+   "contentHash": "10b10f3ed2af946512db8ceec461cda6f844014f6e945420787d21cdef0ac8e5"
   },
   "content-writer": {
-   "version": "0.1.0",
+   "version": "0.1.1",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [
     "item-tracker"
    ],
    "requires_core": ">=0.1",
-   "contentHash": "74bc39bbd733ce91530286b6b3ee1df2dff0895a4d04641ad9f60576db5ff4e0"
+   "contentHash": "711b5981bbc5ac5b9206b3206f9d5faa1f9400778a1cf4b535c26a0a33216d59"
   },
   "headshots": {
-   "version": "0.1.0",
+   "version": "0.1.1",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [
     "item-tracker"
    ],
    "requires_core": ">=0.1",
-   "contentHash": "dfdc92c8cc63f4f372d2ebd70dc075d6b0a1112070797828d2b4537b0846237f"
+   "contentHash": "daf48b8bf106d9f4e0b3ee4cd4acc83cb5e83b6c2e8ae48cd1a58b425faa3096"
   },
   "image-generations": {
-   "version": "0.1.0",
+   "version": "0.1.1",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [
     "item-tracker"
    ],
    "requires_core": ">=0.1",
-   "contentHash": "f3928068d04be3ed40f9c161260388840023e5ec4a3eb7de704670c231158597"
+   "contentHash": "57916e7ff3ee07549d44614b4efe516a82e5866b5ec3d7272cf6f7f4653d9c64"
   },
   "image-transforms": {
-   "version": "0.1.0",
+   "version": "0.1.1",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [
     "item-tracker"
    ],
    "requires_core": ">=0.1",
-   "contentHash": "4bf6c7f9f79003071091138ecd9cd78c08a029bb403beb11da2b7c70b4679f30"
+   "contentHash": "cd7329f7e7993a0e13d7af1c9ee235fb205cf971cbd4ee48ade28ae3c509fd4f"
   },
   "interior-designs": {
    "version": "0.2.0",
@@ -103,12 +103,12 @@
    "contentHash": "8bab1359be294da6afbf35ef2063f7b2242342a9a968848d006eb9bc8010ce7a"
   },
   "item-tracker": {
-   "version": "0.1.0",
+   "version": "0.1.1",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [],
    "requires_core": ">=0.1",
-   "contentHash": "dc13672d1ff01eec2203ef46c4335dd7e769480f6be015c4c5c2e38b89be1809"
+   "contentHash": "39724a3cab96754594c1fe2f02016c98ae4cdfb50ad0d22bf419783986e821b6"
   },
   "loops-email": {
    "version": "0.1.0",
@@ -119,14 +119,14 @@
    "contentHash": "00fc3b75e296ea9ed7ecc3f6cb41ddb081fc2fc092189ce54bd603c74b5bae2a"
   },
   "music-generations": {
-   "version": "0.1.0",
+   "version": "0.1.1",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [
     "item-tracker"
    ],
    "requires_core": ">=0.1",
-   "contentHash": "2e5f0fda7ecbd8299a8ddcf62361af618636379a608d1e3f2c9fe6ced41a85f2"
+   "contentHash": "173815b075a509328978a54fd18fa8be7085f33fa46b99c648cfe31fa9ef52c1"
   },
   "places": {
    "version": "0.1.0",
@@ -145,14 +145,14 @@
    "contentHash": "fafc40f8453a38811ceb1e7e12009bbd6a7634e3a7f3f9d14eee5cdc9482886c"
   },
   "qr-code-generations": {
-   "version": "0.1.0",
+   "version": "0.1.1",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [
     "item-tracker"
    ],
    "requires_core": ">=0.1",
-   "contentHash": "e8ec9d3de34d8063d099b3be15dab0244bdfa1c9d9299d7f302294403e06c0a2"
+   "contentHash": "111307281ce25e983727621d3cc7003d055a85882de8b469a82cddae883224c0"
   },
   "real-estate-listings": {
    "version": "0.1.0",
@@ -195,14 +195,14 @@
    "contentHash": "15692054c1aaf7b2c80401feb88354bbafcbd58424418916a1e5cf5e56359029"
   },
   "text-to-speech": {
-   "version": "0.1.0",
+   "version": "0.1.1",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [
     "item-tracker"
    ],
    "requires_core": ">=0.1",
-   "contentHash": "8490884394fa63d8783efb0c6cd3f4d12ae6181a688feca415138b7d4e103211"
+   "contentHash": "4a7adb2e6da8a983bf4915c80b0e58c34d2e9fd5793681428f21c357a299c073"
   },
   "turnstile": {
    "version": "0.1.0",
@@ -213,24 +213,24 @@
    "contentHash": "715781db1b69e64f239ea9aa7e9b471d81c7a614e717ea30815263728f7b1245"
   },
   "voice-transcriptions": {
-   "version": "0.1.0",
+   "version": "0.1.1",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [
     "item-tracker"
    ],
    "requires_core": ">=0.1",
-   "contentHash": "87d961c9dee2b38f06bc65fcf383f24930765bd5198242f768225994cf52dff0"
+   "contentHash": "85e214a75da61b0c26ff03ccc1a5960a6d72910d26c1cc51311beec48f2107b7"
   },
   "youtube-content": {
-   "version": "0.1.0",
+   "version": "0.1.1",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [
     "item-tracker"
    ],
    "requires_core": ">=0.1",
-   "contentHash": "41da4bf9741169a494c6be8f6d7d78bc9317c9802653c53e02c47ce0ca81a33a"
+   "contentHash": "1da63634394c6bfee468b569c100b8a95089267b21c4d2e1bb542fe4c368f4e0"
   }
  }
 }

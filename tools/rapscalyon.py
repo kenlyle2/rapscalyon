@@ -16,7 +16,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PACKS = ROOT / "packs"
-# Extra pack roots (os.pathsep-separated), e.g. a licensed rapscalyon-plus checkout. Searched after packs/.
+# Extra pack roots (os.pathsep-separated), e.g. a licensed checkout of commercial packs. Searched after packs/.
 EXTRA_PACKS = [Path(x).expanduser() for x in os.environ.get("RAPSCALYON_PACKS_PATH", "").split(os.pathsep) if x]
 
 def pack_dir(name):
@@ -518,7 +518,7 @@ def cmd_catalog(args):
                 return "unknown"
             reqs = ", ".join(f"{r} ({'official, public' if _tier(r) != 'commercial' else 'commercial'})" for r in m.get("requires", []))
             req_line = f" Requires: {reqs}. Only packs marked commercial need the private repo and a licence." if reqs else ""
-            (plus / f"{m['name']}.md").write_text(f"{mk.read_text().rstrip()}\n\nPack: {m['name']} {m['version']}, {m.get('tier', 'commercial')} tier (private rapscalyon-plus repo, licence required; installs with RAPSCALYON_PACKS_PATH).{req_line} {m['description']}\n")
+            (plus / f"{m['name']}.md").write_text(f"{mk.read_text().rstrip()}\n\nPack: {m['name']} {m['version']}, {m.get('tier', 'commercial')} tier (commercial pack, licence required; installs with RAPSCALYON_PACKS_PATH).{req_line} {m['description']}\n")
             n_plus += 1
     print(f"catalog: {len(items)} packs" + (f" (+{n_plus} commercial knowledge documents in pickaxe/kb/platform-plus)" if n_plus else ""))
 

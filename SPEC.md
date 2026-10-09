@@ -24,14 +24,14 @@ Principles:
 | Data, auth | Supabase: core migrations, subjects, RLS, MFA gate | built | README.md, `supabase/migrations/` |
 | Functionality | Packs (AGPL here; commercial "plus" packs in a separate repo) | built, 11 packs | `docs/CATALOG.md`, CONTRIBUTING.md |
 | App base code | Next.js with a nav built from installed packs | built | `app/` |
-| Front door | Pickaxe agents: Stack Interviewer (proposes the stack), Pack Builder (writes a pack) | live, retests pending | private `rapscalyon-px-app` repo |
-| Executor | ClawMagic.ai runs the execution ticket | decided; unverified end to end | private `rapscalyon-px-app` repo |
+| Front door | Pickaxe agents: Stack Interviewer (proposes the stack), Pack Builder (writes a pack) | live, retests pending | documented privately |
+| Executor | ClawMagic.ai runs the execution ticket | decided; unverified end to end | documented privately |
 | Business rules | GenAI-Logic declarative rules | proven on SQLite only | `packs/invoice-refunds` |
 | Billing | FluentCart on WordPress; webhook in core | built; real webhook sample unverified | `docs/BILLING.md` |
 | Affiliates | AffiliateWP (owner decision 2026-10-04) with a FluentCart adapter plugin | adapter built (`integrations/affiliatewp-fluentcart/`) | `docs/BILLING.md` |
 | Email, bot protection, analytics | Loops, Turnstile, PostHog packs | built | `docs/CATALOG.md` |
-| Client websites | Sanity content, one multi-tenant React Router site, hosted Studio per client | built 2026-10-03; Studio hand-off to a client is a human step | private `rapscalyon-px-app` repo |
-| Provisioning | `tools/client_site.py`: unclaimed Sanity project, claim link, draft seeding | built, tested on a real claim | private `rapscalyon-px-app` repo |
+| Client websites | Sanity content, one multi-tenant React Router site, hosted Studio per client | built 2026-10-03; Studio hand-off to a client is a human step | documented privately |
+| Provisioning | `tools/client_site.py`: unclaimed Sanity project, claim link, draft seeding | built, tested on a real claim | documented privately |
 
 Customer journey (**[proposal]**, assembled from the pieces above): subscribe through FluentCart, interview in Pickaxe, receive a stack proposal and execution ticket, ClawMagic installs the packs into the client's own Supabase project, the provisioning tool creates their Sanity project and drafts their site from the interview, the client claims it, reviews drafts in their Studio, and their domain is added to `SANITY_SITES`.
 
@@ -41,9 +41,9 @@ Worked example of a child pack from a brief, with prompts: `car-deal-finder-buil
 
 In this repo: `README.md`, `CONTRIBUTING.md`, `CHANGELOG.md`, `docs/BILLING.md`, `docs/CATALOG.md`, `docs/COMMERCE-STACKS.md`, `docs/BYOD.md`, `docs/operations.mdx`.
 
-The role prompts, working policy and client-facing playbooks live in the private `rapscalyon-px-app` repo; the decision log lives in the private `rapscalyon-internal` repo. Schema extracts of the owner's private products stay out of every repo; only genericized material is moved here.
+The role prompts, working policy, client-facing playbooks and the decision log are kept privately, outside this repository. Schema extracts of the owner's private products stay out of every repo; only genericized material is moved here.
 
-Other repos: `rapscalyon-plus` (commercial packs), `rapscalyon-px-app` (private: role prompts, strategy and client docs), `rapscalyon-main` (marketing site and the multi-tenant client site template).
+Other repositories, all private: commercial packs, the Pickaxe role prompts and playbooks, the marketing and client sites, and the owner's internal operating records. They are not described here.
 
 ## 0d. Hosting **[checked 2026-10-03]**
 

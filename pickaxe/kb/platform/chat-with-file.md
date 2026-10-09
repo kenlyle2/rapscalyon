@@ -2,7 +2,7 @@
 
 Ask questions about an uploaded document and keep the conversation per person.
 
-Tier: official. Version 0.1.0. Chat with a document: the uploaded file's storage key and name attached 1:1 to an ai-chat conversation. Replaces the BuilderKit chat_with_file table.
+Tier: official. Version 0.1.1. Chat with a document: the uploaded file's storage key and name attached 1:1 to an ai-chat conversation. Replaces the BuilderKit chat_with_file table.
 
 ## Who it's for
 

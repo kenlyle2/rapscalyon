@@ -74,7 +74,7 @@ The repo is the single source of truth. Everything else is generated from `packs
 ```bash
 python3 tools/rapscalyon.py [--project <ref>] pack add|remove|validate|test --pack <name>
 python3 tools/rapscalyon.py core ...        # core foundation
-RAPSCALYON_PACKS_PATH=~/projects/rapscalyon-plus/packs   # for commercial packs
+RAPSCALYON_PACKS_PATH=/path/to/commercial-packs   # for commercial packs
 ```
 
 Hosted mode links with `supabase link` and runs `supabase db query --linked` through the Management API. The token is a personal access token in `~/.config/rapscalyon/surf-infra.token` (mode 600, `SUPABASE_ACCESS_TOKEN=sbp_...`), used per command and never printed. `pack validate` of the chat-with-* packs needs `ai-chat` installed first. A hosted project may already have an event trigger named `ensure_rls`; core drops it and installs its own.

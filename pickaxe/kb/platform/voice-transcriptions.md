@@ -2,7 +2,7 @@
 
 Audio in, transcript and summary out, kept per person and charged by the database or by the platform that did the work.
 
-Tier: official. Version 0.1.0. Voice-to-text jobs (the BuilderKit voice_transcriptions table) as a child of item-tracker: the audio key, transcript and summary, charged up front or recorded from an outside service.
+Tier: official. Version 0.1.1. Voice-to-text jobs (the BuilderKit voice_transcriptions table) as a child of item-tracker: the audio key, transcript and summary, charged up front or recorded from an outside service.
 
 ## Who it's for
 

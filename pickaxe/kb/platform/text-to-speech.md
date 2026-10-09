@@ -2,7 +2,7 @@
 
 Turn text into spoken audio and keep each clip per person, recorded safely whether the app or an outside platform made it.
 
-Tier: official. Version 0.1.0. Text-to-speech clips (the BuilderKit text_to_speech table) as a child of item-tracker: title, text, model, voice and an audio key, recorded once by the server with an optional core charge in the same transaction.
+Tier: official. Version 0.1.1. Text-to-speech clips (the BuilderKit text_to_speech table) as a child of item-tracker: title, text, model, voice and an audio key, recorded once by the server with an optional core charge in the same transaction.
 
 ## Who it's for
 
