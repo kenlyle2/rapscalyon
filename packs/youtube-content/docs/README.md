@@ -2,7 +2,7 @@
 
 Video-to-content records (the BuilderKit youtube_content_generator table) as a child of item-tracker: link, title, language, transcript, summary and generated content, recorded once by the server with an optional core charge in the same transaction.
 
-Written against the BuilderKit app's table shape (generated types) and behaviour, with fresh code; no BuilderKit source. Licence check: `docs/DECISIONS.md` in the rapscalyon repo (2026-10-05).
+Written against the BuilderKit app's table shape (generated types) and behaviour, with fresh code; no BuilderKit source.
 
 ## What is in it
 - `ytc_pieces` (item kind `youtube_content`): functions `ytc_check_kind`, `ytc_record`

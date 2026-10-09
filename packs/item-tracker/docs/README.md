@@ -5,7 +5,7 @@ and an append-only event log. Item-tracker knows nothing about any one kind: chi
 
 Writing a child: create `<prefix>_<name>(item_id, subject_id, ...)` with `foreign key (item_id, subject_id) references it_items (id, subject_id) on delete cascade`,
 enforce `kind` in a trigger, and expose one SECURITY DEFINER function that inserts the base row and the child row together.
-The `jobs-tracker` pack (commercial, see rapscalyon-plus) is the reference child;
+The `jobs-tracker` pack (commercial, not in this repository) is the reference child;
 
 Plan cap: `it_max_items` (default 100 unarchived items per subject). Service-role code and migrations are exempt.
 Deleting an item is owner-only and cascades to its child row and events.

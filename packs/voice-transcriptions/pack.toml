@@ -1,7 +1,7 @@
 [pack]
 name = "voice-transcriptions"
 prefix = "vtr"
-version = "0.1.0"
+version = "0.1.1"
 description = "Voice-to-text jobs (the BuilderKit voice_transcriptions table) as a child of item-tracker: the audio key, transcript and summary, charged up front or recorded from an outside service."
 license = "AGPL-3.0-or-later"
 tier = "official"

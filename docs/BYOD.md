@@ -43,5 +43,5 @@ The installer rejects anything that weakens row-level security, and a foreign `p
 Converting an app's modules into packs is a Migrate-mode project. The first one is the BuilderKit interior design app (BKIDA); its plan is `.dwp/plans/PLAN_bkida_pack_conversion/` (local, gitignored). Rules for any such conversion:
 
 - Write pack code against the schema; never copy the app's source into a pack. BuilderKit's README says MIT, but it links to a custom commercial licence that forbids redistributing the boilerplate (2026-10-05). Check a third-party app's licence before reusing any of its code, and treat the schema and behaviour as the only inputs.
-- Commercial work that depends on a paid boilerplate lives in the private `rapscalyon-plus` repo (`tier = "commercial"`), not here.
+- Commercial work that depends on a paid boilerplate lives in a separate private repo (`tier = "commercial"`), not here.
 - A schema read from a live client database is saved under the plan, not in this repo (it can reveal the client's data model).

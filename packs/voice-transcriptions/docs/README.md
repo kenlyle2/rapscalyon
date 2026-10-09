@@ -2,7 +2,7 @@
 
 Voice-to-text jobs (the BuilderKit voice_transcriptions table) as a child of item-tracker: the audio key, transcript and summary, charged up front or recorded from an outside service.
 
-Written against the BuilderKit app's table shape (generated types) and behaviour, with fresh code; no BuilderKit source. Licence check: `docs/DECISIONS.md` in the rapscalyon repo (2026-10-05).
+Written against the BuilderKit app's table shape (generated types) and behaviour, with fresh code; no BuilderKit source.
 
 ## What is in it
 - `vtr_transcriptions` (item kind `voice_transcription`): functions `vtr_check_kind`, `vtr_request`, `vtr_mark_started`, `vtr_complete`, `vtr_fail`, `vtr_record`

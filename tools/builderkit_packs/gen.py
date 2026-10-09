@@ -3,7 +3,7 @@
 Written against the app schemas (generated types), never from BuilderKit source code."""
 import os, sys, textwrap
 
-OUT = os.path.expanduser("~/projects/rapscalyon-plus/packs")
+OUT = os.path.expanduser(os.environ.get("BUILDERKIT_OUT", "./out"))
 KEYRE = "^[A-Za-z0-9_./-]{1,255}$"
 
 def q(s): return s.replace("'", "''")
@@ -397,7 +397,7 @@ def docs_readme(p):
 
 {p.desc}
 
-Written against the BuilderKit app's table shape (generated types) and behaviour, with fresh code; no BuilderKit source. Licence check: `docs/DECISIONS.md` in the rapscalyon repo (2026-10-05).
+Written against the BuilderKit app's table shape (generated types) and behaviour, with fresh code; no BuilderKit source.
 
 ## What is in it
 {ents}
