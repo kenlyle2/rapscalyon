@@ -2,7 +2,7 @@
 
 A reliable outbox for lifecycle and transactional email, with unsubscribes respected automatically.
 
-Tier: official. Version 0.1.0. Transactional/lifecycle email through Loops: a durable outbox with at-most-once claiming, plus per-user email preferences. The Loops API key stays in the app environment.
+Tier: official. Version 0.1.1. Transactional/lifecycle email through Loops: a durable outbox with at-most-once claiming, plus per-user email preferences. The Loops API key stays in the app environment.
 
 ## Who it's for
 

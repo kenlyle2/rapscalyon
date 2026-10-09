@@ -259,7 +259,7 @@ subject-individual, subject-business, item-search, social-posts.
 
 Class-table inheritance: child packs add a 1:1 table keyed on the item, so each kind keeps real columns and constraints while access rules live in one place.
 
-## Email with Loops (`loops-email` 0.1.0, official)
+## Email with Loops (`loops-email` 0.1.1, official)
 
 > A reliable outbox for lifecycle and transactional email, with unsubscribes respected automatically.
 
