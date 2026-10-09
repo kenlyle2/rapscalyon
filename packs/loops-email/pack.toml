@@ -1,7 +1,7 @@
 [pack]
 name = "loops-email"
 prefix = "lp"
-version = "0.1.0"
+version = "0.1.1"
 description = "Transactional/lifecycle email through Loops: a durable outbox with at-most-once claiming, plus per-user email preferences. The Loops API key stays in the app environment."
 license = "AGPL-3.0-or-later"
 tier = "official"
