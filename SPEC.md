@@ -27,8 +27,8 @@ Principles:
 | Front door | Pickaxe agents: Stack Interviewer (proposes the stack), Pack Builder (writes a pack) | live, retests pending | documented privately |
 | Executor | ClawMagic.ai runs the execution ticket | decided; unverified end to end | documented privately |
 | Business rules | GenAI-Logic declarative rules | proven on SQLite only | `packs/invoice-refunds` |
-| Billing | FluentCart on WordPress; webhook in core | built; real webhook sample unverified | `docs/BILLING.md` |
-| Affiliates | AffiliateWP (owner decision 2026-10-04) with a FluentCart adapter plugin | adapter built (`integrations/affiliatewp-fluentcart/`) | `docs/BILLING.md` |
+| Billing | FluentCart on WordPress; webhook in core | built; real webhook sample unverified | documented privately |
+| Affiliates | AffiliateWP (owner decision 2026-10-04) with a FluentCart adapter plugin | adapter built (`integrations/affiliatewp-fluentcart/`) | documented privately |
 | Email, bot protection, analytics | Loops, Turnstile, PostHog packs | built | `docs/CATALOG.md` |
 | Client websites | Sanity content, one multi-tenant React Router site, hosted Studio per client | built 2026-10-03; Studio hand-off to a client is a human step | documented privately |
 | Provisioning | `tools/client_site.py`: unclaimed Sanity project, claim link, draft seeding | built, tested on a real claim | documented privately |
@@ -39,7 +39,7 @@ Worked example of a child pack from a brief, with prompts: `car-deal-finder-buil
 
 ## 0c. Related documents
 
-In this repo: `README.md`, `CONTRIBUTING.md`, `CHANGELOG.md`, `docs/BILLING.md`, `docs/CATALOG.md`, `docs/COMMERCE-STACKS.md`, `docs/BYOD.md`, `docs/operations.mdx`.
+In this repo: `README.md`, `CONTRIBUTING.md`, `CHANGELOG.md`, `docs/CATALOG.md`, `docs/BYOD.md`, `docs/operations.mdx`.
 
 The role prompts, working policy, client-facing playbooks and the decision log are kept privately, outside this repository. Schema extracts of the owner's private products stay out of every repo; only genericized material is moved here.
 

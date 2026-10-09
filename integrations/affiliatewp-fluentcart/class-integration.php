@@ -2,7 +2,7 @@
 /**
  * AffiliateWP integration for FluentCart. Loaded by AffiliateWP when the integration is enabled.
  *
- * Hooks (verified on FluentCart 1.7.0, see docs/BILLING.md):
+ * Hooks (verified on FluentCart 1.7.0):
  * - fluent_cart/checkout/prepare_other_data: runs in the shopper's request, where the referral cookie exists.
  * - fluent_cart/order_paid_done: runs later (Action Scheduler), after payment is confirmed.
  * - fluent_cart/order_fully_refunded, fluent_cart/order_status_changed_to_canceled.
