@@ -1,5 +1,5 @@
 {
- "catalogVersion": "cf85d9ada20b",
+ "catalogVersion": "a078cd8bad1c",
  "core": "0.1.0",
  "packs": {
   "ai-chat": {
@@ -111,12 +111,12 @@
    "contentHash": "dc13672d1ff01eec2203ef46c4335dd7e769480f6be015c4c5c2e38b89be1809"
   },
   "loops-email": {
-   "version": "0.1.0",
+   "version": "0.1.1",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [],
    "requires_core": ">=0.1",
-   "contentHash": "00fc3b75e296ea9ed7ecc3f6cb41ddb081fc2fc092189ce54bd603c74b5bae2a"
+   "contentHash": "84721d7130e8347f47bab217a84f8ccc1ff3b051694a742d5f3f475d521b86ee"
   },
   "music-generations": {
    "version": "0.1.0",
