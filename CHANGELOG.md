@@ -3,6 +3,7 @@
 Versioning: core + app base code share the repo version (semver, pre-1.0: minor bumps may break). Each pack versions itself in `pack.toml`.
 
 ## Unreleased
+- Pickaxe KB: `vertical-wordpress-multisite` removed (multisite dropped as a billing-site strategy, owner decision 2026-10-09). Detached from the Interviewer and deleted from the workspace.
 - Pickaxe KB `vertical-affiliatewp`: states RapScalYon's unlimited-site Ultimate licence, and that nothing installs AffiliateWP on client sites yet. Republished (document id changed); live Interviewer answers correctly.
 - Interviewer: the AffiliateWP line no longer says it is installed for the client (nothing installs it yet); it states that our unlimited-site licence covers client sites. `docs/ARCHITECTURE.md` gains "Third-party licences we hold".
 - `loops-email` 0.1.1: events named in `LOOPS_TRANSACTIONAL` (JSON event -> transactional id) are sent as Loops transactional emails; others unchanged. Contributed from the CarShopper product, generalised so no team ids live in the pack.

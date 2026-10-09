@@ -148,18 +148,6 @@
    "publishedSha256": "a33589778781394e0b5cb4add52eabfcbf50bcf3bf9e356c0abbf1670ea74fcc"
   },
   {
-   "name": "vertical-wordpress-multisite",
-   "build": {
-    "kind": "file",
-    "path": "vertical/wordpress-multisite.md"
-   },
-   "documentId": "O4K9YZHJ9Q10DHD2AWC1QPQ8W",
-   "agents": [
-    "NWCR3HQ6JB0D"
-   ],
-   "publishedSha256": "97bc57ab7926c9978a5238a4c6c49255960ed4052e5bb5b3dde335d071e8f781"
-  },
-  {
    "name": "commerce-stacks",
    "build": {
     "kind": "file",
