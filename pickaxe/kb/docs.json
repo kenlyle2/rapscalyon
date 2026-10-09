@@ -11,14 +11,14 @@
     "kind": "packs",
     "members": "rest"
    },
-   "documentId": "T2J6AY1EF6KZJJJ1467SOSVE3",
+   "documentId": "KEEZV4HF3BFZKBJ45BE3VIJEV",
    "agents": [
     "NWCR3HQ6JB0D",
     "ZWRT9WUT8NLR"
    ],
-   "publishedSha256": "6e13c7e7bc601cd1dc829b0399af0ce67588d29ac115b6c1e500a4ad2dbcbd53",
-   "catalogVersion": "2978cadc9e56",
-   "publishedOn": "2026-10-07"
+   "publishedSha256": "f3dd9a00c49a6e55962162cf6d429f1e6b7ce7b065053493465004cc3b67f968",
+   "catalogVersion": "95dff65c2bce",
+   "publishedOn": "2026-10-09"
   },
   {
    "name": "rapscalyon-packs-ai-apps",
@@ -40,12 +40,14 @@
      "youtube-content"
     ]
    },
-   "documentId": "36D7SFVG8CPZGIZQQO1KHUCD3",
+   "documentId": "M08UTKCFNND6IT7U8AS52SXJT",
    "agents": [
     "NWCR3HQ6JB0D",
     "ZWRT9WUT8NLR"
    ],
-   "publishedSha256": "1179fcd6e12756125c0851e0741d83a4d70615b28221e0f807a3c540f858b0f6"
+   "publishedSha256": "6ab81473fbc12083aeebbecdd13272e42b98633f31d1a6bcafc3767bd0732da5",
+   "catalogVersion": "95dff65c2bce",
+   "publishedOn": "2026-10-09"
   },
   {
    "name": "vertical-affiliatewp",
@@ -101,13 +103,13 @@
     "kind": "file",
     "path": "vertical/pickaxe-agents.md"
    },
-   "documentId": "VULNINTIZZRC6B9RSKVZJUY3A",
+   "documentId": "ZGR2E2YVMRAZ45CGJXFV0M516",
    "agents": [
     "NWCR3HQ6JB0D"
    ],
-   "publishedSha256": "1008676d06ea6cdaf0c9ddf3c7f2e00bc2ed4ee7f58c942fadcd1902d9860c4e",
-   "catalogVersion": "8b25773eff6b",
-   "publishedOn": "2026-10-07"
+   "publishedSha256": "94d6c356d99752bdfe58a58c052481ca59d2164e67e91a1790d1b20ea2ff499b",
+   "catalogVersion": "95dff65c2bce",
+   "publishedOn": "2026-10-09"
   },
   {
    "name": "vertical-sanity-headless-cms",
@@ -139,11 +141,13 @@
     "kind": "file",
     "path": "vertical/vercel-nextjs-hosting.md"
    },
-   "documentId": "LX1MORHII8U2B7R56NNRLXWG0",
+   "documentId": "PJOWU8MYWOP5QJ0LBV6MB6HTQ",
    "agents": [
     "NWCR3HQ6JB0D"
    ],
-   "publishedSha256": "a33589778781394e0b5cb4add52eabfcbf50bcf3bf9e356c0abbf1670ea74fcc"
+   "publishedSha256": "a34184a257b55d59b3ae9f8165e50d06a1ad1715bb7598d47a8ebaa81878ed95",
+   "catalogVersion": "95dff65c2bce",
+   "publishedOn": "2026-10-09"
   },
   {
    "name": "vertical-wordpress-multisite",
