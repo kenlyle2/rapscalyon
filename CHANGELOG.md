@@ -3,6 +3,7 @@
 Versioning: core + app base code share the repo version (semver, pre-1.0: minor bumps may break). Each pack versions itself in `pack.toml`.
 
 ## Unreleased
+- New `places` pack 0.1.0 (from the CarShopper work): Provincia / Cantón / Distrito / town directory from OpenStreetMap with fuzzy search, place-in-text, nearest-place and km distance; Coto Brus seeded, `tools/load-canton.mjs` loads any canton. Interviewer rules: need tags `location`, `near-me`, `distance`, `geocoding`, `places` and the `wants_location` answer propose it (`app/lib/interview.ts`).
 - Decision log moved from the private `rapscalyon-px-app` repo to the new private `rapscalyon-internal` repo (internal master repo for non-public operating docs; keeps real project ids out of this public repo). `AGENTS.md`, `SPEC.md` and `docs/ARCHITECTURE.md` updated to match.
 - `item-search` 0.3.0: user-managed lists (`is_lists`, `is_list_items`; create, rename, delete, add, remove through functions that check subject access and MFA). A candidate can be on several lists.
 - `item-search` 0.2.0: price history for every kind of item (`is_price_history`, `is_record_price()` for child packs; one row per price change with the price as typed). Migration 002, rollback and suite included.
