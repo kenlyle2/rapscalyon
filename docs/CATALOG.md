@@ -527,6 +527,24 @@ item-tracker, subject-individual, youtube-content.
 
 A child of item-tracker: every transcription is an item with a 1:1 job row. Clients can read their jobs but cannot write them.
 
+## WordPress sign-in with FluentAuth (`wp-fluentauth` 0.1.0, official)
+
+> Customers sign up and log in on your WordPress site, then open your app already signed in.
+
+**Who it's for**
+
+Any product that sells, takes subscriptions or runs an affiliate program, where WordPress already owns the customer.
+
+**What you get**
+
+- FluentAuth's passkeys, 2FA, magic links and social login for the whole business, with no login screens to build in the app.
+- A small, readable WordPress plugin that hands a confirmed customer to the app (no heavy SSO service).
+- A handoff log for operators, readable by admins only.
+
+**Works well with**
+
+FluentCart, AffiliateWP (or FluentAffiliate), and the billing bridge.
+
 ## YouTube content (`youtube-content` 0.1.0, official)
 
 > Turn a video's transcript into summaries and social content, kept per person with the source link.

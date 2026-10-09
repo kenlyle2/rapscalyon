@@ -1,5 +1,5 @@
 {
- "catalogVersion": "1023120f0d6c",
+ "catalogVersion": "cf85d9ada20b",
  "core": "0.1.0",
  "packs": {
   "ai-chat": {
@@ -213,6 +213,14 @@
    ],
    "requires_core": ">=0.1",
    "contentHash": "87d961c9dee2b38f06bc65fcf383f24930765bd5198242f768225994cf52dff0"
+  },
+  "wp-fluentauth": {
+   "version": "0.1.0",
+   "tier": "official",
+   "license": "AGPL-3.0-or-later",
+   "requires": [],
+   "requires_core": ">=0.1",
+   "contentHash": "efc0ad7ed57dd3140bbcc3e1f3fbf0d02cf3f53542f6b7795fa83309c074af99"
   },
   "youtube-content": {
    "version": "0.1.0",

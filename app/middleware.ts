@@ -1,9 +1,10 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import type { CookieOptions } from "@supabase/ssr";
+import { packRegistry } from "@/lib/packs/registry.generated";
 type CookieList = { name: string; value: string; options: CookieOptions }[];
 
-const PUBLIC = ["/login", "/auth", "/api/", "/packs"]; // API routes authenticate themselves (webhook signatures, cron secret)
+const PUBLIC = ["/login", "/auth", "/api/", "/packs", ...packRegistry.auth.public_paths]; // API routes authenticate themselves (webhook signatures, cron secret)
 
 export async function middleware(req: NextRequest) {
   let res = NextResponse.next({ request: req });

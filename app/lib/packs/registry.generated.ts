@@ -118,5 +118,11 @@ export const packRegistry = {
       "label": "Generate a post image",
       "pack": "social-posts"
     }
-  ]
-} as { nav: { label: string; href: string; icon: string; group: string; pack: string }[]; limits: Record<string, number>; health: { id: string; pack: string }[]; events: unknown[]; operations: unknown[] };
+  ],
+  "auth": {
+    "login_path": null,
+    "login_env": null,
+    "signup": true,
+    "public_paths": []
+  }
+} as { nav: { label: string; href: string; icon: string; group: string; pack: string }[]; limits: Record<string, number>; health: { id: string; pack: string }[]; events: unknown[]; operations: unknown[]; auth: { login_path: string | null; login_env: string | null; signup: boolean; public_paths: string[] } };

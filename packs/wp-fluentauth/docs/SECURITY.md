@@ -1,0 +1,5 @@
+- `wf_handoffs` is readable by admins only (MFA gate applied) and written only by the service role through `wf_record_handoff`, which API roles cannot execute.
+- The confirm route redeems a single-use, short-lived Supabase token; replay fails (tested locally). `type` is limited to `signup` and `magiclink`; `next` must be a local path.
+- The WordPress side holds the Supabase service-role key as a `wp-config.php` constant. Anyone who controls WordPress code or an administrator account can sign in to the app as any user whose email they know. Required mitigations: 2FA for administrators (set by the install script), updates, no untrusted plugins.
+- The plugin only mints a link for the logged-in user's own email, and only when that email was proven on the site (FluentAuth's signup verification or a completed password reset).
+- Sessions are `aal1`; no Supabase MFA factor may be enrolled in this mode.
