@@ -1,0 +1,19 @@
+[pack]
+name = "wp-fluentauth"
+prefix = "wf"
+version = "0.1.0"
+description = "Account mode B: WordPress (FluentAuth) owns sign-up, login, recovery and MFA; a small WordPress plugin hands a verified user to the app as a real Supabase session. Declares the login seam and records handoffs."
+license = "AGPL-3.0-or-later"
+tier = "official"
+requires_core = ">=0.1"
+requires = []
+conflicts = []
+
+[db]
+tables = ["wf_handoffs"]
+functions = ["wf_record_handoff"]
+
+[auth]
+login_env = "WP_LOGIN_URL"
+signup = false
+public_paths = []

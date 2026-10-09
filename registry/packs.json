@@ -1,5 +1,5 @@
 {
- "catalogVersion": "95dff65c2bce",
+ "catalogVersion": "d5de354560fa",
  "core": "0.1.0",
  "packs": {
   "ai-chat": {
@@ -111,12 +111,12 @@
    "contentHash": "39724a3cab96754594c1fe2f02016c98ae4cdfb50ad0d22bf419783986e821b6"
   },
   "loops-email": {
-   "version": "0.1.0",
+   "version": "0.1.1",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [],
    "requires_core": ">=0.1",
-   "contentHash": "00fc3b75e296ea9ed7ecc3f6cb41ddb081fc2fc092189ce54bd603c74b5bae2a"
+   "contentHash": "84721d7130e8347f47bab217a84f8ccc1ff3b051694a742d5f3f475d521b86ee"
   },
   "music-generations": {
    "version": "0.1.1",
@@ -221,6 +221,14 @@
    ],
    "requires_core": ">=0.1",
    "contentHash": "85e214a75da61b0c26ff03ccc1a5960a6d72910d26c1cc51311beec48f2107b7"
+  },
+  "wp-fluentauth": {
+   "version": "0.1.0",
+   "tier": "official",
+   "license": "AGPL-3.0-or-later",
+   "requires": [],
+   "requires_core": ">=0.1",
+   "contentHash": "efc0ad7ed57dd3140bbcc3e1f3fbf0d02cf3f53542f6b7795fa83309c074af99"
   },
   "youtube-content": {
    "version": "0.1.1",

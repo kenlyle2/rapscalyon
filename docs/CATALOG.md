@@ -259,7 +259,7 @@ subject-individual, subject-business, item-search, social-posts.
 
 Class-table inheritance: child packs add a 1:1 table keyed on the item, so each kind keeps real columns and constraints while access rules live in one place.
 
-## Email with Loops (`loops-email` 0.1.0, official)
+## Email with Loops (`loops-email` 0.1.1, official)
 
 > A reliable outbox for lifecycle and transactional email, with unsubscribes respected automatically.
 
@@ -548,6 +548,24 @@ item-tracker, subject-individual, youtube-content.
 **Under the hood**
 
 A child of item-tracker: every transcription is an item with a 1:1 job row. Clients can read their jobs but cannot write them.
+
+## WordPress sign-in with FluentAuth (`wp-fluentauth` 0.1.0, official)
+
+> Customers sign up and log in on your WordPress site, then open your app already signed in.
+
+**Who it's for**
+
+Any product that sells, takes subscriptions or runs an affiliate program, where WordPress already owns the customer.
+
+**What you get**
+
+- FluentAuth's passkeys, 2FA, magic links and social login for the whole business, with no login screens to build in the app.
+- A small, readable WordPress plugin that hands a confirmed customer to the app (no heavy SSO service).
+- A handoff log for operators, readable by admins only.
+
+**Works well with**
+
+FluentCart, AffiliateWP (or FluentAffiliate), and the billing bridge.
 
 ## YouTube content (`youtube-content` 0.1.1, official)
 

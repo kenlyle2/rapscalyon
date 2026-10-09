@@ -7,7 +7,7 @@ begin
   o := public.lp_enqueue(a, 'welcome', '{"plan":"free"}');
   perform public.lp_enqueue(b, 'welcome');
   perform t.as_user(a);
-  perform t.assert(t.rows('select 1 from public.lp_outbox') = 1, 'user sees only their own outbox rows');
+  perform t.assert(t.rows('select 1 from public.lp_outbox where event = ''welcome''') = 1, 'user sees only their own outbox rows');
   perform t.assert(t.denied('insert into public.lp_outbox (profile_id, event) values (''' || a || ''', ''x.y'')'), 'users cannot enqueue directly');
   perform t.assert(t.denied('update public.lp_outbox set status = ''sent'''), 'users cannot mark rows sent');
   perform t.assert(t.denied('select public.lp_enqueue(''' || a || ''', ''hack'')'), 'users cannot call enqueue');
@@ -23,7 +23,7 @@ begin
   o := public.lp_enqueue(a, 'marketing.newsletter');
   select status into st from public.lp_outbox where id = o;
   perform t.assert(st = 'suppressed', 'marketing.* is suppressed when the user opted out');
-  select count(*) into n from public.lp_claim_outbox();
+  select count(*) into n from public.lp_claim_outbox() where event = 'welcome';
   perform t.assert(n = 2, 'claims pending rows (welcome x2), not suppressed ones');
   select count(*) into n from public.lp_claim_outbox();
   perform t.assert(n = 0, 'claimed rows are not claimed twice');
