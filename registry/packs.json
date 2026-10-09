@@ -1,5 +1,5 @@
 {
- "catalogVersion": "1023120f0d6c",
+ "catalogVersion": "41401cb03c47",
  "core": "0.1.0",
  "packs": {
   "ai-chat": {
@@ -127,6 +127,14 @@
    ],
    "requires_core": ">=0.1",
    "contentHash": "2e5f0fda7ecbd8299a8ddcf62361af618636379a608d1e3f2c9fe6ced41a85f2"
+  },
+  "places": {
+   "version": "0.1.0",
+   "tier": "official",
+   "license": "AGPL-3.0-or-later",
+   "requires": [],
+   "requires_core": ">=0.1",
+   "contentHash": "3dd686537ac93ea51c823bd93603cc188997247270a6b88f02de4e3bacb6b7cb"
   },
   "posthog-analytics": {
    "version": "0.1.0",
