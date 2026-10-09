@@ -4,7 +4,6 @@ node_modules
 .env
 next-env.d.ts
 app/api/*/
-!app/api/interview/
 !app/api/billing-webhook/
 app/(app)/*/
 !app/(app)/subjects/
