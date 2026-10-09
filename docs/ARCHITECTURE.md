@@ -11,7 +11,7 @@ Standard term (owner decision, 2026-10-08): the Next.js web app that ships in th
 | **App base code** | `app/` | The Next.js web app every product starts from: login, sign-in link, forgot and reset password, the auth callback, the workspace switcher, a navigation menu built from the installed packs, pack pages and API routes, public `/packs` pages. | Everyone who uses the product in a browser |
 | **Tools** | `tools/`, `deploy.sh`, `Dockerfile` | `tools/rapscalyon.py` (installer, validator, test runner, catalog), deployment helpers. | The person installing |
 | **Integrations** | `integrations/` | WordPress-side plugins and settings: FluentAuth hardening, the FluentCart bridge, AffiliateWP-FluentCart, offers, SupaWP notes. | The site owner, on WordPress |
-| **Pickaxe layer** | `pickaxe/` (public KB), role prompts kept privately | The AI agents that interview a person and propose a stack, and their knowledge base. | The person describing their business |
+| **Interview layer** | `pickaxe/` (public KB), role prompts kept privately | The AI agents that interview a person and propose a stack, and their knowledge base. | The person describing their business |
 
 "Core" in these docs means the database layer only. The app base code is a separate layer; core and the app base code share the repo version (see `CHANGELOG.md`), and each pack versions itself in `pack.toml`.
 
@@ -19,8 +19,8 @@ Standard term (owner decision, 2026-10-08): the Next.js web app that ships in th
 
 | Repo | Visibility | Holds |
 |---|---|---|
-| `kenlyle2/rapscalyon` | public | Core, official packs, the app base code (`app/`), tools, integrations, public Pickaxe knowledge base |
-| Private repositories | private | Commercial packs, the Pickaxe role prompts and playbooks, the marketing and client sites, and the owner's internal operating records. Not described in this repository |
+| `kenlyle2/rapscalyon` | public | Core, official packs, the app base code (`app/`), tools, integrations, public Interview knowledge base |
+| Private repositories | private | Commercial packs, the Interview role prompts and playbooks, the marketing and client sites, and the owner's internal operating records. Not described in this repository |
 | A product repo (one per product) | private | One product: a copy of the framework (core, the app base code, tools) plus its own packs |
 
 ## How a product gets the app base code
