@@ -79,11 +79,13 @@
     "kind": "file",
     "path": "vertical/hostinger-node-hosting.md"
    },
-   "documentId": "7OJKK6GHBGD3ZSWQTJMAIF6EJ",
+   "documentId": "DZRLHHTSFP5H3B86OH5RW35V5",
    "agents": [
     "NWCR3HQ6JB0D"
    ],
-   "publishedSha256": "2f3c07c3895b48471225027c8368b4d8f2959ad5bf1265961a167730abfaeedc"
+   "publishedSha256": "61480393804d540aaab0b273dd835e05cef07088f80d84035e59875243453133",
+   "catalogVersion": "a078cd8bad1c",
+   "publishedOn": "2026-10-08"
   },
   {
    "name": "vertical-ninjapipe",

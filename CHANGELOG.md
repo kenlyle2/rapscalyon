@@ -3,6 +3,7 @@
 Versioning: core + app base code share the repo version (semver, pre-1.0: minor bumps may break). Each pack versions itself in `pack.toml`.
 
 ## Unreleased
+- Pickaxe KB `vertical-hostinger-node-hosting`: adds the WordPress site for account mode B and a labelled note on the Hostinger AI Agent. Republished (document id changed).
 - `docs/AUTH-MODES.md`: Hostinger section for creating the Mode B WordPress site (API operations, polling, what is unverified) and an honest AI Agent note.
 - Pickaxe KB: `vertical-wordpress-multisite` removed (multisite dropped as a billing-site strategy, owner decision 2026-10-09). Detached from the Interviewer and deleted from the workspace.
 - Pickaxe KB `vertical-affiliatewp`: states RapScalYon's unlimited-site Ultimate licence, and that nothing installs AffiliateWP on client sites yet. Republished (document id changed); live Interviewer answers correctly.
