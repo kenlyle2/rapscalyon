@@ -21,9 +21,9 @@ Standard term (owner decision, 2026-10-08): the Next.js web app that ships in th
 |---|---|---|
 | `kenlyle2/rapscalyon` | public | Core, official packs, the app base code (`app/`), tools, integrations, public Pickaxe knowledge base |
 | `kenlyle2/rapscalyon-plus` | private | Commercial packs |
-| `kenlyle2/rapscalyon-px-app` | private | Pickaxe role prompts and action manifest, strategy, decision log, client docs. No app base code and no running software |
+| `kenlyle2/rapscalyon-px-app` | private | Pickaxe role prompts and action manifest, strategy, client docs. No app base code and no running software |
 | `kenlyle2/rapscalyon-main` | private | The marketing site and multi-tenant client sites (Sanity plus React Router) |
-| `kenlyle2/rapscalyon-internal` | private | Our internal master repo for non-public things: runbooks and registries for operating our own sites and accounts, and the decisions about them (start with `docs/SITE-OPERATIONS.md`) |
+| `kenlyle2/rapscalyon-internal` | private | Our internal master repo for non-public things: runbooks and registries for operating our own sites and accounts, and the decision log (`docs/DECISIONS.md`) (start with `docs/SITE-OPERATIONS.md`) |
 | A product repo, for example `kenlyle2/carshopper` | private | One product: a copy of the framework (core, the app base code, tools) plus its own packs |
 
 ## How a product gets the app base code
