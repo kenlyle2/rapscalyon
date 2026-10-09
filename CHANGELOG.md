@@ -3,6 +3,7 @@
 Versioning: core + app base code share the repo version (semver, pre-1.0: minor bumps may break). Each pack versions itself in `pack.toml`.
 
 ## Unreleased
+- Interviewer (`propose_stack`): new answers `wants_store`, `wants_affiliates`, `account_mode` (`app`|`wordpress`); the response carries `auth` (mode, decided, why). Selling or affiliates adds FluentCart/AffiliateWP as external products; `wp-fluentauth`, FluentAuth and `rapscalyon-pseudo-sso` are proposed only when the person chose WordPress. `confirm_stack` tickets point at `docs/AUTH-MODES.md` for mode B. Test: `app/e2e/interview.e2e.mjs`.
 - Installer: refuses a local database that holds tables neither core nor an installed pack declares (`RS_ALLOW_UNREGISTERED=1` overrides); `pack remove` deletes the pack's generated `supabase/migrations` replay files instead of adding a remove file, and install timestamps never collide, so `supabase db reset` rebuilds exactly the installed packs. `bw_plan_map` added to the core-table list. `ci_packs.py` checks both.
 - `loops-email` test counts only its own events (other packs' sign-up triggers no longer break it).
 - `.agents/skills/pack-builder`: skill for building and changing packs.
