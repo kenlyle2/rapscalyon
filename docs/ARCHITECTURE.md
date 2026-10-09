@@ -38,6 +38,11 @@ Where login, recovery, MFA and billing live is a choice made per product (decide
 - **Mode B (default for any real business):** WordPress with FluentAuth, FluentCart and AffiliateWP, bridged to the app by the small `rapscalyon-pseudo-sso` plugin and the `wp-fluentauth` pack (SupaWP stays only on sites that already run it). A pack may declare `[auth]` in `pack.toml` so `/login` defers to WordPress.
 - **Mode A (semi-deprecated):** the app base code's own Supabase sign-in, recovery and MFA.
 
+## Third-party licences we hold
+
+- **AffiliateWP:** the owner holds a lifetime, unlimited-site Ultimate licence with all add-ons, and client sites are covered with no restrictions (owner, stated 2026-10-04; decision and open key-handling question in the owner's decision log). The key is never written in this repository. Nothing installs AffiliateWP on a client site yet: that step belongs to the WordPress setup process that is still being built.
+- Any other paid plugin a pack or product depends on is listed here with its licence terms when it is chosen.
+
 ## Naming rules
 
 - Use **app base code** for `app/` in this repo and its copies. Do not write "shell".
