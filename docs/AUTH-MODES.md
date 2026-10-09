@@ -47,7 +47,7 @@ Not available yet: password recovery, magic link, MFA enrolment in the app. Do n
 - Variant considered and not adopted: a ticket exchange through a Supabase Edge Function that keeps the service-role key out of WordPress. Worth revisiting only for many WordPress sites on one shared Supabase project.
 
 ## Hostinger: creating the WordPress site for Mode B
-Verified read-only on 2026-10-09 through the Hostinger MCP (OAuth, whole-account access). The account holds one Web/Cloud order (plan `cloud_economy_v2`, active) and about 30 WordPress installations on one hosting user, several belonging to other people. Every call below touches that shared account, so list first and name the domain explicitly.
+Verified read-only on 2026-10-09 through the Hostinger MCP. The OAuth grant covers whichever Hostinger account you sign in as: the first sign-in reached a different account (plan `cloud_economy_v2`, about 30 WordPress sites, several for other people), the second the RapScalYon account (one active order, plan `hostinger_business_v5`, two WordPress installations: `billing.rapscalyon.com` and `accounts.tatplat.shop`; the same order also holds `rapscalyon.surf` as a Node.js site). Check which account the MCP is on (`hosting_orders_list`) before any write, and name the domain in every call.
 
 Steps. Each is an API operation (`search`, then `execute`) or a manual hPanel step:
 1. **Domain.** Use a domain or subdomain the customer controls (a billing subdomain such as `billing.<customer-domain>`). If it is not registered at Hostinger, point its DNS where its nameservers are; `dns_records_*` only works for domains in the Hostinger portfolio (details in `CLIENT-SITES.md` in the private `rapscalyon-px-app` repo).
@@ -57,7 +57,7 @@ Steps. Each is an API operation (`search`, then `execute`) or a manual hPanel st
 5. **Validate.** `wordpress_installations_check-if-are-valid` (needs the installation `id` from the list) reports missing files or broken plugins. Then run the Mode B checklist above.
 6. **App.** Set `WP_LOGIN_URL` on the app host. For a Node.js app on Hostinger, `hosting_nodejs_replace-environment-variables` replaces the whole set and masks values on read, so a read-modify-write is impossible; use the hPanel for one variable, or supply the full set.
 
-Not verified: that `billing.rapscalyon.com` is on this account (it does not appear in the installation list, so it may be on another Hostinger account or order); whether the install API works the same on every plan; the exact permissions of the OAuth grant.
+Not verified: whether the install API works the same on every plan; the exact permissions of the OAuth grant.
 
 ### Hostinger AI Agent (convenience only)
 Decision 4: the Agent is never in the install path and nothing depends on it. Vendor claims, not tested here: it takes chat instructions for posts, WooCommerce, domains and DNS, and is included with WordPress Business and Cloud hosting plans (the plan mapping is unconfirmed; this account's plan is `cloud_economy_v2`). The Hostinger API exposes `wordpress_installations_jwt-token`, described as authenticating requests to an installation's own MCP endpoint, which suggests how the Agent acts on a site; that is an inference from the operation description, not tested. The plugin `hostinger-ai-assistant` seen on the billing site is a content-writing plugin, a different thing. An assistant answering a Hostinger question can answer from the wrong product context (hosting plan versus WordPress plugin versus Agent): check the product name in the answer.
