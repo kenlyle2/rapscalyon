@@ -3,6 +3,9 @@
 Versioning: core + app base code share the repo version (semver, pre-1.0: minor bumps may break). Each pack versions itself in `pack.toml`.
 
 ## Unreleased
+- Installer: refuses a local database that holds tables neither core nor an installed pack declares (`RS_ALLOW_UNREGISTERED=1` overrides); `pack remove` deletes the pack's generated `supabase/migrations` replay files instead of adding a remove file, and install timestamps never collide, so `supabase db reset` rebuilds exactly the installed packs. `bw_plan_map` added to the core-table list. `ci_packs.py` checks both.
+- `loops-email` test counts only its own events (other packs' sign-up triggers no longer break it).
+- `.agents/skills/pack-builder`: skill for building and changing packs.
 - `docs/AUTH-MODES.md`: choose, install, verify and roll back for account mode A (app accounts) and B (WordPress accounts); linked from README and BILLING.
 - Account mode B: new official pack `wp-fluentauth` 0.1.0 (WordPress/FluentAuth owns sign-up, login, recovery and MFA; handoff log `wf_handoffs`) and WordPress plugin `integrations/rapscalyon-pseudo-sso` (about 40 lines; replaces SupaWP for this mode) with an idempotent `install-wordpress.sh --dry-run`. App base code seam: packs may declare `[auth]` in `pack.toml` (`login_path` or `login_env`, `signup`, `public_paths`) and install `public/` routes into `app/(public)`; `/login` and the middleware read it from the generated registry. Default behaviour is unchanged when no pack declares it.
 - `item-search` 0.3.0: user-managed lists (`is_lists`, `is_list_items`; create, rename, delete, add, remove through functions that check subject access and MFA). A candidate can be on several lists.

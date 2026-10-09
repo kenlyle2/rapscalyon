@@ -67,6 +67,8 @@ python3 tools/rapscalyon.py catalog                               # commit docs/
 python3 tools/rapscalyon.py registry-check origin/main            # 0 problems
 npm --prefix app run typecheck                                    # and build when routes/pages changed
 ```
+The installer refuses a local database holding tables that core and the installed packs do not declare (another project's schema, or a pack applied with raw psql). Fix the database, do not bypass it. Installing writes replay files under `supabase/migrations/` (gitignored); `pack remove` deletes them, so never edit or delete them by hand.
+
 Changing an existing pack: bump `version` in pack.toml (registry-check fails otherwise), ship `00N` migration plus rollback, never edit an applied migration.
 
 ## 7. Downstream (the "what did I just break" list)

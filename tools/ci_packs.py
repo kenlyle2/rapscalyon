@@ -7,7 +7,7 @@
 Order comes from [pack].requires in registry/packs.json. A pack that cannot be removed cleanly fails the run, so rollback is exercised too.
 Packs installed on a developer's own scratch database are not touched by --plan, but a real run installs and removes: do not point it at one.
 """
-import json, subprocess, sys
+import json, os, subprocess, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -44,7 +44,18 @@ def main():
     for n in reversed(seq): run("pack", "remove", n)
     left = subprocess.run([*CLI, "pack", "list"], cwd=ROOT, capture_output=True, text=True).stdout.strip()
     if left: raise SystemExit("packs left after removal:\n" + left)
-    print(f"ok: {len(seq)} packs installed, tested and removed cleanly")
+    stray = sorted(f.name for f in (ROOT / "supabase" / "migrations").glob("*_pack_*.sql"))
+    if stray: raise SystemExit("pack removal left generated replay files (supabase db reset would replay them):\n  " + "\n  ".join(stray))
+    # the preflight must refuse a database holding a table nobody declares
+    url = os.environ.get("DATABASE_URL", "postgresql://postgres:postgres@127.0.0.1:54322/postgres")
+    sql = lambda q: subprocess.run(["psql", url, "-X", "-q", "-v", "ON_ERROR_STOP=1", "-c", q], check=True, capture_output=True)
+    sql("create table public.zz_stray (id int)")
+    try:
+        r = subprocess.run([*CLI, "test"], cwd=ROOT, capture_output=True, text=True)
+        if r.returncode == 0 or "zz_stray" not in r.stderr: raise SystemExit("preflight did not refuse a database holding an undeclared table")
+    finally:
+        sql("drop table public.zz_stray")
+    print(f"ok: {len(seq)} packs installed, tested and removed cleanly; preflight refuses undeclared tables")
 
 
 if __name__ == "__main__":
