@@ -2,7 +2,7 @@
 
 Keep every AI conversation per person, message by message, whichever model answered.
 
-Tier: official. Version 0.1.0. AI chat conversations as a child of item-tracker: a chat per provider and model with its messages in order, recorded by the server, with an optional core charge per reply in the same transaction. Covers the BuilderKit llamagpt, multillm_chatgpt, deepseek_chat and gemini_chat tables with one shape.
+Tier: official. Version 0.1.1. AI chat conversations as a child of item-tracker: a chat per provider and model with its messages in order, recorded by the server, with an optional core charge per reply in the same transaction. Covers the BuilderKit llamagpt, multillm_chatgpt, deepseek_chat and gemini_chat tables with one shape.
 
 ## Who it's for
 

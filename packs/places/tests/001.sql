@@ -1,0 +1,30 @@
+begin;
+do $$
+declare a uuid; r record; n int;
+begin
+  a := t.make_user('human@example.test');
+  perform t.as_service();
+  perform t.assert((select count(*) from public.geo_places where kind = 'district') >= 6, 'Coto Brus districts are loaded');
+  perform t.assert(public.geo_key('Gutiérrez Braun') = 'gutierrez braun', 'accents are folded');
+  perform t.assert(abs(public.geo_distance_km(8.8208, -82.9704, 8.8155, -82.9112) - 6.5) < 0.5, 'San Vito to Sabalito is about 6.5 km');
+  perform t.assert(public.geo_distance_km(null, 1, 2, 3) is null, 'a missing coordinate gives no distance');
+  perform t.as_user(a);
+  select * into r from public.geo_resolve('Vendo carro en Lourdes de Sabalito, al dia');
+  perform t.assert(r.name = 'Lourdes' or r.name = 'Sabalito', 'a place is found in free text');
+  select * into r from public.geo_resolve('placed in Cañas Gordas, Coto Brus');
+  perform t.assert(r.name = 'Cañas Gordas', 'the longest name wins over the canton');
+  select * into r from public.geo_resolve('se vende en jabillo');
+  perform t.assert(r.name = 'Jabillos', 'an alias resolves');
+  select * into r from public.geo_resolve('nothing named here');
+  perform t.assert(r.place_id is null, 'no place named gives null');
+  select * into r from public.geo_search('gutierrez brown', 3) limit 1;
+  perform t.assert(r.name = 'Gutiérrez Braun' and r.kind = 'district' and r.canton = 'Coto Brus' and r.province = 'Puntarenas', 'search tolerates a missing accent and a typo');
+  select * into r from public.geo_nearest(8.8208, -82.9704);
+  perform t.assert(r.name = 'San Vito' and r.distance_km < 1, 'nearest place to the San Vito plaza is San Vito');
+  perform t.assert(t.denied('insert into public.geo_places (name, kind, lat, lon) values (''X'', ''locality'', 1, 1)'), 'users cannot add places');
+  perform t.assert(t.denied('update public.geo_places set lat = 0'), 'users cannot edit places');
+  perform t.as_anon();
+  perform t.assert(t.denied('select 1 from public.geo_places'), 'anon denied');
+  perform t.assert(t.denied('select * from public.geo_search(''san'')'), 'anon cannot search');
+end $$;
+rollback;

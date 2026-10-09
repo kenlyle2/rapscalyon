@@ -52,7 +52,7 @@ packs/<name>/
 - Never leave rows behind; the suite must pass on a database that already holds other packs' data.
 
 ## 5. Docs (same commit)
-- `docs/README.md`: what it does, install, how it is used, remove. `docs/SECURITY.md`: threats, what is stored, what is not. `docs/MARKETING.md`: plain-language description for the interviewer (copy the turnstile format).
+- `docs/README.md`: what it does, install, how it is used, remove. `docs/SECURITY.md`: threats, what is stored, what is not. `docs/MARKETING.md`: plain-language description for customers (copy the turnstile format).
 - `CHANGELOG.md` entry (re-read its tail first; other sessions append). Any doc the change makes wrong.
 - Never write a "Not done" list for something you could do now; open work goes in the task tracker with its blocker.
 
@@ -72,10 +72,9 @@ The installer refuses a local database holding tables that core and the installe
 Changing an existing pack: bump `version` in pack.toml (registry-check fails otherwise), ship `00N` migration plus rollback, never edit an applied migration.
 
 ## 7. Downstream (the "what did I just break" list)
-- Should the Interviewer propose it? Update `app/lib/interview.ts` and its tests.
 - App routes/pages: typecheck, build, `app/e2e/`, and products that carry a copy of the file.
 - New env var: `.env.example`, deployment notes, key validation.
-- Auth/billing/affiliate behaviour: `docs/ARCHITECTURE.md`, `docs/BILLING.md`, `docs/AUTH-MODES.md`.
+- Auth/billing/affiliate behaviour: `docs/ARCHITECTURE.md`, `docs/AUTH-MODES.md`.
 - Hosted databases: only through the installer with `--project <ref>`, dry run first, never a production project from this repo.
 
 ## 8. Commit

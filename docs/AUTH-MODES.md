@@ -6,7 +6,7 @@ A product has one of two account modes. Pick one per product; it is a pack choic
 |---|---|---|
 | Who owns sign-up, login, recovery, second factor | The app, on Supabase Auth | WordPress, with FluentAuth |
 | In the repo | Built-in password login in the app base code; recovery, magic link and MFA are **not built yet** (planned optional pack) | Pack `wp-fluentauth` plus the WordPress plugin `integrations/rapscalyon-pseudo-sso` |
-| Subscriptions and affiliates | Optional FluentCart bridge | FluentCart and AffiliateWP (or FluentAffiliate), already in the commerce stacks ([COMMERCE-STACKS.md](COMMERCE-STACKS.md), [BILLING.md](BILLING.md)) |
+| Subscriptions and affiliates | Optional FluentCart bridge | FluentCart and AffiliateWP (or FluentAffiliate), already in the commerce stacks |
 | The customer maintains | Nothing extra | A WordPress site and its plugins |
 | If WordPress is down | No effect | New app logins and "manage billing" fail; open app sessions continue until their refresh token expires |
 | Right for | Internal tools, prototypes, anything with no money | Anything with sales, subscriptions or affiliates |

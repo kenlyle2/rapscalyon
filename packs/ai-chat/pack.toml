@@ -1,7 +1,7 @@
 [pack]
 name = "ai-chat"
 prefix = "cht"
-version = "0.1.0"
+version = "0.1.1"
 description = "AI chat conversations as a child of item-tracker: a chat per provider and model with its messages in order, recorded by the server, with an optional core charge per reply in the same transaction. Covers the BuilderKit llamagpt, multillm_chatgpt, deepseek_chat and gemini_chat tables with one shape."
 license = "AGPL-3.0-or-later"
 tier = "official"

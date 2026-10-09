@@ -2,7 +2,7 @@
 
 Artistic QR codes made from a prompt and a link, kept per person and charged by the database or by the platform that made them.
 
-Tier: official. Version 0.1.0. AI QR-code generation jobs (the BuilderKit qr_code_generations table) as a child of item-tracker: prompt, target URL and an image key, charged up front or recorded from an outside generator.
+Tier: official. Version 0.1.1. AI QR-code generation jobs (the BuilderKit qr_code_generations table) as a child of item-tracker: prompt, target URL and an image key, charged up front or recorded from an outside generator.
 
 ## Who it's for
 

@@ -2,7 +2,7 @@
 
 Upscale, enhance or restyle an image and keep the input, the result and the cost per person.
 
-Tier: official. Version 0.1.0. Image upscale, enhance and style-transfer jobs (BuilderKit image_enhancer_upscaler and ghibli_generation tables) as a child of item-tracker: the input key, the result key and a free-text transform type, charged up front or recorded from an outside generator.
+Tier: official. Version 0.1.1. Image upscale, enhance and style-transfer jobs (BuilderKit image_enhancer_upscaler and ghibli_generation tables) as a child of item-tracker: the input key, the result key and a free-text transform type, charged up front or recorded from an outside generator.
 
 ## Who it's for
 

@@ -2,7 +2,7 @@
 
 Ask questions about a YouTube video from its transcript and keep the conversation per person.
 
-Tier: official. Version 0.1.0. Chat with a video: the link, title, style, tone, transcript and summary attached 1:1 to an ai-chat conversation, with an ingestion flag. Replaces the BuilderKit chat_with_youtube table.
+Tier: official. Version 0.1.1. Chat with a video: the link, title, style, tone, transcript and summary attached 1:1 to an ai-chat conversation, with an ingestion flag. Replaces the BuilderKit chat_with_youtube table.
 
 ## Who it's for
 

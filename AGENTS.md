@@ -15,7 +15,7 @@ Use `mcp__codebase-memory-mcp__search_graph`, `trace_path`, `get_code_snippet` a
 ## Before doing anything
 
 1. Read `SPEC.md` and `docs/ARCHITECTURE.md` (layers, repos, naming). Read the pack's own `docs/` for pack work.
-2. If the task touches a named pack, route, feature or decision, or you are about to write about its status, read the owner's decision log (`docs/DECISIONS.md` in the private `rapscalyon-px-app` repo) first. An analysis file saying "X should be done" is not evidence that X is not done.
+2. If the task touches a named pack, route, feature or decision, or you are about to write about its status, read the owner's decision log first. It is kept privately, outside this repository: the owner's workspace instructions say where, and if you do not have them, ask the owner. An analysis file saying "X should be done" is not evidence that X is not done.
 3. Check for concurrent work before touching shared files: `git status`, `git worktree list`, `git log -5`.
 4. Starting point for any structured task: an existing plan in `.dwp/plans/` (DeepWorkPlan, see `.agents/skills/deepworkplan`). New multi-step work gets a plan there; plans are gitignored and `.dwp/RESUME.md` says where things stand.
 
@@ -72,8 +72,8 @@ The owner directs several AI tools across repos at once, and cannot always see t
 ## 6) Standing constraints
 
 - Never touch an owner production project from this repo's work. Use scratch projects and local databases.
-- Core and AGPL packs are public; commercial packs live in the private `rapscalyon-plus` repo.
-- Billing: FluentCart on WordPress calling the core `/api/billing-webhook` is the opinionated path (`docs/BILLING.md`); do not raise Stripe as a gap.
+- Core and AGPL packs are public; commercial packs live in a separate private repo.
+- Billing: FluentCart on WordPress calling the core `/api/billing-webhook` is the opinionated path; do not raise Stripe as a gap.
 - The owner is in Costa Rica: prices in a listing's own currency, US$ secondary, where a product shows prices.
 
 ## 12) SUPER PROACTIVE MODE: THIS IS YOUR PROJECT!!!
@@ -101,11 +101,11 @@ Mandatory proactive triggers:
 
 | Change type | Required proactive action |
 |---|---|
-| Pack added, changed or removed | Version bump, migration plus rollback, tests, `catalog`, `registry-check`, CHANGELOG, pack docs, interviewer rules (`app/lib/interview.ts`) if the pack should be proposed |
+| Pack added, changed or removed | Version bump, migration plus rollback, tests, `catalog`, `registry-check`, CHANGELOG, pack docs |
 | Function, type or table renamed or changed | Every call site, test, policy, doc and generated file |
 | Core migration | Pack compatibility (`requires_core`), rollback, `tests/0*.sql`, `docs/` |
 | App base code route, page or action changed | Typecheck, build, e2e (`app/e2e/`), and the products that carry a copy of that file |
-| Auth, billing or affiliate behaviour | `docs/ARCHITECTURE.md` account modes, `docs/BILLING.md`, the plan in `.dwp/plans/`, and the Pickaxe interviewer text |
+| Auth, billing or affiliate behaviour | `docs/ARCHITECTURE.md` account modes, the plan in `.dwp/plans/` |
 | New doc added | Link it from README or the nearest index; no orphan docs |
 | New env var or API key dependency | `.env.example`, deployment notes, key-validation code |
 | Vendor or API chosen | Decision record: chosen, rejected, why, risks |

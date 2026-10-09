@@ -1,7 +1,7 @@
 [pack]
 name = "chat-with-file"
 prefix = "cwf"
-version = "0.1.0"
+version = "0.1.1"
 description = "Chat with a document: the uploaded file's storage key and name attached 1:1 to an ai-chat conversation. Replaces the BuilderKit chat_with_file table."
 license = "AGPL-3.0-or-later"
 tier = "official"

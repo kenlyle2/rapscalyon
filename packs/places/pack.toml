@@ -1,0 +1,16 @@
+[pack]
+name = "places"
+prefix = "geo"
+version = "0.1.0"
+description = "Places for Costa Rica: provinces, cantons, districts and named localities with coordinates (OpenStreetMap), accent-tolerant name lookup, nearest place to a point, and distance in kilometres. Other packs use it to turn a place name or a phone's location into coordinates."
+license = "AGPL-3.0-or-later"
+tier = "official"
+requires_core = ">=0.1"
+requires = []
+conflicts = []
+
+[db]
+tables = ["geo_places"]
+reference_tables = ["geo_places"]
+functions = ["geo_key", "geo_distance_km", "geo_search", "geo_resolve", "geo_nearest"]
+api_functions = ["geo_key", "geo_distance_km", "geo_search", "geo_resolve", "geo_nearest"]

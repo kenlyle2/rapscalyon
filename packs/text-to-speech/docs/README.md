@@ -2,7 +2,7 @@
 
 Text-to-speech clips (the BuilderKit text_to_speech table) as a child of item-tracker: title, text, model, voice and an audio key, recorded once by the server with an optional core charge in the same transaction.
 
-Written against the BuilderKit app's table shape (generated types) and behaviour, with fresh code; no BuilderKit source. Licence check: `docs/DECISIONS.md` in the rapscalyon repo (2026-10-05).
+Written against the BuilderKit app's table shape (generated types) and behaviour, with fresh code; no BuilderKit source.
 
 ## What is in it
 - `tts_clips` (item kind `speech_clip`): functions `tts_check_kind`, `tts_record`
