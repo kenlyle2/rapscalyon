@@ -1,7 +1,7 @@
 [pack]
 name = "music-generations"
 prefix = "mgn"
-version = "0.1.0"
+version = "0.1.1"
 description = "Text-to-music generation jobs (the BuilderKit music_generations table) as a child of item-tracker: prompt, genre, mood, duration and an audio key, charged up front or recorded from an outside generator."
 license = "AGPL-3.0-or-later"
 tier = "official"

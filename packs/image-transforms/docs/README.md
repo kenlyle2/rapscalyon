@@ -2,7 +2,7 @@
 
 Image upscale, enhance and style-transfer jobs (BuilderKit image_enhancer_upscaler and ghibli_generation tables) as a child of item-tracker: the input key, the result key and a free-text transform type, charged up front or recorded from an outside generator.
 
-Written against the BuilderKit app's table shape (generated types) and behaviour, with fresh code; no BuilderKit source. Licence check: `docs/DECISIONS.md` in the rapscalyon repo (2026-10-05).
+Written against the BuilderKit app's table shape (generated types) and behaviour, with fresh code; no BuilderKit source.
 
 ## What is in it
 - `itr_jobs` (item kind `image_transform`): functions `itr_check_kind`, `itr_request`, `itr_mark_started`, `itr_complete`, `itr_fail`, `itr_record`

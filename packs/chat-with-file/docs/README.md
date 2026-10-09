@@ -2,7 +2,7 @@
 
 Chat with a document: the uploaded file's storage key and name attached 1:1 to an ai-chat conversation. Replaces the BuilderKit chat_with_file table.
 
-Written against the BuilderKit app's table shape (generated types) and behaviour, with fresh code; no BuilderKit source. Licence check: `docs/DECISIONS.md` in the rapscalyon repo (2026-10-05).
+Written against the BuilderKit app's table shape (generated types) and behaviour, with fresh code; no BuilderKit source.
 
 ## What is in it
 - `cwf_sources` (item kind `chat`): functions `cwf_attach`

@@ -1,7 +1,7 @@
 [pack]
 name = "image-transforms"
 prefix = "itr"
-version = "0.1.0"
+version = "0.1.1"
 description = "Image upscale, enhance and style-transfer jobs (BuilderKit image_enhancer_upscaler and ghibli_generation tables) as a child of item-tracker: the input key, the result key and a free-text transform type, charged up front or recorded from an outside generator."
 license = "AGPL-3.0-or-later"
 tier = "official"

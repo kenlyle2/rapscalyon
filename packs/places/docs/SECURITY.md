@@ -1,0 +1,4 @@
+- `geo_places` is a reference table: signed-in users can read every row (it is public geographic data) and cannot write; there is no INSERT, UPDATE or DELETE grant. Rows arrive only through migrations.
+- Anonymous visitors have no access to the table, the view or the functions. The MFA gate applies like any table an API role can read.
+- Every function is SECURITY INVOKER with `search_path = ''`, so row policies and grants apply to the caller. `geo_key` and `geo_distance_km` are pure helpers (no table access) that the other functions call as the user.
+- The loader script only prints SQL from OpenStreetMap data, with every value quoted; it writes nothing itself and holds no secrets.

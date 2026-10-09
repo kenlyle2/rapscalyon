@@ -2,7 +2,7 @@
 
 AI-written content pieces (the BuilderKit content_creations table) as a child of item-tracker: topic, style, voice, word limit and the text, recorded once by the server with an optional core charge in the same transaction.
 
-Written against the BuilderKit app's table shape (generated types) and behaviour, with fresh code; no BuilderKit source. Licence check: `docs/DECISIONS.md` in the rapscalyon repo (2026-10-05).
+Written against the BuilderKit app's table shape (generated types) and behaviour, with fresh code; no BuilderKit source.
 
 ## What is in it
 - `cwr_pieces` (item kind `content_piece`): functions `cwr_check_kind`, `cwr_record`

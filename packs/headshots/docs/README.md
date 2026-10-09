@@ -2,7 +2,7 @@
 
 AI headshots as two children of item-tracker (BuilderKit headshot_models and headshot_generations): train a personal model from uploaded photos, then generate headshots from a finished model of the same workspace, charged up front or recorded from an outside generator.
 
-Written against the BuilderKit app's table shape (generated types) and behaviour, with fresh code; no BuilderKit source. Licence check: `docs/DECISIONS.md` in the rapscalyon repo (2026-10-05).
+Written against the BuilderKit app's table shape (generated types) and behaviour, with fresh code; no BuilderKit source.
 
 ## What is in it
 - `hsh_models` (item kind `headshot_model`): functions `hsh_model_check_kind`, `hsh_model_request`, `hsh_model_mark_started`, `hsh_model_complete`, `hsh_model_fail`, `hsh_model_record`

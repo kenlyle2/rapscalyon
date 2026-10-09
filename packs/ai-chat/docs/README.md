@@ -2,7 +2,7 @@
 
 AI chat conversations as a child of item-tracker: a chat per provider and model with its messages in order, recorded by the server, with an optional core charge per reply in the same transaction. Covers the BuilderKit llamagpt, multillm_chatgpt, deepseek_chat and gemini_chat tables with one shape.
 
-Written against the BuilderKit app's table shape (generated types) and behaviour, with fresh code; no BuilderKit source. Licence check: `docs/DECISIONS.md` in the rapscalyon repo (2026-10-05).
+Written against the BuilderKit app's table shape (generated types) and behaviour, with fresh code; no BuilderKit source.
 
 ## What is in it
 - `cht_chats` (item kind `chat`): functions `cht_check_kind`, `cht_start`

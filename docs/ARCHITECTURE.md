@@ -8,10 +8,10 @@ Standard term (owner decision, 2026-10-08): the Next.js web app that ships in th
 |---|---|---|---|
 | **Core** | `supabase/migrations/` | The database foundation: profiles, credits and `charge_credits`, billing-event ledger, rate limiting, subjects (workspaces) and members, the MFA gate, `ensure_rls`, default-deny privileges, private `media` storage. Packs cannot change it. | Nobody directly; it is the security model |
 | **Packs** | `packs/<name>/` | Optional features, each with prefixed tables, row-level security, a rollback, tests and (some) UI and API routes. Examples: `item-search`, `turnstile`, `loops-email`. | Customers, through the pages a pack adds |
-| **App base code** | `app/` | The Next.js web app every product starts from: login, sign-in link, forgot and reset password, the auth callback, the workspace switcher, a navigation menu built from the installed packs, pack pages and API routes, public `/packs` pages, the interview API for the Pickaxe layer. | Everyone who uses the product in a browser |
+| **App base code** | `app/` | The Next.js web app every product starts from: login, sign-in link, forgot and reset password, the auth callback, the workspace switcher, a navigation menu built from the installed packs, pack pages and API routes, public `/packs` pages. | Everyone who uses the product in a browser |
 | **Tools** | `tools/`, `deploy.sh`, `Dockerfile` | `tools/rapscalyon.py` (installer, validator, test runner, catalog), deployment helpers. | The person installing |
 | **Integrations** | `integrations/` | WordPress-side plugins and settings: FluentAuth hardening, the FluentCart bridge, AffiliateWP-FluentCart, offers, the Mode B pseudo-SSO plugin (`rapscalyon-pseudo-sso`). | The site owner, on WordPress |
-| **Pickaxe layer** | `pickaxe/` (public KB), private prompts in `rapscalyon-px-app` | The AI agents that interview a person and propose a stack, and their knowledge base. | The person describing their business |
+| **Pickaxe layer** | `pickaxe/` (public KB), role prompts kept privately | The AI agents that interview a person and propose a stack, and their knowledge base. | The person describing their business |
 
 "Core" in these docs means the database layer only. The app base code is a separate layer; core and the app base code share the repo version (see `CHANGELOG.md`), and each pack versions itself in `pack.toml`.
 
@@ -20,10 +20,8 @@ Standard term (owner decision, 2026-10-08): the Next.js web app that ships in th
 | Repo | Visibility | Holds |
 |---|---|---|
 | `kenlyle2/rapscalyon` | public | Core, official packs, the app base code (`app/`), tools, integrations, public Pickaxe knowledge base |
-| `kenlyle2/rapscalyon-plus` | private | Commercial packs |
-| `kenlyle2/rapscalyon-px-app` | private | Pickaxe role prompts and action manifest, strategy, decision log, client docs. No app base code and no running software |
-| `kenlyle2/rapscalyon-main` | private | The marketing site and multi-tenant client sites (Sanity plus React Router) |
-| A product repo, for example `kenlyle2/carshopper` | private | One product: a copy of the framework (core, the app base code, tools) plus its own packs |
+| Private repositories | private | Commercial packs, the Pickaxe role prompts and playbooks, the marketing and client sites, and the owner's internal operating records. Not described in this repository |
+| A product repo (one per product) | private | One product: a copy of the framework (core, the app base code, tools) plus its own packs |
 
 ## How a product gets the app base code
 
@@ -48,4 +46,4 @@ Where login, recovery, MFA and billing live is a choice made per product (decide
 - Use **app base code** for `app/` in this repo and its copies. Do not write "shell".
 - Use **core** only for the database foundation.
 - Use **pack** for an optional, removable feature; **product** or **app** for a finished thing a customer uses (CarShopper).
-- The npm package in `app/package.json` is still named `rapscalyon-app`; it is the app base code, not the `rapscalyon-px-app` repo.
+- The npm package in `app/package.json` is still named `rapscalyon-app`; it is the app base code.
