@@ -53,11 +53,13 @@
     "kind": "file",
     "path": "vertical/affiliatewp.md"
    },
-   "documentId": "E2AXR0RZ38KHPKL55F584XYS8",
+   "documentId": "DZZFVHG77DRA4AX7QNMZIBLPZ",
    "agents": [
     "NWCR3HQ6JB0D"
    ],
-   "publishedSha256": "ec12cd1a3f24263d4dc24c6aec8d4d585f63e134976ba0d9b5c8b8dad436cd8f"
+   "publishedSha256": "a02b1b711ab2ae0fdabb9b5fb8b533b0bb6d6b60f7119af40f2dc79cae29406f",
+   "catalogVersion": "a078cd8bad1c",
+   "publishedOn": "2026-10-08"
   },
   {
    "name": "vertical-fluentcart",
