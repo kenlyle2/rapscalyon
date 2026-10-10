@@ -139,7 +139,7 @@ def load_pack(arg):
     tier = p.get("tier", "community")
     if tier not in ("official", "verified", "community", "commercial"): die("pack tier must be official, verified, community or commercial")
     if tier == "commercial":
-        # Proprietary packs (the "plus" tier) are distributed outside this repo under their own licence; the installer
+        # Commercial packs are distributed outside this repo under their own licence; the installer
         # still applies every security rule. They must say so explicitly, never by accident.
         if not p["license"].startswith("LicenseRef-"): die("commercial packs must declare license = \"LicenseRef-<name>\"")
     else:
