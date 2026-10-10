@@ -32,6 +32,7 @@ A change is Done only when all of these hold:
 - `python3 tools/rapscalyon.py test` passes (against a LOCAL database; never a hosted one), including rollback of any pack you touched.
 - `python3 tools/rapscalyon.py catalog` has been run and its output committed; `registry-check origin/main` reports 0 problems.
 - `npm --prefix app run typecheck` (and `build` when routes or pages changed) passes.
+  The Starter Kit Stop hook enforces `typecheck` (`.claude/verify.json`) when installed; `test` needs a local database, so it is not in the hook and remains your responsibility.
 - A pack change bumps its version in `pack.toml`, ships a migration and a rollback, keeps row-level security on every table and default-deny grants, and does not weaken core.
 - **Documentation is updated in the same commit**: `CHANGELOG.md`, the pack's docs, `docs/CATALOG.md` (generated), and any doc the change makes wrong.
 - Incomplete work is recorded where the owner will see it (the task tracker), with what blocks it. Not in a code comment.
