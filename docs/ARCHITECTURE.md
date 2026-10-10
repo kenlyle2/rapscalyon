@@ -47,3 +47,5 @@ Where login, recovery, MFA and billing live is a choice made per product (decide
 - Use **core** only for the database foundation.
 - Use **pack** for an optional, removable feature; **product** or **app** for a finished thing a customer uses (CarShopper).
 - The npm package in `app/package.json` is still named `rapscalyon-app`; it is the app base code.
+- Use **commercial** for anything proprietary or paid: a **commercial pack** is a pack with `tier = "commercial"` and a `LicenseRef-` licence, distributed outside this repository. The word "plus" is retired in this sense (owner decision, 2026-10-10); older documents and commit messages that say "plus pack" or "RapScalYon Plus" mean commercial packs and RapScalYon Commercial.
+- **RapScalYon Commercial** (**RC**) is the done-for-you side, on rapscalyon.com: we create a complete business, the website and the back office, on top of the framework at rapscalyon.surf. Write the full name on first use, then RC. Do not call it "Plus".
