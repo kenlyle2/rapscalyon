@@ -40,4 +40,4 @@ A pack is rejected, and its transaction rolled back, if it: leaves RLS off, gran
 - Never expose `SUPABASE_SERVICE_ROLE_KEY` to the browser; the app base code only reads it in server code.
 
 ## Licence
-AGPL-3.0-or-later for core and official packs (see [CONTRIBUTING.md](CONTRIBUTING.md) for tiers and the contributor agreement).
+AGPL-3.0-or-later for core and official packs (see [CONTRIBUTING.md](CONTRIBUTING.md) for tiers and the contributor agreement). [PACK-EXCEPTION.md](PACK-EXCEPTION.md) additionally lets a pack that uses only the documented pack interfaces carry its own licence, including a proprietary one.
