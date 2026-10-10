@@ -31,7 +31,6 @@ Principles:
 | Affiliates | AffiliateWP (owner decision 2026-10-04) with a FluentCart adapter plugin | adapter built (`integrations/affiliatewp-fluentcart/`) | documented privately |
 | Email, bot protection, analytics | Loops, Turnstile, PostHog packs | built | `docs/CATALOG.md` |
 | Client websites | Sanity content, one multi-tenant React Router site, hosted Studio per client | built 2026-10-03; Studio hand-off to a client is a human step | documented privately |
-| Provisioning | `tools/client_site.py`: unclaimed Sanity project, claim link, draft seeding | built, tested on a real claim | documented privately |
 
 Customer journey (**[proposal]**, assembled from the pieces above): subscribe through FluentCart, interview, receive a stack proposal and execution ticket, ClawMagic installs the packs into the client's own Supabase project, the provisioning tool creates their Sanity project and drafts their site from the interview, the client claims it, reviews drafts in their Studio, and their domain is added to `SANITY_SITES`.
 
