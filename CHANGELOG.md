@@ -3,6 +3,7 @@
 Versioning: core + app base code share the repo version (semver, pre-1.0: minor bumps may break). Each pack versions itself in `pack.toml`.
 
 ## Unreleased
+- `PACK-EXCEPTION.md`: AGPL section 7 additional permission. A pack that copies no Program file and uses only the documented pack interfaces is an independent work and may be licensed on any terms. Drafted by the maintainer; counsel review pending.
 - `.claude/verify.json` opts this repo into the Starter Kit verify-on-stop hook: `npm --prefix app run typecheck` must pass before an agent session can finish. The kit is a separate user-level Claude Code plugin; nothing in this repo depends on it.
 - `tools/client_site.py site-add|site-remove`: map a client domain to its Sanity project in the `sites` table that `rapscalyon-main` reads (branch `feat/sites-table`, not deployed).
 - Installer: `pack add --project <ref>` now also copies the pack's `server/`, `ui/` and `public/` files into `--app` and regenerates the registry (it used to skip this for hosted projects). Mode B verified end to end against a hosted Supabase scratch project (`docs/AUTH-MODES.md`).
