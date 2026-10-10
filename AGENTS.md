@@ -108,6 +108,7 @@ Mandatory proactive triggers:
 | App base code route, page or action changed | Typecheck, build, e2e (`app/e2e/`), and the products that carry a copy of that file |
 | Auth, billing or affiliate behaviour | `docs/ARCHITECTURE.md` account modes, the plan in `.dwp/plans/` |
 | New doc added | Link it from README or the nearest index; no orphan docs |
+| User-visible behaviour, a command or the pack format changed | The page in the `rapscalyon-docs` repository (a sibling checkout) that describes it and its `verified_against_commit`, then `python3 scripts/check_docs_site.py` there |
 | New env var or API key dependency | `.env.example`, deployment notes, key-validation code |
 | Vendor or API chosen | Decision record: chosen, rejected, why, risks |
 | Writing any text about the status of a pack, route or decision | Read the decision log first |
