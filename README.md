@@ -15,8 +15,10 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the layers (core, packs, ap
 supabase start && supabase db reset                 # local core
 python3 tools/rapscalyon.py pack add packs/item-tracker --app app
 python3 tools/rapscalyon.py test
+supabase status -o env     # copy API_URL, ANON_KEY and SERVICE_ROLE_KEY into app/.env.local (names in app/.env.example); without it the app returns HTTP 500
 cd app && npm install && npm run dev
 ```
+If `supabase start` reports an unhealthy container, start only what the app and tests need: `supabase start -x studio,imgproxy,edge-runtime,logflare,vector,supavisor,mailpit,postgres-meta,storage-api,realtime`.
 Hosted: `./deploy.sh --name myapp --org <org-id> --packs "subject-business team item-tracker"`, or `--project <ref>` for an existing project.
 Add `--project <ref>` to any `rapscalyon.py` command to target a hosted Supabase project (needs a logged-in `supabase` CLI).
 
