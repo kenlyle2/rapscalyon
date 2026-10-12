@@ -1,0 +1,15 @@
+[pack]
+name = "consents"
+prefix = "cn"
+version = "0.1.0"
+description = "An append-only ledger of who agreed to what, and when: text-message and email opt-ins, session-recording and data-processing consent, with the wording version and the evidence. Withdrawals are rows too, never edits."
+license = "AGPL-3.0-or-later"
+tier = "official"
+requires_core = ">=0.1"
+requires = ["people"]
+conflicts = []
+
+[db]
+tables = ["cn_consents"]
+functions = ["cn_has_consent", "cn_withdraw"]
+api_functions = ["cn_has_consent"]

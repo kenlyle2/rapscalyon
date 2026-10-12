@@ -1,5 +1,5 @@
 {
- "catalogVersion": "d5de354560fa",
+ "catalogVersion": "d963fbf50b08",
  "core": "0.1.0",
  "packs": {
   "ai-chat": {
@@ -11,6 +11,16 @@
    ],
    "requires_core": ">=0.1",
    "contentHash": "33b76f889c50a5cdd2890b1de527a26ecd80cc350860af48253993fd4e0ab2d3"
+  },
+  "calendar": {
+   "version": "0.1.0",
+   "tier": "official",
+   "license": "AGPL-3.0-or-later",
+   "requires": [
+    "people"
+   ],
+   "requires_core": ">=0.1",
+   "contentHash": "b5572175056f72fde919c281e978d241f1bd267fdc56ac0f88cf9d605b124e62"
   },
   "chat-with-file": {
    "version": "0.1.1",
@@ -33,6 +43,16 @@
    ],
    "requires_core": ">=0.1",
    "contentHash": "10b10f3ed2af946512db8ceec461cda6f844014f6e945420787d21cdef0ac8e5"
+  },
+  "consents": {
+   "version": "0.1.0",
+   "tier": "official",
+   "license": "AGPL-3.0-or-later",
+   "requires": [
+    "people"
+   ],
+   "requires_core": ">=0.1",
+   "contentHash": "f0504658044a79efa4800bfe92fc09852cce364cb790d5abc9fa80c5ef503f65"
   },
   "content-writer": {
    "version": "0.1.1",
@@ -127,6 +147,14 @@
    ],
    "requires_core": ">=0.1",
    "contentHash": "173815b075a509328978a54fd18fa8be7085f33fa46b99c648cfe31fa9ef52c1"
+  },
+  "people": {
+   "version": "0.1.0",
+   "tier": "official",
+   "license": "AGPL-3.0-or-later",
+   "requires": [],
+   "requires_core": ">=0.1",
+   "contentHash": "7681940cc555f9ed4667ee20feb87b20fa25bfe40e5e6032b4c6f169b08a02d0"
   },
   "places": {
    "version": "0.1.0",

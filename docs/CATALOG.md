@@ -25,6 +25,29 @@ item-tracker, subject-individual, chat-with-file, chat-with-youtube.
 
 A child of item-tracker: every chat is an item (kind chat) with a 1:1 chat row and many message rows. Clients can read; only the server writes, idempotently.
 
+## Calendar (`calendar` 0.1.0, official)
+
+> One calendar for appointments, classes and everything else your tools schedule.
+
+**Who it's for**
+
+Studios, clinics, tutors and agencies that book people and want one view of the week.
+
+**What you get**
+
+- Month, week and day views of what is coming up.
+- Appointments and classes linked to the person they are for.
+- Other features drop their events in automatically, read-only, so nothing is typed twice.
+- Done and cancelled states, and an all-day option.
+
+**Works well with**
+
+people, consents, social-posts, subject-business.
+
+**Under the hood**
+
+One table with row-level security and a small service-only feed for other features. The view is a standard calendar component loaded only on its page.
+
 ## Chat with a file (`chat-with-file` 0.1.1, official)
 
 > Ask questions about an uploaded document and keep the conversation per person.
@@ -68,6 +91,29 @@ ai-chat, youtube-content, item-tracker.
 **Under the hood**
 
 A 1:1 detail row on an ai-chat conversation. Clients can read; only the server writes.
+
+## Consent ledger (`consents` 0.1.0, official)
+
+> Record who said yes, who said stop, and exactly what they were shown.
+
+**Who it's for**
+
+Anyone who messages customers or records sessions and has to prove permission: studios, clinics, tutors, agencies.
+
+**What you get**
+
+- Grants and withdrawals kept as an append-only history, never overwritten.
+- A one-call check that answers "may I contact this person about this?".
+- A safe way for an inbound STOP reply to withdraw consent without a signed-in user.
+- The wording version and a short note of evidence on every row.
+
+**Works well with**
+
+people, subject-business, team, loops-email, social-posts.
+
+**Under the hood**
+
+One ledger table with row-level security and no edit or delete rights for users. The latest row per person and purpose decides. Withdrawals from outside a session go through a service-role function.
 
 ## Content writer (`content-writer` 0.1.1, official)
 
@@ -303,6 +349,29 @@ item-tracker, subject-individual, text-to-speech.
 **Under the hood**
 
 A child of item-tracker: every track is an item with a 1:1 job row. Clients can read their jobs but cannot write them.
+
+## People (`people` 0.1.0, official)
+
+> One list of everyone you deal with, with the right ones able to log in and see only their own.
+
+**Who it's for**
+
+Any business with many customers: studios, clinics, tutors, agencies, shops.
+
+**What you get**
+
+- Clients, former clients and leads in one place, each with a kind and a status.
+- A named person who looks after each one.
+- A one-time link that gives a person their own login, tied to their email.
+- A ready-made rule other features use so each person sees only their own records.
+
+**Works well with**
+
+subject-business, team, consents, item-tracker.
+
+**Under the hood**
+
+Two tables with row-level security. Staff see the whole list; a person with a login sees one row. Login links are single-use tokens redeemed by the matching account email.
 
 ## Places (`places` 0.1.0, official)
 

@@ -3,6 +3,7 @@
 Versioning: core + app base code share the repo version (semver, pre-1.0: minor bumps may break). Each pack versions itself in `pack.toml`.
 
 ## Unreleased
+- New official packs `people` 0.1.0, `consents` 0.1.0 and `calendar` 0.1.0. `people`: one row per person a business deals with (kind, status, assigned staff member), an optional link to the person's own login redeemed with a single-use token, and `ppl_external_refs` for ids in outside systems. `consents`: append-only grant/withdraw ledger with a `cn_has_consent` check and a service-only `cn_withdraw` for inbound STOP replies. `calendar`: events with a month/week/day page and a service-only feed (`cal_upsert_event`, `cal_remove_source`) so other features add read-only events. App base code: `app/package.json` gains `@fullcalendar/*` 6.1.21 (loaded only on `/calendar`).
 - Quick start: added the missing `app/.env.local` step (the app returns HTTP 500 without it) and the reduced `supabase start -x ...` command for machines where storage or realtime reports unhealthy. Found by running the quick start end to end against a fresh clone.
 - Documentation site (user guide, concepts, installer reference, help center, changelog) published at rapscalyon.documentationai.com from a documentation repository kept outside this one.
 - Wording: the paid packs are called Pro packs (`tier = "commercial"` is unchanged); "RapScalYon Commercial" (RC) names only the done-for-you side. `docs/ARCHITECTURE.md` naming rules define both; the word "plus" is retired.

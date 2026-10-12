@@ -1,0 +1,15 @@
+[pack]
+name = "people"
+prefix = "ppl"
+version = "0.1.0"
+description = "The people a business deals with: clients, former clients, leads, anyone. One row per person, who looks after them, and an optional link to that person's own login so they see only their own records."
+license = "AGPL-3.0-or-later"
+tier = "official"
+requires_core = ">=0.1"
+requires = []
+conflicts = []
+
+[db]
+tables = ["ppl_people", "ppl_claims", "ppl_external_refs"]
+functions = ["ppl_check_assignee", "ppl_invite_login", "ppl_claim", "ppl_unlink_login", "ppl_is_self"]
+api_functions = ["ppl_invite_login", "ppl_claim", "ppl_unlink_login", "ppl_is_self"]
