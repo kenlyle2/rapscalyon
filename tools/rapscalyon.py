@@ -16,7 +16,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PACKS = ROOT / "packs"
-# Extra pack roots (os.pathsep-separated), e.g. a licensed checkout of commercial packs. Searched after packs/.
+# Extra pack roots (os.pathsep-separated), e.g. a licensed checkout of Pro packs. Searched after packs/.
 EXTRA_PACKS = [Path(x).expanduser() for x in os.environ.get("RAPSCALYON_PACKS_PATH", "").split(os.pathsep) if x]
 
 def pack_dir(name):
@@ -139,9 +139,9 @@ def load_pack(arg):
     tier = p.get("tier", "community")
     if tier not in ("official", "verified", "community", "commercial"): die("pack tier must be official, verified, community or commercial")
     if tier == "commercial":
-        # Commercial packs are distributed outside this repo under their own licence; the installer
+        # Pro packs are distributed outside this repo under their own licence; the installer
         # still applies every security rule. They must say so explicitly, never by accident.
-        if not p["license"].startswith("LicenseRef-"): die("commercial packs must declare license = \"LicenseRef-<name>\"")
+        if not p["license"].startswith("LicenseRef-"): die("Pro packs must declare license = \"LicenseRef-<name>\"")
     else:
         if not p["license"].upper().startswith(("GPL", "AGPL", "LGPL", "MIT", "APACHE", "BSD")): die("unrecognised license")
         if tier in ("official", "verified") and not p["license"].upper().startswith("AGPL"): die("official/verified packs must be AGPL-licensed")
@@ -548,7 +548,7 @@ def cmd_catalog(args):
         body = [f"# {i['title']} ({i['name']})", "", i["tagline"], "", f"Tier: {i['tier']}. Version {i['version']}. {i['description']}", ""]
         for sec, lines in i["sections"].items(): body += [f"## {sec}", ""] + [("- " + l if sec == "What you get" else l) for l in lines] + [""]
         (kb / f"{i['name']}.md").write_text("\n".join(body))
-    # Commercial packs from RAPSCALYON_PACKS_PATH get Tier-1 documents too, in a gitignored folder: the public catalog and kb/platform stay public-only.
+    # Pro packs from RAPSCALYON_PACKS_PATH get Tier-1 documents too, in a gitignored folder: the public catalog and kb/platform stay public-only.
     plus = ROOT / "pickaxe" / "kb" / "platform-plus"; n_plus = 0
     for root in EXTRA_PACKS:
         for d in sorted(root.iterdir()) if root.is_dir() else []:
@@ -562,10 +562,10 @@ def cmd_catalog(args):
                     if f.exists(): return tomllib.loads(f.read_text())["pack"].get("tier", "community")
                 return "unknown"
             reqs = ", ".join(f"{r} ({'official, public' if _tier(r) != 'commercial' else 'commercial'})" for r in m.get("requires", []))
-            req_line = f" Requires: {reqs}. Only packs marked commercial need the private repo and a licence." if reqs else ""
-            (plus / f"{m['name']}.md").write_text(f"{mk.read_text().rstrip()}\n\nPack: {m['name']} {m['version']}, {m.get('tier', 'commercial')} tier (commercial pack, licence required; installs with RAPSCALYON_PACKS_PATH).{req_line} {m['description']}\n")
+            req_line = f" Requires: {reqs}. Only Pro packs need the private repo and a licence." if reqs else ""
+            (plus / f"{m['name']}.md").write_text(f"{mk.read_text().rstrip()}\n\nPack: {m['name']} {m['version']}, {m.get('tier', 'commercial')} tier (Pro pack, licence required; installs with RAPSCALYON_PACKS_PATH).{req_line} {m['description']}\n")
             n_plus += 1
-    print(f"catalog: {len(items)} packs" + (f" (+{n_plus} commercial knowledge documents in pickaxe/kb/platform-plus)" if n_plus else ""))
+    print(f"catalog: {len(items)} packs" + (f" (+{n_plus} Pro knowledge documents in pickaxe/kb/platform-plus)" if n_plus else ""))
 
 def cmd_list(_):
     for k, v in sorted(installed_packs().items()): print(f"{k} {v}")

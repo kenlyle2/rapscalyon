@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render RapScalYon commercial packs for the BuilderKit apps from small specs.
+"""Render RapScalYon Pro packs for the BuilderKit apps from small specs.
 Written against the app schemas (generated types), never from BuilderKit source code."""
 import os, sys, textwrap
 

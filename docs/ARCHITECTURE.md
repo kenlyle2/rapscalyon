@@ -20,7 +20,7 @@ Standard term (owner decision, 2026-10-08): the Next.js web app that ships in th
 | Repo | Visibility | Holds |
 |---|---|---|
 | `kenlyle2/rapscalyon` | public | Core, official packs, the app base code (`app/`), tools, integrations, public Interview knowledge base |
-| Private repositories | private | Commercial packs, the Interview role prompts and playbooks, the marketing and client sites, and the owner's internal operating records. Not described in this repository |
+| Private repositories | private | Pro packs, the Interview role prompts and playbooks, the marketing and client sites, and the owner's internal operating records. Not described in this repository |
 | A product repo (one per product) | private | One product: a copy of the framework (core, the app base code, tools) plus its own packs |
 
 ## How a product gets the app base code
@@ -47,5 +47,5 @@ Where login, recovery, MFA and billing live is a choice made per product (decide
 - Use **core** only for the database foundation.
 - Use **pack** for an optional, removable feature; **product** or **app** for a finished thing a customer uses (CarShopper).
 - The npm package in `app/package.json` is still named `rapscalyon-app`; it is the app base code.
-- Use **commercial** for anything proprietary or paid: a **commercial pack** is a pack with `tier = "commercial"` and a `LicenseRef-` licence, distributed outside this repository. The word "plus" is retired in this sense (owner decision, 2026-10-10); older documents and commit messages that say "plus pack" or "RapScalYon Plus" mean commercial packs and RapScalYon Commercial.
-- **RapScalYon Commercial** (**RC**) is the done-for-you side, on rapscalyon.com: we create a complete business, the website and the back office, on top of the framework at rapscalyon.surf. Write the full name on first use, then RC. Do not call it "Plus".
+- Use **Pro** for the paid packs: a **Pro pack** is a pack with `tier = "commercial"` (the tier value names the licence and stays as is) and a `LicenseRef-` licence, distributed outside this repository. "Plus" is retired as a name (owner decisions, 2026-10-10 and 2026-10-12); older documents and commit messages that say "plus pack" mean Pro packs and "RapScalYon Plus" means RapScalYon Commercial.
+- **RapScalYon Commercial** (**RC**) is only the done-for-you side, on rapscalyon.com: we create a complete business, the website and the back office, on top of the framework at rapscalyon.surf. Write the full name on first use, then RC. Do not call it "Plus" or "Pro", and do not use "commercial" for packs in prose.
