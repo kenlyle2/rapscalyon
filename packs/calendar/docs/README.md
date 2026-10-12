@@ -3,7 +3,7 @@
 A shared calendar for a subject: appointments, classes, deadlines, reminders.
 
 ## Events
-`cal_events` holds a title, start, end, an all-day flag, a `kind` token you choose (`event`, `appointment`, `class`, `post`...), a status (`scheduled`, `done`, `cancelled`) and an optional person from the `people` pack (same subject enforced; erasing the person keeps the event). Staff create, edit and delete the events they typed in.
+`cal_events` holds a title, start, end, an all-day flag, a `kind` token you choose (`event`, `appointment`, `class`, `post`...), a status (`scheduled`, `done`, `cancelled`) and an optional person from the `people` pack (same subject enforced; erasing the person keeps the event). Staff create, edit and delete the events they typed in. Status `missed` means it happened and the person did not take part.
 
 ## The feed
 Other features add their events through two service-role functions, so the calendar never reads their tables:
@@ -14,3 +14,6 @@ Feed events are read-only to users. The feature that owns an event is the only o
 
 ## Page
 `/calendar` shows a month, week or day view of the events in a window, a form to add an event, and a delete button on events you typed in. The view uses FullCalendar (added to `app/package.json`).
+
+## Counting misses
+`cal_missed_counts(subject, from, to, person)` returns the number of missed events per `kind` in a window: events marked `missed`, plus events still `scheduled` whose end has passed. It runs as the caller, so it only sees subjects the caller can access. A rolling week, half-month or month is a different window, so other features can act on "three missed meals this week" without reading the table themselves.

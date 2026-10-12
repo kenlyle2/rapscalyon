@@ -8,7 +8,7 @@ Studios, clinics, tutors and agencies that book people and want one view of the 
 - Month, week and day views of what is coming up.
 - Appointments and classes linked to the person they are for.
 - Other features drop their events in automatically, read-only, so nothing is typed twice.
-- Done and cancelled states, and an all-day option.
+- Done, cancelled and missed states, an all-day option, and a count of misses by type over any window.
 
 ## Works well with
 people, consents, social-posts, subject-business.
