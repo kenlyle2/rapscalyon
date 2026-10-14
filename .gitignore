@@ -22,3 +22,6 @@ __pycache__/
 pickaxe/
 packs/wp-fluentauth/
 docs/operations.mdx
+AGENTS.md
+CLAUDE.md
+SPEC.md

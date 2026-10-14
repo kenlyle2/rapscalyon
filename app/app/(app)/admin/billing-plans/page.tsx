@@ -39,7 +39,7 @@ export default async function BillingPlans() {
       </Card>
       <Card title="Add or change a mapping">
         <form action={add} style={formStyle}>
-          <Field label="Source (e.g. woocommerce, fluentcart)"><input name="source" required defaultValue="woocommerce" /></Field>
+          <Field label="Source (e.g. woocommerce, webstore)"><input name="source" required defaultValue="woocommerce" /></Field>
           <Field label="Plan key or text in the product name"><input name="plan_key" required /></Field>
           <Field label="Match"><select name="match_mode"><option value="contains">name contains</option><option value="exact">exact key</option></select></Field>
           <Field label="Tier"><input name="tier" required placeholder="pro" /></Field>

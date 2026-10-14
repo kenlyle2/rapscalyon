@@ -1,8 +1,8 @@
 // POST /api/billing-webhook — generic subscription webhook. Copied to app/api/billing-webhook/route.ts by
-// `rapscalyon.py pack add --app app`. Anything that can POST JSON can drive it: WooCommerce/WPSubscription or
-// FluentCart through Bit Integrations, n8n, Stripe forwarders, curl.
+// `rapscalyon.py pack add --app app`. Anything that can POST JSON can drive it: WooCommerce, a store plugin through
+// an automation tool, n8n, Stripe forwarders, curl.
 //
-// Body (flat JSON, same fields PostGlider/JobsGlider use):
+// Body (flat JSON):
 //   { subscription_id, customer_id?, status, email, product_name?, product_sku?, plan_key?, event_id?, occurred_at? }
 //   status: active|trialing|renewed -> activated/renewed, on-hold|failed|past_due -> payment_failed,
 //           cancelled|canceled|pending-cancel -> canceled, expired -> expired, refunded -> refunded
@@ -62,7 +62,7 @@ export async function POST(req: Request) {
     p_plan_key: s(e.plan_key) ?? s(e.product_name) ?? s(e.product_sku), p_email: s(e.email), p_occurred_at: occurred,
   });
   if (error) { console.error("bw_apply_event failed", error.code); return Response.json({ error: "Internal server error" }, { status: 500 }); }
-  // unmatched profiles are 404 so the sender's retry/alerting can see it, like the PostGlider endpoint
+  // unmatched profiles are 404 so the sender's retry/alerting can see it
   if (data === "unmatched") return Response.json({ error: "Profile not found", result: data }, { status: 404 });
   return Response.json({ status: "success", result: data });
 }

@@ -10,7 +10,7 @@ Standard term (owner decision, 2026-10-08): the Next.js web app that ships in th
 | **Packs** | `packs/<name>/` | Optional features, each with prefixed tables, row-level security, a rollback, tests and (some) UI and API routes. Examples: `item-search`, `turnstile`, `loops-email`. | Customers, through the pages a pack adds |
 | **App base code** | `app/` | The Next.js web app every product starts from: password sign-in, sign-up where enabled and the auth callback (password recovery, sign-in links and second-factor enrolment are not built yet), the workspace switcher, a navigation menu built from the installed packs, pack pages and API routes, public `/packs` pages. | Everyone who uses the product in a browser |
 | **Tools** | `tools/`, `deploy.sh`, `Dockerfile` | `tools/rapscalyon.py` (installer, validator, test runner, catalog), deployment helpers. | The person installing |
-| **Interview layer** | kept privately | The AI agents that interview a person and propose a stack, and their knowledge base. | The person describing their business |
+| **Interview layer** | kept privately | The AI agents that interview a person and propose a stack. | The person describing their business |
 
 "Core" in these docs means the database layer only. The app base code is a separate layer; core and the app base code share the repo version (see `CHANGELOG.md`), and each pack versions itself in `pack.toml`.
 
@@ -18,7 +18,7 @@ Standard term (owner decision, 2026-10-08): the Next.js web app that ships in th
 
 | Repo | Visibility | Holds |
 |---|---|---|
-| `kenlyle2/rapscalyon` | public | Core, official packs, the app base code (`app/`), tools, integrations, public Interview knowledge base |
+| `kenlyle2/rapscalyon` | public | Core, official packs, the app base code (`app/`), tools |
 | Private repositories | private | Pro packs, the Interview role prompts and playbooks, the marketing and client sites, and the owner's internal operating records. Not described in this repository |
 | A product repo (one per product) | private | One product: a copy of the framework (core, the app base code, tools) plus its own packs |
 
@@ -31,11 +31,6 @@ Rule until one exists: a fix to anything in the app base code goes into `rapscal
 ## Account modes
 
 Where login, recovery, MFA and billing live is a choice made per product. This repository ships the app base code's own Supabase password sign-in and sign-up; recovery, sign-in links and MFA are not built yet. A pack may declare `[auth]` in `pack.toml` (`login_path` or `login_env`, `signup`, `public_paths`) so `/login` defers to another sign-in system; with no such pack the behaviour is unchanged.
-
-## Third-party licences we hold
-
-- **AffiliateWP:** the owner holds a lifetime, unlimited-site Ultimate licence with all add-ons, and client sites are covered with no restrictions (owner, stated 2026-10-04; decision and open key-handling question in the owner's decision log). The key is never written in this repository. Nothing installs AffiliateWP on a client site yet: that step belongs to the WordPress setup process that is still being built.
-- Any other paid plugin a pack or product depends on is listed here with its licence terms when it is chosen.
 
 ## Naming rules
 

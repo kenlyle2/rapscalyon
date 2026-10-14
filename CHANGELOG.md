@@ -3,7 +3,7 @@
 Versioning: core + app base code share the repo version (semver, pre-1.0: minor bumps may break). Each pack versions itself in `pack.toml`.
 
 ## Unreleased
-- Internal material moved out of this repository: the interview knowledge-base folder, the sign-in pack, the operating manual, the WordPress-side `integrations/` plugins and `docs/AUTH-MODES.md` are no longer here, and git history was rewritten to remove them.
+- Internal material moved out of this repository: the interview knowledge-base folder, the sign-in pack, the operating manual, the WordPress-side `integrations/` plugins, `docs/AUTH-MODES.md`, `tools/offer_sync`, and the repository's own `AGENTS.md`, `CLAUDE.md` and `SPEC.md` are no longer here (the last three are gitignored), and git history was rewritten to remove them.
 - Wording and catalog: no pack counts anywhere; the README groups every pack (adds `places`); `CONTRIBUTING.md` defines Open source, Pro and Commercial and how Pro relates to official, verified and community; cross-references to Pro packs say "a Pro pack" and the dead `items-matching-ranking` reference is removed; the outside AI platform is no longer named in pack docs; Sixteen packs take a patch bump for their changed docs.
 - `calendar` 0.2.0: event status `missed`, and `cal_missed_counts(subject, from, to, person)` for misses by kind over a window (migration 002, rollback and suite included).
 - New official packs `people` 0.1.0, `consents` 0.1.0 and `calendar` 0.1.0. `people`: one row per person a business deals with (kind, status, assigned staff member), an optional link to the person's own login redeemed with a single-use token, and `ppl_external_refs` for ids in outside systems. `consents`: append-only grant/withdraw ledger with a `cn_has_consent` check and a service-only `cn_withdraw` for inbound STOP replies. `calendar`: events with a month/week/day page and a service-only feed (`cal_upsert_event`, `cal_remove_source`) so other features add read-only events. App base code: `app/package.json` gains `@fullcalendar/*` 6.1.21 (loaded only on `/calendar`).
@@ -24,7 +24,6 @@ Versioning: core + app base code share the repo version (semver, pre-1.0: minor 
 - `item-search` 0.3.0: user-managed lists (`is_lists`, `is_list_items`; create, rename, delete, add, remove through functions that check subject access and MFA). A candidate can be on several lists.
 - `item-search` 0.2.0: price history for every kind of item (`is_price_history`, `is_record_price()` for child packs; one row per price change with the price as typed). Migration 002, rollback and suite included.
 - Offer sync: DeepSeek adapter (`RSY_LLM=deepseek`, reads images) and ScrapeCreators as the default Facebook source; Graph API docs marked optional.
-- Offer synchronizer: Facebook posts become offer drafts a shopkeeper approves with one tap; `tools/offer_sync` holds the Graph API and ScrapeCreators sources, the Spanish extractor and the stdlib runner.
 - ClawMagic.ai adopted as the opinionated destination/executor; `confirm_stack` now returns `executor` and a paste-ready `ticket`; Pickaxe roles hand off to ClawMagic.
 - `billing-webhook` pack moved into core (migration `core_billing`, route, admin page, `docs/BILLING.md`); `rapscalyon.py core` applies it idempotently.
 - New AGPL base packs: `item-tracker`, `item-search` (generic item/search model; child packs add typed kinds).
@@ -40,4 +39,4 @@ Versioning: core + app base code share the repo version (semver, pre-1.0: minor 
 - Installer/validator, `deploy.sh`, Dockerfile, demo-matrix tooling.
 - Verified on 8 hosted demo instances (all suites green, identical core fingerprint) plus Playwright UI e2e.
 
-Not yet: CLA text, trademark, FluentCart field verification, JobsGlider baseline migration, Tier-2 KB docs.
+Not yet: CLA text, trademark, store field verification, Tier-2 KB docs.

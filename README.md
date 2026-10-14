@@ -33,7 +33,7 @@ rapscalyon.py pack remove <name> [--app app]
 rapscalyon.py pack list | validate <dir> | core | catalog
 rapscalyon.py test [--pack name]                 # role-switched SQL suites (anon / owner / other user / service)
 ```
-The interview agent proposes a stack and installs nothing; a person confirms it, the confirmation becomes a ticket, and an executor ([ClawMagic.ai](https://clawmagic.ai)) runs the ticket.
+The interview agent proposes a stack and installs nothing; a person confirms it, the confirmation becomes a ticket, and an executor runs the ticket.
 
 Browser end-to-end test: `app/e2e/README.md`.
 

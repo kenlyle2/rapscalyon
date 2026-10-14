@@ -10,7 +10,7 @@ A RapScalYon product, report or automation connects to the existing database wit
 
 - **Dedicated role.** The client (or we, with their approval) creates one Postgres role for RapScalYon. It gets SELECT on the named tables, or on views in a separate schema (`rsy_ext`), and nothing else. Writes go only through named functions the client reviews. No service-role key, no superuser.
 - **Manifest.** A small file per attached database lists the project reference, the tables and columns we may read, the column that identifies the owning user (for example `user_id`), and any write function. Nothing outside the manifest is queried.
-- **Secrets.** The connection string lives only in the server or executor environment, never in a prompt, a repo or a chat (SPEC principle 6).
+- **Secrets.** The connection string lives only in the server or executor environment, never in a prompt, a repo or a chat.
 - **Claims.** We install no core and no packs, and we make no RapScalYon security claim about that data. Row-level security in the client's database is the client's.
 - **Production data stays put.** Never copy it into a demo.
 - **Use it for:** dashboards, reports, the Make shopping blueprint, any read-mostly integration.
@@ -20,7 +20,7 @@ A RapScalYon product, report or automation connects to the existing database wit
 A new Supabase project gets core, then the data is imported through a reviewed migration. This is the "separate, reviewed piece of work" named in the Supabase foundation guidance.
 
 - App users become core profiles; each user gets an individual subject (`subject-individual` pack).
-- App credit and plan columns map onto core credits and the billing ledger; payment webhooks are replaced by core's billing webhook fed from FluentCart.
+- App credit and plan columns map onto core credits and the billing ledger; payment webhooks are replaced by core's billing webhook fed from the store.
 - Each app table becomes a pack table: prefixed, with `subject_id`, row-level security through core's helper functions, a removable migration and tests.
 - Files move to storage that does not force a paid plan (Cloudflare R2 is the recommendation from the interioraidesigner project) or to core's private media bucket.
 - The migration is reviewed by a person and run by the installer in one transaction.
