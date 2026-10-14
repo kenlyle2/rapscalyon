@@ -11,7 +11,7 @@
 ## Ingest API (0.2.0)
 
 - Shared-secret authentication, constant time; no secret, no processing. Rate limiting is not built: the secret is the only gate.
-- The email is trusted only because it arrives from Pickaxe's runtime through the action holding the secret. Anyone holding the secret can claim any confirmed email, so the secret must stay in Pickaxe's secret control and rotate if exposed.
+- The email is trusted only because it arrives from the outside platform's runtime through the action holding the secret. Anyone holding the secret can claim any confirmed email, so the secret must stay in that platform's secret control and rotate if exposed.
 - Only confirmed emails resolve (`idg_resolve_user`); no account is ever created or linked by this route. Guests are refused.
 - Source downloads defend against server-side request forgery: https only, an allowlist of hosts (exact or subdomain), no credentials or ports, no redirects, a 12 MB cap and a 20 second timeout. File type comes from the bytes, never the header.
 - Object keys are built from the subject id and a hash of the response id, so a caller cannot choose a key (the database also refuses `..` and odd characters).

@@ -85,7 +85,7 @@ begin
   perform public.it_log_event(p_item, 'system', 'generation failed, credits refunded');
   return true;
 end $$;
--- Records a design generated outside core (for example by a Pickaxe action), with no core charge: the external system's ledger is authoritative.
+-- Records a design generated outside core (for example by an outside action), with no core charge: the external system's ledger is authoritative.
 -- Idempotent on p_external_ref (stored as prediction_id): a replay returns the same item. The caller must already have copied the images into
 -- our own storage (keys only) because the generator's result URLs expire.
 create function public.idg_record_design(p_subject uuid, p_user uuid, p_external_ref text, p_prompt text, p_room_type text, p_theme text,

@@ -17,11 +17,3 @@ shops.local.json
 offer-sync-state.json
 .env.offer-sync
 __pycache__/
-
-# Internal: kept locally, never published
-pickaxe/
-packs/wp-fluentauth/
-docs/operations.mdx
-AGENTS.md
-CLAUDE.md
-SPEC.md

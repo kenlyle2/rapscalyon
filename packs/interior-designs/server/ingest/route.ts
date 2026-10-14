@@ -1,12 +1,12 @@
-// POST /api/interior-designs/ingest — records a finished design made outside the app (a Pickaxe agent) for a signed-in Pickaxe user.
+// POST /api/interior-designs/ingest — records a finished design made outside the app (an outside agent) for a signed-in user of that platform.
 // Installed by `rapscalyon.py pack add --app app` from the pack's server/ folder.
 //
-// Caller: a custom Python Pickaxe action. The email and identifier come from Pickaxe's runtime environment (not from model text).
+// Caller: a custom action on the outside platform. The email and identifier come from that platform's runtime environment (not from model text).
 // Auth: shared secret in x-ingest-secret (env IDG_INGEST_SECRET), constant time. Use HTTPS.
 // Body: { identifier, email, response_id, prompt, room_type, theme, space?, result_urls[1..8], reference_url? }
 // Flow: guest gate -> email must resolve to a confirmed account (never created here) -> the user's space (created on first use)
 //       -> copy images into our storage (result URLs expire after 2 hours) -> idg_record_design (idempotent on response_id).
-// Credits: none touched. Pickaxe credits are the ledger for this path.
+// Credits: none touched. The outside platform's credits are the ledger for this path.
 import { createHash, timingSafeEqual } from "node:crypto";
 import { supabaseService } from "@/lib/supabase/service";
 import { check, MAX_IMAGE_BYTES, objectKey, sniffImage } from "./lib";
@@ -61,7 +61,7 @@ export async function POST(req: Request) {
     console.error("idg_ensure_subject failed", sErr.code); return fail(500, "internal");
   }
 
-  const ref = `pickaxe:${r.responseId}`;
+  const ref = `agent:${r.responseId}`;
   const refHash = createHash("sha256").update(ref).digest("hex").slice(0, 16);
   const copy = async (url: string, kind: "designs" | "references", i: number) => {
     let bytes: Uint8Array;

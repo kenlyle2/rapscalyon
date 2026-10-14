@@ -92,7 +92,7 @@ begin
   return true;
 end $$;
 
--- Records a finished item made outside core (for example by a Pickaxe agent), with no core charge: the external system's ledger is authoritative.
+-- Records a finished item made outside core (for example by an outside agent), with no core charge: the external system's ledger is authoritative.
 -- Idempotent on p_external_ref (stored as prediction_id): a replay returns the same item. Output files must already be copied into our own storage (keys only).
 create function public.hsh_model_record(p_subject uuid, p_user uuid, p_external_ref text, p_name text, p_model_type text, p_input_keys text[], p_model_ref text, p_expires_at timestamptz) returns uuid
 language plpgsql security definer set search_path = '' as $$
@@ -206,7 +206,7 @@ begin
   return true;
 end $$;
 
--- Records a finished item made outside core (for example by a Pickaxe agent), with no core charge: the external system's ledger is authoritative.
+-- Records a finished item made outside core (for example by an outside agent), with no core charge: the external system's ledger is authoritative.
 -- Idempotent on p_external_ref (stored as prediction_id): a replay returns the same item. Output files must already be copied into our own storage (keys only).
 create function public.hsh_gen_record(p_subject uuid, p_user uuid, p_external_ref text, p_model_item uuid, p_prompt text, p_negative_prompt text, p_keys text[]) returns uuid
 language plpgsql security definer set search_path = '' as $$

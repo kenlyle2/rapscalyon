@@ -25,7 +25,7 @@ export function sourceUrlAllowed(raw: unknown, hosts: string[]): boolean {
   return hosts.some((a) => a && (h === a || h.endsWith("." + a)));
 }
 
-/** Guests are API runs with no signed-in user: Pickaxe sends API_GUEST:... as the identifier and an empty email. */
+/** Guests are API runs with no signed-in user: the outside platform sends API_GUEST:... as the identifier and an empty email. */
 export function isGuest(identifier: unknown, email: unknown): boolean {
   if (typeof identifier === "string" && identifier.trim().toLowerCase().startsWith("api_guest:")) return true;
   return typeof email !== "string" || email.trim() === "";

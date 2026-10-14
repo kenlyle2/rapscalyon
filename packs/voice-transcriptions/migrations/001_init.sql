@@ -89,7 +89,7 @@ begin
   return true;
 end $$;
 
--- Records a finished item made outside core (for example by a Pickaxe agent), with no core charge: the external system's ledger is authoritative.
+-- Records a finished item made outside core (for example by an outside agent), with no core charge: the external system's ledger is authoritative.
 -- Idempotent on p_external_ref (stored as prediction_id): a replay returns the same item. Output files must already be copied into our own storage (keys only).
 create function public.vtr_record(p_subject uuid, p_user uuid, p_external_ref text, p_audio_key text, p_transcription text, p_summary text) returns uuid
 language plpgsql security definer set search_path = '' as $$

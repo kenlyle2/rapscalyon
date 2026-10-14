@@ -1,5 +1,5 @@
 -- Functions for the ingest API (server-side only, service role). The API authenticates the caller with a shared secret and receives
--- the user's email from Pickaxe's runtime; these two functions turn that email into a user and a space (a subject) to record into.
+-- the user's email from the outside platform's runtime; these two functions turn that email into a user and a space (a subject) to record into.
 
 -- Verified accounts only: an unconfirmed email never resolves, so nobody can claim an account by registering the same address elsewhere.
 create function public.idg_resolve_user(p_email text) returns uuid

@@ -1,11 +1,8 @@
 name: Packs
 
 # Pull requests: the pack gate (generated files current, versions bumped, every official pack installs, passes its tests and removes cleanly).
-# Pushes to main: report knowledge documents in Pickaxe that no longer match the repo. Nothing is published automatically.
 on:
   pull_request:
-    branches: [main]
-  push:
     branches: [main]
   workflow_dispatch:
 

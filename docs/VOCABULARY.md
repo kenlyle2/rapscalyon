@@ -20,7 +20,7 @@ If a product ever needs the words in the database (for example to show them in a
 
 ## Interior design: how the words map
 
-- Account = the person who signs in (WordPress, Pickaxe).
+- Account = the person who signs in (the sign-in system the product uses).
 - Space = a home or a business the designs belong to. A person with a beach house and a city flat has two Spaces. The first one is created automatically the first time they save a design ("My designs"); more are created when the person names one ("Beach house"). The free plan allows one individual Space (`ind_max_subjects`); higher plans raise it.
 - Design = one saved redesign: the prompt, room, style, the reference photo and the images.
 - **Project** (a renovation grouping several designs, for example "Kitchen remodel") is not modelled for the end-user version. A Pro pack for designers has projects, specs and bids for designers. Whether end users need a lightweight Project is an open owner decision.

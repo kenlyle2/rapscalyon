@@ -1,5 +1,5 @@
 -- core billing: provider-agnostic subscription sync (moved from the billing-webhook pack, 2026-10-01).
--- Opinionated stack: FluentCart on WordPress calls POST /api/billing-webhook; anything else that can POST works too.
+-- Subscription events arrive by POST /api/billing-webhook from a store plugin or any sender that can POST.
 -- Idempotent: safe to re-apply (databases that had the old pack keep their data).
 -- Maps a provider's plan/product key to an app tier. Admin-managed.
 create table if not exists public.bw_plan_map (
@@ -7,7 +7,7 @@ create table if not exists public.bw_plan_map (
   plan_key    text not null check (length(plan_key) between 1 and 100),
   tier        text not null check (tier ~ '^[a-z][a-z0-9_-]{1,31}$'),
   -- 'exact': plan_key equals the provider's key. 'contains': case-insensitive substring of the product name/SKU
-  -- (longest wins, so "PRO PLUS" beats "PRO"), which is how PostGlider resolves tiers from WooCommerce product names.
+  -- (longest wins, so "PRO PLUS" beats "PRO"), which is how tiers are resolved from WooCommerce product names.
   match_mode  text not null default 'exact' check (match_mode in ('exact','contains')),
   updated_by  uuid references public.profiles(id) on delete set null,
   updated_at  timestamptz not null default now(),
@@ -33,8 +33,8 @@ grant update (tier, match_mode, updated_by) on public.bw_plan_map to authenticat
 
 -- Apply one normalized provider event. The app-layer adapter verifies the webhook signature and normalizes:
 --   p_kind: activated | renewed | payment_failed | canceled | expired | refunded
--- Which kinds drop the profile to 'free' immediately. Default matches PostGlider/JobsGlider (WooCommerce semantics:
--- cancelled, expired, failed, on-hold all lose paid access). Admins can change admin_settings.bw_downgrade_on
+-- Which kinds drop the profile to 'free' immediately. Default follows WooCommerce semantics:
+-- cancelled, expired, failed, on-hold all lose paid access. Admins can change admin_settings.bw_downgrade_on
 -- (a JSON array of kinds) to keep access until expiry, e.g. ["expired","refunded"].
 -- Idempotent on (source, external_id). Returns: applied | duplicate | stale | unmatched | unmapped_plan
 create or replace function public.bw_apply_event(

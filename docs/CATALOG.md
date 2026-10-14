@@ -137,7 +137,7 @@ item-tracker, subject-individual, youtube-content.
 
 A child of item-tracker: every piece is an item with a 1:1 record row. Generation happens outside the database; a service-role function records the result once.
 
-## Headshots (`headshots` 0.1.2, official)
+## Headshots (`headshots` 0.1.3, official)
 
 > Train a personal model from a person's photos and generate professional headshots from it, with every step tracked and charged safely.
 
@@ -160,7 +160,7 @@ item-tracker, subject-individual, image-generations.
 
 Two children of item-tracker: models (kind headshot_model) and headshots (kind headshot). A headshot references a succeeded model of the same workspace through a composite key. Clients can read but cannot write.
 
-## Image generations (`image-generations` 0.1.2, official)
+## Image generations (`image-generations` 0.1.3, official)
 
 > Text-to-image jobs with the prompt, settings and results kept per person, charged by the database or by the platform that made them.
 
@@ -183,7 +183,7 @@ item-tracker, subject-individual, image-transforms.
 
 A child of item-tracker: every generation is an item with a 1:1 job row. Clients can read their jobs but cannot write them.
 
-## Image transforms (`image-transforms` 0.1.2, official)
+## Image transforms (`image-transforms` 0.1.3, official)
 
 > Upscale, enhance or restyle an image and keep the input, the result and the cost per person.
 
@@ -206,7 +206,7 @@ item-tracker, subject-individual, image-generations.
 
 A child of item-tracker: every transform is an item with a 1:1 job row. Clients can read their jobs but cannot write them.
 
-## Interior designs (`interior-designs` 0.2.1, official)
+## Interior designs (`interior-designs` 0.2.2, official)
 
 > AI room redesigns, owned by the person who made them, saved safely and charged either by the database or by the outside platform that made them.
 
@@ -327,7 +327,7 @@ every pack that emits events: item-tracker, social-posts.
 
 Rows are claimed with `FOR UPDATE SKIP LOCKED`, sent with an idempotency key, and visible to their recipient only. The Loops key never touches the database.
 
-## Music generations (`music-generations` 0.1.2, official)
+## Music generations (`music-generations` 0.1.3, official)
 
 > Text-to-music jobs with genre, mood and length kept per person, charged by the database or by the platform that made them.
 
@@ -417,7 +417,7 @@ everything. Particularly useful with item-tracker and subject-individual.
 
 Consent is private to its owner; the gate function is service-role only so users cannot probe each other.
 
-## QR code generations (`qr-code-generations` 0.1.2, official)
+## QR code generations (`qr-code-generations` 0.1.3, official)
 
 > Artistic QR codes made from a prompt and a link, kept per person and charged by the database or by the platform that made them.
 
@@ -595,7 +595,7 @@ every public entry point; especially signup and real-estate-listings enquiries.
 
 Verification happens server-side only. Raw IPs are never stored, and retention defaults to 30 days.
 
-## Voice transcriptions (`voice-transcriptions` 0.1.2, official)
+## Voice transcriptions (`voice-transcriptions` 0.1.3, official)
 
 > Audio in, transcript and summary out, kept per person and charged by the database or by the platform that did the work.
 
