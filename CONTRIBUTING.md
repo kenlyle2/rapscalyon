@@ -30,7 +30,13 @@ only their rows, cannot touch another subject's rows, and that column grants blo
 ## Licence, tiers and contributor agreement
 - Core and official packs: AGPL-3.0-or-later. Community packs may use any OSI-approved licence the installer recognises.
 - A pack that uses only the documented pack interfaces may carry its own licence, including a proprietary one: see `PACK-EXCEPTION.md`. Modifications to core, the app base code or official packs stay AGPL.
-- `[pack].tier` is `official` (maintainer-written; must be AGPL), `verified` (reviewed and hash-pinned; must be AGPL) or
-  `community` (the default: passes the validator, installed only on explicit opt-in).
+- `[pack].tier` is `official` (maintainer-written; must be AGPL), `verified` (reviewed and hash-pinned; must be AGPL),
+  `community` (the default: passes the validator, installed only on explicit opt-in) or `commercial`, the value the
+  manifest uses for a Pro pack (see below).
+- Three terms are used everywhere: **Open source** (AGPL: core and the packs in this repository), **Pro** (paid packs
+  that carry their own licence under `PACK-EXCEPTION.md` and live outside this repository), and **Commercial**
+  (RapScalYon Commercial: done-for-you business builds, not a pack tier). Pro is not another trust level beside
+  official, verified and community: those say who wrote or reviewed a pack, Pro says how it is licensed. Every Pro pack passes
+  every installer rule.
 - Contributions to core and official/verified packs require signing the project CLA, which lets the maintainer also offer a
   commercial licence. Do not include secrets, customer data or proprietary logic.

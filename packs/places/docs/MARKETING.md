@@ -10,7 +10,7 @@ Builders of listing, delivery or matching products who need to rank by distance,
 - Straight-line distance in kilometres, with no map service and no per-lookup cost.
 
 ## Works well with
-items-matching-ranking, real-estate-listings, item-search.
+real-estate-listings, item-search.
 
 ## Under the hood
 Plain tables and SQL functions: a trigram index for fuzzy names, haversine for distance. Read-only reference data behind row-level security and the MFA gate. Place data © OpenStreetMap contributors (ODbL).

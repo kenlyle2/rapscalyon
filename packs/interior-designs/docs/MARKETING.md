@@ -6,12 +6,12 @@ Builders of an interior-design app, or any room-makeover product, who want the g
 
 ## What you get
 - A design per room: prompt, room type, theme, reference photo and the finished images, owned by the person's Space (a home or a business).
-- Two ways to pay: the app's own generator can charge core credits before generation and refund exactly once on failure; or, when an outside platform such as Pickaxe makes the image, that platform's credits are the only ledger and the app charges nothing.
-- A way to record designs made outside the app, for example by a Pickaxe agent, never charging core credits for them.
+- Two ways to pay: the app's own generator can charge core credits before generation and refund exactly once on failure; or, when an outside platform makes the image, that platform's credits are the only ledger and the app charges nothing.
+- A way to record designs made outside the app, for example by an outside AI agent, never charging core credits for them.
 - Image locations are stored as private storage keys, never as links that expire.
 
 ## Works well with
-item-tracker, subject-individual, interior-design-bid-process.
+item-tracker, subject-individual, and a Pro pack for designers (projects, specs and bids).
 
 ## In your customers' words
 Customers see Spaces (a home or a business) and Designs; the technical terms never reach them.

@@ -11,7 +11,7 @@ Products that find things for people (jobs, listings, leads) and want the user t
 - A poll-based event outbox so matchers and workers know when to run. No webhooks or stored secrets inside the database.
 
 ## Works well with
-item-tracker, loops-email (commercial child: jobs-search).
+item-tracker, loops-email (a Pro child pack adds job search).
 
 ## Under the hood
 Every user action is a function that checks the caller, the workspace and the MFA gate. The queue contract is three service-role functions, and the pack contains no matching or submission logic.

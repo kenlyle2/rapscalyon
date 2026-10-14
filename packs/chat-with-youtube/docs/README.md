@@ -10,7 +10,7 @@ Written against the BuilderKit app's table shape (generated types) and behaviour
 Every row is an item (child of `item-tracker`) owned by a subject (a Space in product language). Users read their own rows; every write goes through the functions above. Server-side functions (service role) record results and are idempotent on the external reference.
 
 ## Two ways to pay
-The pack never decides the ledger. Pickaxe credits (or any outside platform) can stay authoritative: record finished work with `*_record` and no core charge. Where the app generates the result itself, use the core ledger path where the pack offers one (`*_request` charges first and refunds once on failure).
+The pack never decides the ledger. An outside platform's credits can stay authoritative: record finished work with `*_record` and no core charge. Where the app generates the result itself, use the core ledger path where the pack offers one (`*_request` charges first and refunds once on failure).
 
 
 ## Replaces in the BuilderKit schema

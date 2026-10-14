@@ -1,16 +1,16 @@
 {
- "catalogVersion": "566590709ebc",
+ "catalogVersion": "b217ca43bb05",
  "core": "0.1.0",
  "packs": {
   "ai-chat": {
-   "version": "0.1.1",
+   "version": "0.1.2",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [
     "item-tracker"
    ],
    "requires_core": ">=0.1",
-   "contentHash": "33b76f889c50a5cdd2890b1de527a26ecd80cc350860af48253993fd4e0ab2d3"
+   "contentHash": "f6816b714ce95ccf611adedc56b8b955e3ad0e843354e0bb5afabac7ba067cbf"
   },
   "calendar": {
    "version": "0.2.0",
@@ -23,7 +23,7 @@
    "contentHash": "4575bd334540e8e7c8c640dff269d29977cf58a3f34ec2d84df43d1fcfc383b8"
   },
   "chat-with-file": {
-   "version": "0.1.1",
+   "version": "0.1.2",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [
@@ -31,10 +31,10 @@
     "ai-chat"
    ],
    "requires_core": ">=0.1",
-   "contentHash": "f4022dc20c6ea36c4ebfece489d7242cc1e36c02d8e1551956ce3aa98845f5c6"
+   "contentHash": "0d545742c6715ac6da92db842dc7d072c5e7cccaa9f11d32827e9647c3ff631d"
   },
   "chat-with-youtube": {
-   "version": "0.1.1",
+   "version": "0.1.2",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [
@@ -42,7 +42,7 @@
     "ai-chat"
    ],
    "requires_core": ">=0.1",
-   "contentHash": "10b10f3ed2af946512db8ceec461cda6f844014f6e945420787d21cdef0ac8e5"
+   "contentHash": "3e84abcc9ea92783efadc427b644780ef4de9239f784d13c36dabd963383a559"
   },
   "consents": {
    "version": "0.1.0",
@@ -55,54 +55,54 @@
    "contentHash": "f0504658044a79efa4800bfe92fc09852cce364cb790d5abc9fa80c5ef503f65"
   },
   "content-writer": {
-   "version": "0.1.1",
+   "version": "0.1.2",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [
     "item-tracker"
    ],
    "requires_core": ">=0.1",
-   "contentHash": "711b5981bbc5ac5b9206b3206f9d5faa1f9400778a1cf4b535c26a0a33216d59"
+   "contentHash": "a34b28f7ba239069bbd9ac0fd5b865d4e24393bbd1e7891887385963a239bdb3"
   },
   "headshots": {
-   "version": "0.1.1",
+   "version": "0.1.2",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [
     "item-tracker"
    ],
    "requires_core": ">=0.1",
-   "contentHash": "daf48b8bf106d9f4e0b3ee4cd4acc83cb5e83b6c2e8ae48cd1a58b425faa3096"
+   "contentHash": "42b97b6c97b0b8410bfb46c990d683142cf1679ac1b551b33bde8642a89d47b2"
   },
   "image-generations": {
-   "version": "0.1.1",
+   "version": "0.1.2",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [
     "item-tracker"
    ],
    "requires_core": ">=0.1",
-   "contentHash": "57916e7ff3ee07549d44614b4efe516a82e5866b5ec3d7272cf6f7f4653d9c64"
+   "contentHash": "f196a6892670c3d90fe8d29fb8bb430e20325df123abbf0cff677c8dce5e9007"
   },
   "image-transforms": {
-   "version": "0.1.1",
+   "version": "0.1.2",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [
     "item-tracker"
    ],
    "requires_core": ">=0.1",
-   "contentHash": "cd7329f7e7993a0e13d7af1c9ee235fb205cf971cbd4ee48ade28ae3c509fd4f"
+   "contentHash": "c68e62fe495b208312c7b0134ad4ba15d516e6c94a2f6a2ed29ebb9e527889c5"
   },
   "interior-designs": {
-   "version": "0.2.0",
+   "version": "0.2.1",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [
     "item-tracker"
    ],
    "requires_core": ">=0.1",
-   "contentHash": "c8a06ee21fc7d68e766080aba6b06ea578a3661460f0a17fc62b0d26a5c8b910"
+   "contentHash": "934ded5eea9a11d91db91cbf58d82f4d42d6de65b8be2093eb2578529838d45b"
   },
   "invoice-refunds": {
    "version": "0.1.0",
@@ -113,14 +113,14 @@
    "contentHash": "5d33aae6be2648a3071790567d50d8d849c56addb0e2176fcdfca773ccc4e8b8"
   },
   "item-search": {
-   "version": "0.3.0",
+   "version": "0.3.1",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [
     "item-tracker"
    ],
    "requires_core": ">=0.1",
-   "contentHash": "8bab1359be294da6afbf35ef2063f7b2242342a9a968848d006eb9bc8010ce7a"
+   "contentHash": "63e0548823988777acb31724ab0fc2b82e74d7759eba01649e6f27c36ca888e6"
   },
   "item-tracker": {
    "version": "0.1.1",
@@ -139,14 +139,14 @@
    "contentHash": "84721d7130e8347f47bab217a84f8ccc1ff3b051694a742d5f3f475d521b86ee"
   },
   "music-generations": {
-   "version": "0.1.1",
+   "version": "0.1.2",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [
     "item-tracker"
    ],
    "requires_core": ">=0.1",
-   "contentHash": "173815b075a509328978a54fd18fa8be7085f33fa46b99c648cfe31fa9ef52c1"
+   "contentHash": "e2e0b5f73c694eb986e59ca4b373271a2c62d46fe486d91fe3b0dd9b909093bb"
   },
   "people": {
    "version": "0.1.0",
@@ -157,12 +157,12 @@
    "contentHash": "7681940cc555f9ed4667ee20feb87b20fa25bfe40e5e6032b4c6f169b08a02d0"
   },
   "places": {
-   "version": "0.1.0",
+   "version": "0.1.1",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [],
    "requires_core": ">=0.1",
-   "contentHash": "3dd686537ac93ea51c823bd93603cc188997247270a6b88f02de4e3bacb6b7cb"
+   "contentHash": "a55fd9dceb02b33b7c8682df1afba8d3568614751765b6de3208edc5d6fa438e"
   },
   "posthog-analytics": {
    "version": "0.1.0",
@@ -173,14 +173,14 @@
    "contentHash": "fafc40f8453a38811ceb1e7e12009bbd6a7634e3a7f3f9d14eee5cdc9482886c"
   },
   "qr-code-generations": {
-   "version": "0.1.1",
+   "version": "0.1.2",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [
     "item-tracker"
    ],
    "requires_core": ">=0.1",
-   "contentHash": "111307281ce25e983727621d3cc7003d055a85882de8b469a82cddae883224c0"
+   "contentHash": "aa75ef0526c00bb340d00c6109bbee492dc3dba3d620137a799b9cf3ee90be4f"
   },
   "real-estate-listings": {
    "version": "0.1.0",
@@ -223,14 +223,14 @@
    "contentHash": "15692054c1aaf7b2c80401feb88354bbafcbd58424418916a1e5cf5e56359029"
   },
   "text-to-speech": {
-   "version": "0.1.1",
+   "version": "0.1.2",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [
     "item-tracker"
    ],
    "requires_core": ">=0.1",
-   "contentHash": "4a7adb2e6da8a983bf4915c80b0e58c34d2e9fd5793681428f21c357a299c073"
+   "contentHash": "7b35c39a540703e0d69ab2afde65255da7b9c8a0bbf6e9cf37d7b26e15a88062"
   },
   "turnstile": {
    "version": "0.1.0",
@@ -241,32 +241,32 @@
    "contentHash": "715781db1b69e64f239ea9aa7e9b471d81c7a614e717ea30815263728f7b1245"
   },
   "voice-transcriptions": {
-   "version": "0.1.1",
+   "version": "0.1.2",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [
     "item-tracker"
    ],
    "requires_core": ">=0.1",
-   "contentHash": "85e214a75da61b0c26ff03ccc1a5960a6d72910d26c1cc51311beec48f2107b7"
+   "contentHash": "9a3a61e669d5e8c26b4e1a22a0183c602b06a692ef0ff1825db2acbbd9b03a75"
   },
   "wp-fluentauth": {
-   "version": "0.1.0",
+   "version": "0.1.1",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [],
    "requires_core": ">=0.1",
-   "contentHash": "efc0ad7ed57dd3140bbcc3e1f3fbf0d02cf3f53542f6b7795fa83309c074af99"
+   "contentHash": "1ceb3ca208eaf749cf3c23dccaf5dd7d06e9466ab5312b404cf09f27b15a8842"
   },
   "youtube-content": {
-   "version": "0.1.1",
+   "version": "0.1.2",
    "tier": "official",
    "license": "AGPL-3.0-or-later",
    "requires": [
     "item-tracker"
    ],
    "requires_core": ">=0.1",
-   "contentHash": "1da63634394c6bfee468b569c100b8a95089267b21c4d2e1bb542fe4c368f4e0"
+   "contentHash": "d679d2ec1261984e52a235422cac28ede3498c181822106af0f276830378b70c"
   }
  }
 }

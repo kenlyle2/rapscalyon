@@ -10,4 +10,4 @@ Three layers on top of `item-tracker`:
 There is no `pg_net` or vault dependency; the pack never calls out to anything.
 
 This pack deliberately contains no matching, ranking, scraping or submission logic. Plug those in as separate services that use the service role.
-Child packs add typed columns keyed on `is_profiles` (see `jobs-search`).
+Child packs add typed columns keyed on `is_profiles` (Pro packs build on this).
