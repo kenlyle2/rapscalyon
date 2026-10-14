@@ -11,7 +11,7 @@ Standard term (owner decision, 2026-10-08): the Next.js web app that ships in th
 | **App base code** | `app/` | The Next.js web app every product starts from: password sign-in, sign-up where enabled and the auth callback (account mode A; password recovery, sign-in links and second-factor enrolment are not built yet, and account mode B provides them through WordPress), the workspace switcher, a navigation menu built from the installed packs, pack pages and API routes, public `/packs` pages. | Everyone who uses the product in a browser |
 | **Tools** | `tools/`, `deploy.sh`, `Dockerfile` | `tools/rapscalyon.py` (installer, validator, test runner, catalog), deployment helpers. | The person installing |
 | **Integrations** | `integrations/` | WordPress-side plugins and settings: FluentAuth hardening, the FluentCart bridge, AffiliateWP-FluentCart, offers, the Mode B pseudo-SSO plugin (`rapscalyon-pseudo-sso`). | The site owner, on WordPress |
-| **Interview layer** | `pickaxe/` (public KB), role prompts kept privately | The AI agents that interview a person and propose a stack, and their knowledge base. | The person describing their business |
+| **Interview layer** | kept privately | The AI agents that interview a person and propose a stack, and their knowledge base. | The person describing their business |
 
 "Core" in these docs means the database layer only. The app base code is a separate layer; core and the app base code share the repo version (see `CHANGELOG.md`), and each pack versions itself in `pack.toml`.
 
@@ -33,7 +33,7 @@ Rule until one exists: a fix to anything in the app base code goes into `rapscal
 
 Where login, recovery, MFA and billing live is a choice made per product (decided 2026-10-08, plans `PLAN_auth_modes_wordpress` and `PLAN_auth_recovery_core`):
 
-- **Mode B (default for any real business):** WordPress with FluentAuth, FluentCart and AffiliateWP, bridged to the app by the small `rapscalyon-pseudo-sso` plugin and the `wp-fluentauth` pack (SupaWP stays only on sites that already run it). A pack may declare `[auth]` in `pack.toml` so `/login` defers to WordPress.
+- **Mode B (default for any real business):** WordPress with FluentAuth, FluentCart and AffiliateWP, bridged to the app by the small `rapscalyon-pseudo-sso` plugin and a sign-in pack kept outside this repository (SupaWP stays only on sites that already run it). A pack may declare `[auth]` in `pack.toml` so `/login` defers to WordPress.
 - **Mode A (semi-deprecated):** the app base code's own Supabase password sign-in and sign-up; recovery, sign-in links and MFA are not built yet.
 
 ## Third-party licences we hold

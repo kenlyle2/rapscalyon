@@ -8,7 +8,7 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the layers (core, packs, ap
 - **core** (`supabase/migrations/`): profiles, credits and plan limits (idempotent `charge_credits`), billing-event ledger, rate limiting, subjects (workspaces) and members, MFA gate, `ensure_rls` event trigger, default-deny privileges, and a private `media` storage bucket scoped by workspace. Secrets live in a service-only table, never in `profiles`.
 - **packs** (`packs/`, see [docs/CATALOG.md](docs/CATALOG.md)), more than two dozen, in three groups:
   - **Business foundations:** `subject-individual`, `subject-business`, `team`, `people`, `consents`, `calendar`, `item-tracker`, `item-search`, `places`, `real-estate-listings`, `invoice-refunds`, `social-posts`.
-  - **Connections:** `wp-fluentauth` (WordPress sign-in), `loops-email`, `turnstile` (bot protection), `posthog-analytics`.
+  - **Connections:** `loops-email`, `turnstile` (bot protection), `posthog-analytics`.
   - **AI apps:** `interior-designs`, `ai-chat`, `chat-with-file`, `chat-with-youtube`, `image-generations`, `image-transforms`, `headshots`, `music-generations`, `voice-transcriptions`, `text-to-speech`, `qr-code-generations`, `content-writer`, `youtube-content`, whose table shapes follow the apps on [builderkit.ai/apps](https://builderkit.ai/apps) (not affiliated).
   
   Pro packs (paid, licensed under [PACK-EXCEPTION.md](PACK-EXCEPTION.md)) live outside this repository.
