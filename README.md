@@ -3,7 +3,7 @@
 A security-first Supabase foundation ("core") plus installable **packs** and a Next.js app base code, for standing up a real, multi-tenant, billing-ready app fast. Packs are Lego bricks: each one is optional, prefixed, tested, removable, and cannot change core.
 
 ## What is in the box
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the layers (core, packs, app base code, tools, integrations), the repositories and the naming rules. Account modes (app accounts or WordPress accounts) are in [docs/AUTH-MODES.md](docs/AUTH-MODES.md). The documentation site (user guide, reference, help center) is at [rapscalyon.documentationai.com](https://rapscalyon.documentationai.com).
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the layers (core, packs, app base code, tools), the repositories and the naming rules. The documentation site (user guide, reference, help center) is at [rapscalyon.documentationai.com](https://rapscalyon.documentationai.com).
 
 - **core** (`supabase/migrations/`): profiles, credits and plan limits (idempotent `charge_credits`), billing-event ledger, rate limiting, subjects (workspaces) and members, MFA gate, `ensure_rls` event trigger, default-deny privileges, and a private `media` storage bucket scoped by workspace. Secrets live in a service-only table, never in `profiles`.
 - **packs** (`packs/`, see [docs/CATALOG.md](docs/CATALOG.md)), more than two dozen, in three groups:
