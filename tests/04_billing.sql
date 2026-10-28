@@ -1,6 +1,6 @@
 begin;
 do $$
-declare a uuid; adm uuid; r text; tr text; st text; base bigint;
+declare a uuid; adm uuid; b uuid; c uuid; r text; tr text; st text; base bigint; n integer;
 begin
   a := t.make_user('buyer@example.test'); adm := t.make_user('ops@example.test');
   perform t.as_admin();
@@ -47,5 +47,34 @@ begin
   perform t.assert(tr = 'free/expired', 'expired returns to free: ' || tr);
   select processing_status into st from public.billing_events where external_id = 'e3';
   perform t.assert(st = 'success', 'stale events are closed out, not left pending');
+
+  -- Paying before having an account: stored as unmatched, applied when the buyer confirms their email.
+  perform t.as_admin();
+  perform t.assert(public.bw_apply_event('webstore', 'late1', 'activated', '{"email":"late@example.test"}', 'custL', 'subL', 'pro-monthly', 'Late@Example.test', now() - interval '3 hours') = 'unmatched', 'payment before signup is unmatched');
+  perform t.assert(public.bw_apply_event('webstore', 'late2', 'renewed', '{"email":"late@example.test"}', 'custL', 'subL', 'pro-monthly', 'late@example.test', now() - interval '2 hours') = 'unmatched', 'second event before signup is unmatched');
+  b := gen_random_uuid();
+  -- a code sign-in creates the user before the code is verified: an unconfirmed email must not claim the payment
+  insert into auth.users (id, instance_id, aud, role, email, raw_app_meta_data, raw_user_meta_data, created_at, updated_at)
+  values (b, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'late@example.test', '{}', '{}', now(), now());
+  select tier into tr from public.profiles where id = b;
+  perform t.assert(tr = 'free', 'unconfirmed email does not claim a stored payment: ' || tr);
+  update auth.users set email_confirmed_at = now() where id = b;
+  select tier || '/' || billing_status into tr from public.profiles where id = b;
+  perform t.assert(tr = 'pro/active', 'stored payments apply once the email is confirmed: ' || tr);
+  perform t.assert(public.bw_apply_event('webstore', 'late1', 'activated', '{}') = 'duplicate', 'a redelivery after replay is a duplicate');
+  select count(*) into n from public.billing_events where external_id like 'late1#unmatched-%' and processing_status = 'success' and profile_id = b;
+  perform t.assert(n = 1, 'the unmatched row is kept for audit and closed out');
+  select count(*) into n from public.billing_events where external_id in ('late1', 'late2') and processing_status = 'success' and profile_id = b;
+  perform t.assert(n = 2, 'both events were applied to the new profile: ' || n);
+  perform t.assert(public.bw_replay_unmatched(b) = 0, 'replay is idempotent');
+  -- a user created already confirmed gets the same treatment
+  perform public.bw_apply_event('webstore', 'late3', 'activated', '{"email":"conf@example.test"}', 'custC', 'subC', 'pro-monthly', 'conf@example.test', now() - interval '1 hour');
+  c := gen_random_uuid();
+  insert into auth.users (id, instance_id, aud, role, email, email_confirmed_at, raw_app_meta_data, raw_user_meta_data, created_at, updated_at)
+  values (c, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'conf@example.test', now(), '{}', '{}', now(), now());
+  select tier || '/' || billing_status into tr from public.profiles where id = c;
+  perform t.assert(tr = 'pro/active', 'a user created confirmed gets the stored payment: ' || tr);
+  perform t.as_user(c);
+  perform t.assert(t.denied('select public.bw_replay_unmatched(''' || c || ''')'), 'users cannot call the replay');
 end $$;
 rollback;

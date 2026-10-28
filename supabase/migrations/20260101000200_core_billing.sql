@@ -61,7 +61,11 @@ begin
     select * into prof from public.profiles where lower(email) = lower(p_email);
   end if;
   if not found then
-    update public.billing_events set processing_status = 'partial', processing_notes = jsonb_build_object('reason','no matching profile'), processed_at = now() where id = ev;
+    -- 'replay' keeps what bw_replay_unmatched needs to apply this event once the buyer has an account.
+    update public.billing_events set processing_status = 'partial', processed_at = now(),
+           processing_notes = jsonb_build_object('reason','no matching profile','replay', jsonb_build_object(
+             'email', p_email, 'customer_ref', p_customer_ref, 'subscription_ref', p_subscription_ref, 'plan_key', p_plan_key, 'occurred_at', p_occurred_at))
+     where id = ev;
     return 'unmatched';
   end if;
 
@@ -103,3 +107,52 @@ create or replace function public.bw_unmatched_events() returns bigint
 language sql stable security definer set search_path = '' as $$
   select count(*) from public.billing_events where processing_status in ('partial','failed') and not alerted
 $$;
+
+-- A buyer can pay before having an account (no free trial: the first payment starts on the business's own site).
+-- bw_apply_event records such an event as 'unmatched' and never creates users. When the buyer's email is confirmed,
+-- apply those stored events, oldest first, to the new profile. Each stored row is kept for audit with its external_id
+-- freed, so the event is then applied under its own id (a later redelivery is a duplicate). Events stored before
+-- 'replay' existed fall back to the flat fields of the webhook body. Returns the number of events replayed.
+create or replace function public.bw_replay_unmatched(p_profile uuid) returns integer
+language plpgsql security definer set search_path = '' as $$
+declare prof public.profiles; r record; n integer := 0; rp jsonb;
+begin
+  select * into prof from public.profiles where id = p_profile;
+  if not found or prof.email is null then return 0; end if;
+  for r in
+    select id, source, external_id, event_type, raw_payload, processing_notes, created_at
+      from public.billing_events
+     where processing_status = 'partial' and processing_notes ->> 'reason' = 'no matching profile'
+       and lower(coalesce(processing_notes #>> '{replay,email}', raw_payload ->> 'email')) = lower(prof.email)
+     order by coalesce((processing_notes #>> '{replay,occurred_at}')::timestamptz, created_at), created_at
+  loop
+    rp := coalesce(r.processing_notes -> 'replay', '{}'::jsonb);
+    update public.billing_events set external_id = r.external_id || '#unmatched-' || r.id, profile_id = prof.id,
+           processing_status = 'success', processing_notes = jsonb_build_object('reason','replayed after the buyer confirmed their email'), processed_at = now()
+     where id = r.id;
+    perform public.bw_apply_event(
+      r.source, r.external_id, r.event_type, r.raw_payload,
+      coalesce(rp ->> 'customer_ref', r.raw_payload ->> 'customer_id'),
+      coalesce(rp ->> 'subscription_ref', r.raw_payload ->> 'subscription_id'),
+      coalesce(rp ->> 'plan_key', r.raw_payload ->> 'plan_key', r.raw_payload ->> 'product_name', r.raw_payload ->> 'product_sku'),
+      prof.email,
+      coalesce((rp ->> 'occurred_at')::timestamptz, r.created_at));
+    n := n + 1;
+  end loop;
+  return n;
+end $$;
+
+-- Fires when a user is created already confirmed, or when an existing user confirms their email (a code sign-in creates
+-- the user first and confirms on verifying the code). Trigger names sort after on_auth_user_created, which makes the
+-- profile on insert; keep that order.
+create or replace function public.bw_replay_on_confirm() returns trigger
+language plpgsql security definer set search_path = '' as $$
+begin
+  if new.email_confirmed_at is not null and new.email is not null and (tg_op = 'INSERT' or old.email_confirmed_at is null) then
+    perform public.bw_replay_unmatched(new.id);
+  end if;
+  return new;
+end $$;
+drop trigger if exists on_auth_user_replay_billing on auth.users;
+create trigger on_auth_user_replay_billing after insert or update of email_confirmed_at on auth.users
+  for each row execute function public.bw_replay_on_confirm();
